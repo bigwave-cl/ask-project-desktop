@@ -29,6 +29,7 @@ type ProjectGroup = {
 type RenderProjectItem = ProjectItem & {
   groupKey: string;
   groupLabel: string;
+  isCurrent: boolean;
 };
 
 type Preferences = {
@@ -53,6 +54,8 @@ type ConfigPayload = {
 
 const configStorageKey = "ask-project-manage.config";
 const preferencesStorageKey = "ask-project-manage.preferences";
+const currentWindowPathStorageKey = "ask-project-manage.currentWindowPath";
+const updateWindowInfoEvent = "ask-project-manage.updateWindowInfo";
 
 const defaultPreferences: Preferences = {
   autoOpenPanel: true,
@@ -158,6 +161,13 @@ const runeName = (item: RenderProjectItem, element: string) => {
 
 const shortPath = (path: string, source: string) =>
   (path || source || "").split("/").filter(Boolean).slice(-3).join(" / ") || path;
+
+const isSamePath = (currentPath: string, itemPath: string) => {
+  if (!currentPath || !itemPath) {
+    return false;
+  }
+  return currentPath === itemPath || currentPath.endsWith(itemPath) || itemPath.endsWith(currentPath);
+};
 
 const cardGradient = (index: number) => {
   const gradients = [
@@ -287,7 +297,11 @@ function ProjectCard({
   } as CSSProperties;
 
   return (
-    <article className="ask-project-manage-card" style={style} onClick={() => onOpen(item)}>
+    <article
+      className={item.isCurrent ? "ask-project-manage-card ask-project-manage-card--current" : "ask-project-manage-card"}
+      style={style}
+      onClick={() => onOpen(item)}
+    >
       <div className="ask-project-manage-card__box">
         <div className="ask-project-manage-card__halo" />
         <div className="ask-project-manage-card__top">
@@ -318,7 +332,11 @@ function ProjectCard({
 
         <div className="ask-project-manage-card__bottom">
           <span>{item.groupLabel}</span>
-          <span>{item.type === "workspace" ? "阵盘" : "玉简"}</span>
+          {item.isCurrent ? (
+            <span className="ask-project-manage-card__status">当前窗口</span>
+          ) : (
+            <span>{item.type === "workspace" ? "阵盘" : "玉简"}</span>
+          )}
         </div>
 
         <div className="ask-project-manage-card__quick-actions" onClick={(event) => event.stopPropagation()}>
@@ -343,6 +361,7 @@ export default function Home() {
   const [isPreferenceOpen, setIsPreferenceOpen] = useState(false);
   const [activeGroup, setActiveGroup] = useState("all");
   const [keyword, setKeyword] = useState("");
+  const [currentItemPath, setCurrentItemPath] = useState("");
   const [, setToast] = useState("灵枢控制台已就绪");
   const [editing, setEditing] = useState<ProjectItem | null>(null);
   const [draftName, setDraftName] = useState("");
@@ -355,12 +374,73 @@ export default function Home() {
         readPreferences(),
       ]);
       setGroups(storedGroups);
+      setActiveGroup((current) =>
+        current !== "all" && !storedGroups.some((group) => group.key === current) ? "all" : current
+      );
       setPreferences(storedPreferences);
     };
     bootstrap().catch((error) => {
       setToast(error instanceof Error ? error.message : "初始化失败");
       setGroups(starterGroups);
     });
+  }, []);
+
+  useEffect(() => {
+    const applyCurrentPath = (value: unknown) => {
+      const path = typeof value === "string" ? value : (value as { path?: unknown } | null)?.path;
+      if (typeof path === "string") {
+        setCurrentItemPath(path);
+        if (!isTauriRuntime()) {
+          window.localStorage.setItem(currentWindowPathStorageKey, path);
+        }
+      }
+    };
+
+    if (!isTauriRuntime()) {
+      applyCurrentPath(window.localStorage.getItem(currentWindowPathStorageKey) || "");
+    }
+
+    const handleMessage = (event: MessageEvent) => {
+      const message = event.data as { command?: string; data?: unknown };
+      if (message?.command === updateWindowInfoEvent) {
+        applyCurrentPath(message.data);
+      }
+    };
+
+    const handleCustomEvent = (event: Event) => {
+      applyCurrentPath((event as CustomEvent<{ path?: string }>).detail);
+    };
+
+    let disposed = false;
+    let unlistenTauri: (() => void) | undefined;
+    if (isTauriRuntime()) {
+      import("@tauri-apps/api/event")
+        .then(({ listen }) =>
+          listen<{ path: string }>(updateWindowInfoEvent, (event) => {
+            applyCurrentPath(event.payload);
+          })
+        )
+        .then((unlisten) => {
+          if (disposed) {
+            unlisten();
+            return;
+          }
+          unlistenTauri = unlisten;
+        })
+        .catch((error) => {
+          setToast(error instanceof Error ? error.message : "监听当前窗口路径失败");
+        });
+    }
+
+    window.addEventListener("message", handleMessage);
+    window.addEventListener(updateWindowInfoEvent, handleCustomEvent);
+
+    return () => {
+      disposed = true;
+      unlistenTauri?.();
+      window.removeEventListener("message", handleMessage);
+      window.removeEventListener(updateWindowInfoEvent, handleCustomEvent);
+    };
   }, []);
 
   const totals = useMemo(() => {
@@ -396,6 +476,7 @@ export default function Home() {
           ...item,
           groupKey: group.key,
           groupLabel: group.label,
+          isCurrent: isSamePath(currentItemPath, item.path),
         }))
         .filter((item) => {
           if (!normalizedKeyword) return true;
@@ -405,10 +486,13 @@ export default function Home() {
             .includes(normalizedKeyword);
         })
     );
-  }, [groups, keyword, resolvedActiveGroup]);
+  }, [currentItemPath, groups, keyword, resolvedActiveGroup]);
 
   const saveGroups = async (nextGroups: ProjectGroup[], message = "已保存") => {
     setGroups(nextGroups);
+    setActiveGroup((current) =>
+      current !== "all" && !nextGroups.some((group) => group.key === current) ? "all" : current
+    );
     await writeGroups(nextGroups);
     setToast(message);
   };
@@ -467,18 +551,20 @@ export default function Home() {
       setActiveGroup(targetKey);
     }
 
+    let importedCount = 0;
     nextGroups = nextGroups.map((group) => {
       if (group.key !== targetKey) return group;
       const existing = new Set(group.children.map((item) => item.path));
       const children = paths
         .filter((path) => !existing.has(path))
         .map((path) => buildProject(path, type));
+      importedCount = children.length;
       return {
         ...group,
         children: [...group.children, ...children],
       };
     });
-    await saveGroups(nextGroups, `已导入 ${paths.length} 个项目`);
+    await saveGroups(nextGroups, importedCount > 0 ? `已导入 ${importedCount} 个项目` : "当前分组已存在这些项目");
   };
 
   const removeProject = async (groupKey: string, projectKey: string) => {
