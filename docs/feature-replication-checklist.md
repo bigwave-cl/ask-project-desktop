@@ -14,6 +14,11 @@
 - [x] 桌面开发端口使用 `4000`。
 - [x] 版本号使用年月日次格式，例如 `26.605.1`。
 - [x] Rust 侧关键代码添加学习注释。
+- [x] 全局可调用 UI 能力集中维护在 `apps/desktop/src/hooks`，例如 Toast、Confirm。
+- [x] 文件与文件夹命名约定：函数、hooks、工具使用小驼峰，组件使用大驼峰。
+- [x] 基础组件优先从 `apps/desktop/src/components/ui` 获取，业务组件基于 UI 组件封装。
+- [x] 后续新增组件优先查 shadcn 文档；shadcn 没有对应组件时再自实现。
+- [ ] 收敛现有原生 `<button>` / `<input>`：逐步替换为 `ui/Button`、`ui/Input` 或基于它们封装。
 - [ ] 迁移过程中保持原 Vue 项目的组件边界，不把所有逻辑继续堆在 `page.tsx`。
 - [ ] 建立桌面端统一的 project service 适配层：浏览器调试走 fallback，Tauri 环境走 `invoke`。
 - [ ] 抽出并复用原项目类型模型：`ProjectItemModel`、`ProjectRenderItemModel`、`ProjectGroupItemModel`、`ProjectConfigItemModel`、`ProjectPreferencesModel`、`ProjectHudMetricKey`、`FormDataModel`。
@@ -71,10 +76,10 @@
 - [x] 卡片菜单项复刻为“打开项目 / 编辑符名 / 复制路径 / 删除项目”。
 - [x] 移除当前不属于原设计的底部 quick actions。
 - [x] 复刻 `ask-project-manage-card--current` 当前窗口状态。
-- [ ] 复刻卡片 hover、当前状态、菜单 hover 的全部视觉细节。
+- [x] 复刻卡片 hover、当前状态、菜单 hover 的全部视觉细节。
 - [x] 卡片菜单点击不能触发卡片打开。
-- [ ] 复制路径成功/失败走统一 Toast。
-- [ ] 删除项目走 ConfirmDialog，不再使用 `window.confirm`。
+- [x] 复制路径成功/失败走统一 Toast。
+- [x] 删除项目走 ConfirmDialog，不再使用 `window.confirm`。
 
 ## 弹窗系统
 
@@ -86,9 +91,9 @@
 - [ ] InfoDialog 支持修改分组排序。
 - [ ] InfoDialog 支持修改项目排序。
 - [ ] 替换所有 `window.prompt`。
-- [ ] 迁移 `confirmDialog.vue` 为 Promise 式 ConfirmDialog。
-- [ ] ConfirmDialog 支持标题、内容、确认按钮、取消按钮、危险样式。
-- [ ] 替换所有 `window.confirm`。
+- [x] 迁移 `confirmDialog.vue` 为 Promise 式 ConfirmDialog。
+- [x] ConfirmDialog 支持标题、内容、确认按钮、取消按钮、危险样式。
+- [x] 替换所有 `window.confirm`。
 - [ ] Dialog overlay、焦点管理、Esc 关闭、回车确认行为对齐原项目。
 
 ## 批量管理模式
@@ -134,11 +139,11 @@
 
 ## Toast 与反馈
 
-- [ ] 迁移 `toast.vue`。
-- [ ] 迁移 `toast.ts` 调用方式。
-- [ ] 替换当前单行状态文字 `toast`。
-- [ ] 所有成功、失败、取消、导入导出结果统一走 Toast。
-- [ ] Toast 样式、动画、自动消失时长对齐原项目。
+- [x] 迁移 `toast.vue`。
+- [x] 迁移 `toast.ts` 调用方式。
+- [x] 替换当前单行状态文字 `toast`。
+- [x] 所有已实现流程的成功、失败、导入导出结果统一走 Toast。
+- [x] Toast 样式、动画、自动消失时长对齐原项目。
 
 ## Tauri 原生能力
 

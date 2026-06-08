@@ -3,17 +3,19 @@
 import { BookOpen, Copy, Edit3, ExternalLink, FolderCog, MoreVertical, Orbit, Trash2, VectorSquare } from "lucide-react";
 import { ChangeEvent, CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 
-import { ProjectCommandHeader, type ProjectToolbarAction } from "@/components/project-command-header";
-import { ProjectEmpty } from "@/components/project-empty";
-import { ProjectManageBackground } from "@/components/project-manage-background";
-import { ProjectManageTab } from "@/components/project-manage-tab";
-import { ProjectPreferenceSetting, type ProjectPreferencesModel } from "@/components/project-preference-setting";
+import { ProjectCommandHeader, type ProjectToolbarAction } from "@/components/ProjectCommandHeader";
+import { ProjectEmpty } from "@/components/ProjectEmpty";
+import { ProjectManageBackground } from "@/components/ProjectManageBackground";
+import { ProjectManageTab } from "@/components/ProjectManageTab";
+import { ProjectPreferenceSetting, type ProjectPreferencesModel } from "@/components/ProjectPreferenceSetting";
+import { projectConfirm } from "@/hooks/useProjectConfirm";
+import { projectToast } from "@/hooks/useProjectToast";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/ui/DropdownMenu";
 
 type ProjectType = "workspace" | "folder";
 type ProjectHudMetricKey = "project" | "folder" | "workspace" | "group";
@@ -391,7 +393,6 @@ export default function Home() {
   const [activeGroup, setActiveGroup] = useState("all");
   const [keyword, setKeyword] = useState("");
   const [currentItemPath, setCurrentItemPath] = useState("");
-  const [, setToast] = useState("灵枢控制台已就绪");
   const [editing, setEditing] = useState<ProjectItem | null>(null);
   const [draftName, setDraftName] = useState("");
   const importInputRef = useRef<HTMLInputElement | null>(null);
@@ -409,7 +410,7 @@ export default function Home() {
       setPreferences(storedPreferences);
     };
     bootstrap().catch((error) => {
-      setToast(error instanceof Error ? error.message : "初始化失败");
+      projectToast.error(error instanceof Error ? error.message : "初始化失败");
       setGroups(starterGroups);
     });
   }, []);
@@ -457,7 +458,7 @@ export default function Home() {
           unlistenTauri = unlisten;
         })
         .catch((error) => {
-          setToast(error instanceof Error ? error.message : "监听当前窗口路径失败");
+          projectToast.error(error instanceof Error ? error.message : "监听当前窗口路径失败");
         });
     }
 
@@ -523,7 +524,7 @@ export default function Home() {
       current !== "all" && !nextGroups.some((group) => group.key === current) ? "all" : current
     );
     await writeGroups(nextGroups);
-    setToast(message);
+    projectToast.success(message);
   };
 
   const addGroup = async () => {
@@ -536,17 +537,26 @@ export default function Home() {
 
   const removeActiveGroup = async () => {
     if (groups.length === 0) {
-      setToast("当前没有可删除的分组");
+      projectToast.warning("当前没有可删除的分组");
       return;
     }
     if (resolvedActiveGroup === "all") {
-      if (window.confirm("确认清空全部分组和项目吗？")) {
-        await saveGroups([], "全部分组已清空");
-      }
+      const confirmed = await projectConfirm({
+        title: "清空全部分组",
+        content: "确认清空全部分组和项目吗？\n这个操作会移除当前所有分组和项目配置。",
+        confirmText: "清空全部",
+      });
+      if (confirmed) await saveGroups([], "全部分组已清空");
       return;
     }
     const group = groups.find((item) => item.key === resolvedActiveGroup);
-    if (!group || !window.confirm(`确认删除「${group.label}」分组吗？`)) return;
+    if (!group) return;
+    const confirmed = await projectConfirm({
+      title: "删除分组",
+      content: `确认删除「${group.label}」分组吗？\n分组内 ${group.children.length} 个项目也会一起移除。`,
+      confirmText: "删除分组",
+    });
+    if (!confirmed) return;
     await saveGroups(
       groups.filter((item) => item.key !== resolvedActiveGroup),
       `已删除分组：${group.label}`
@@ -598,7 +608,13 @@ export default function Home() {
 
   const removeProject = async (groupKey: string, projectKey: string) => {
     const project = renderedProjects.find((item) => item.key === projectKey);
-    if (!project || !window.confirm(`确认删除「${project.name}」吗？`)) return;
+    if (!project) return;
+    const confirmed = await projectConfirm({
+      title: "删除项目",
+      content: `确认删除「${project.name}」吗？\n该项目会从「${project.groupLabel}」分组移除。`,
+      confirmText: "删除项目",
+    });
+    if (!confirmed) return;
     await saveGroups(
       groups.map((group) =>
         group.key === groupKey
@@ -632,17 +648,21 @@ export default function Home() {
   };
 
   const copyPath = async (path: string) => {
-    await navigator.clipboard.writeText(path);
-    setToast("路径已复制");
+    try {
+      await navigator.clipboard.writeText(path);
+      projectToast.success("路径已复制");
+    } catch {
+      projectToast.error("路径复制失败");
+    }
   };
 
   const openProject = async (item: ProjectItem) => {
     if (isTauriRuntime()) {
       await invokeTauri("open_project_path", { path: item.path });
-      setToast(`已打开：${item.name}`);
+      projectToast.success(`已打开：${item.name}`);
       return;
     }
-    setToast("浏览器调试模式下不会打开本地路径，Tauri 中会调用原生命令");
+    projectToast.info("浏览器调试模式下不会打开本地路径，Tauri 中会调用原生命令");
   };
 
   const exportConfig = (format: "json" | "yml") => {
@@ -660,7 +680,7 @@ export default function Home() {
     link.download = `ask-project-manage.config.${format === "json" ? "json" : "yml"}`;
     link.click();
     URL.revokeObjectURL(url);
-    setToast(`配置已导出为 ${format.toUpperCase()}`);
+    projectToast.success(`配置已导出为 ${format.toUpperCase()}`);
   };
 
   const importConfig = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -671,12 +691,12 @@ export default function Home() {
       const text = await file.text();
       const imported = normalizeGroups(JSON.parse(text));
       if (imported.length === 0) {
-        setToast("没有找到可导入的分组");
+        projectToast.warning("没有找到可导入的分组");
         return;
       }
       await saveGroups([...groups, ...imported], `已导入 ${imported.length} 个分组`);
     } catch {
-      setToast("当前 React 版先支持 JSON 导入，YML 导入会放到 Tauri 后端处理");
+      projectToast.error("当前 React 版先支持 JSON 导入，YML 导入会放到 Tauri 后端处理");
     }
   };
 
@@ -692,13 +712,13 @@ export default function Home() {
       },
     });
     setPreferences(next);
-    setToast("设置已保存");
+    projectToast.success("设置已保存");
   };
 
   const savePreferences = async (nextPreferences: ProjectPreferencesModel) => {
     const next = await writePreferences(nextPreferences);
     setPreferences(next);
-    setToast("设置已保存");
+    projectToast.success("设置已保存");
   };
 
   const handleToolbarClick = async (type: ProjectToolbarAction) => {
@@ -722,7 +742,7 @@ export default function Home() {
         await addGroup();
         break;
       case "setting":
-        setToast("批量管理会在下一步迁移");
+        projectToast.info("批量管理会在下一步迁移");
         break;
       case "preferences":
         setIsPreferenceOpen(true);
@@ -858,7 +878,7 @@ export default function Home() {
           preferences={preferences}
           onOpenChange={setIsPreferenceOpen}
           onSavePreferences={savePreferences}
-          onOpenGuide={() => setToast("新手引导会在后续迁移")}
+          onOpenGuide={() => projectToast.info("新手引导会在后续迁移")}
         />
       ) : null}
 

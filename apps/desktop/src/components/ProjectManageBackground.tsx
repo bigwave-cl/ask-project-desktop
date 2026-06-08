@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 
-import { useProjectBackground } from "@/components/use-project-background";
+import { useProjectBackground } from "@/hooks/useProjectBackground";
 
 export function ProjectManageBackground() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
