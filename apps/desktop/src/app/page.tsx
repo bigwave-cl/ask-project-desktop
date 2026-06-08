@@ -1,0 +1,762 @@
+"use client";
+
+import { BookOpen, Copy, Edit3, FolderCog, MoreVertical, Orbit, Trash2, VectorSquare } from "lucide-react";
+import { ChangeEvent, CSSProperties, useEffect, useMemo, useRef, useState } from "react";
+
+import { ProjectCommandHeader, type ProjectToolbarAction } from "@/components/project-command-header";
+import { ProjectManageBackground } from "@/components/project-manage-background";
+import { ProjectPreferenceSetting, type ProjectPreferencesModel } from "@/components/project-preference-setting";
+
+type ProjectType = "workspace" | "folder";
+type ProjectHudMetricKey = "project" | "folder" | "workspace" | "group";
+
+type ProjectItem = {
+  name: string;
+  key: string;
+  source: string;
+  path: string;
+  type: ProjectType;
+};
+
+type ProjectGroup = {
+  key: string;
+  label: string;
+  children: ProjectItem[];
+};
+
+type RenderProjectItem = ProjectItem & {
+  groupKey: string;
+  groupLabel: string;
+};
+
+type Preferences = {
+  autoOpenPanel: boolean;
+  hud: {
+    visible: boolean;
+    metrics: Record<ProjectHudMetricKey, boolean>;
+  };
+  onboarding: {
+    seen: boolean;
+  };
+};
+
+type ConfigPayload = {
+  name: "ask-project-manage";
+  version: 1;
+  exportedAt: string;
+  config: {
+    list: ProjectGroup[];
+  };
+};
+
+const configStorageKey = "ask-project-manage.config";
+const preferencesStorageKey = "ask-project-manage.preferences";
+
+const defaultPreferences: Preferences = {
+  autoOpenPanel: true,
+  hud: {
+    visible: true,
+    metrics: {
+      project: true,
+      folder: true,
+      workspace: true,
+      group: true,
+    },
+  },
+  onboarding: {
+    seen: false,
+  },
+};
+
+const starterGroups: ProjectGroup[] = [
+  {
+    key: "group-starter",
+    label: "默认分组",
+    children: [
+      {
+        name: "ask-project-manage",
+        key: "project-starter-1",
+        source: "/Users/bobo/Desktop/joyme/ask/ask-project-manage",
+        path: "/Users/bobo/Desktop/joyme/ask/ask-project-manage",
+        type: "folder",
+      },
+      {
+        name: "ask-project-desktop",
+        key: "project-starter-2",
+        source: "/Users/bobo/Desktop/joyme/ask/ask-project-desktop",
+        path: "/Users/bobo/Desktop/joyme/ask/ask-project-desktop",
+        type: "folder",
+      },
+    ],
+  },
+];
+
+const palettes = [
+  { primary: "var(--apm-radio-silence)", secondary: "var(--apm-faded-letter)", element: "青木" },
+  { primary: "var(--apm-riviera)", secondary: "var(--apm-swan-dive)", element: "赤金" },
+  { primary: "var(--apm-late-homework)", secondary: "var(--apm-radio-silence)", element: "玄水" },
+  { primary: "var(--apm-spring-awakening)", secondary: "var(--apm-swan-dive)", element: "灵木" },
+  { primary: "var(--apm-our-little-secret)", secondary: "var(--apm-dinner-party)", element: "离火" },
+  { primary: "var(--apm-mamas-new-bag)", secondary: "var(--apm-riviera)", element: "幻雷" },
+];
+
+const isTauriRuntime = () =>
+  typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
+
+const invokeTauri = async <T,>(command: string, args?: Record<string, unknown>) => {
+  const { invoke } = await import("@tauri-apps/api/core");
+  return invoke<T>(command, args);
+};
+
+const createKey = (prefix: string) =>
+  `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
+const basename = (path: string) => {
+  const clean = path.replace(/\\/g, "/").replace(/\/$/, "");
+  const last = clean.split("/").pop() || clean;
+  return last.replace(/\.code-workspace$/i, "") || "未命名项目";
+};
+
+const buildProject = (path: string, type: ProjectType): ProjectItem => ({
+  name: basename(path),
+  key: createKey("project"),
+  source: path,
+  path,
+  type,
+});
+
+const hashText = (value: string) => {
+  let hash = 0;
+  for (let i = 0; i < value.length; i += 1) {
+    hash = (hash << 5) - hash + value.charCodeAt(i);
+    hash |= 0;
+  }
+  return Math.abs(hash);
+};
+
+const sealText = (value: string) =>
+  (value || "AP")
+    .split(/[-_\s.]+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+
+const runeName = (item: RenderProjectItem, element: string) => {
+  const lower = `${item.name}-${item.path}-${item.groupLabel}`.toLocaleLowerCase();
+  if (/ai|llm|cursor|claude|bot/.test(lower)) return "灵识";
+  if (/sdk|lib|tools|router|publish/.test(lower)) return "器修";
+  if (/h5|app|mobile|portal/.test(lower)) return "疾行";
+  if (/cms|admin|finance|manage/.test(lower)) return "中枢";
+  if (/video|image|studio|media/.test(lower)) return "幻象";
+  return element;
+};
+
+const shortPath = (path: string, source: string) =>
+  (path || source || "").split("/").filter(Boolean).slice(-3).join(" / ") || path;
+
+const cardGradient = (index: number) => {
+  const gradients = [
+    ["rgba(97, 191, 173, .26)", "rgba(23, 142, 150, .26)", "rgba(203, 160, 170, .26)", "rgba(79, 58, 75, .26)"],
+    ["rgba(255, 139, 139, .24)", "rgba(97, 191, 173, .22)", "rgba(23, 142, 150, .24)", "rgba(203, 160, 170, .22)"],
+    ["rgba(23, 142, 150, .28)", "rgba(79, 58, 75, .28)", "rgba(97, 191, 173, .2)", "rgba(231, 81, 83, .2)"],
+    ["rgba(203, 160, 170, .25)", "rgba(249, 247, 232, .16)", "rgba(97, 191, 173, .22)", "rgba(23, 142, 150, .22)"],
+  ];
+  const current = gradients[index % gradients.length];
+  return {
+    "--card-color-tl": current[0],
+    "--card-color-tr": current[1],
+    "--card-color-br": current[2],
+    "--card-color-bl": current[3],
+    "--card-angle": "135deg",
+  } as CSSProperties;
+};
+
+const normalizePreferences = (value?: Partial<Preferences>): Preferences => ({
+  autoOpenPanel: value?.autoOpenPanel ?? defaultPreferences.autoOpenPanel,
+  hud: {
+    visible: value?.hud?.visible ?? defaultPreferences.hud.visible,
+    metrics: {
+      project: value?.hud?.metrics?.project ?? true,
+      folder: value?.hud?.metrics?.folder ?? true,
+      workspace: value?.hud?.metrics?.workspace ?? true,
+      group: value?.hud?.metrics?.group ?? true,
+    },
+  },
+  onboarding: {
+    seen: value?.onboarding?.seen ?? false,
+  },
+});
+
+const normalizeGroups = (value: unknown): ProjectGroup[] => {
+  const payload = value as Partial<ConfigPayload> & {
+    list?: unknown;
+    "ask-project-manage.config"?: { list?: unknown };
+  };
+  const list =
+    payload?.config?.list ||
+    payload?.list ||
+    payload?.["ask-project-manage.config"]?.list;
+
+  if (!Array.isArray(list)) {
+    return [];
+  }
+
+  return list.map((group, groupIndex) => {
+    const candidate = group as Partial<ProjectGroup>;
+    const children = Array.isArray(candidate.children) ? candidate.children : [];
+    return {
+      key: candidate.key || createKey(`group-${groupIndex}`),
+      label: candidate.label || `分组${groupIndex + 1}`,
+      children: children
+        .map((item, itemIndex) => {
+          const project = item as Partial<ProjectItem>;
+          if (!project.path) return null;
+          return {
+            name: project.name || basename(project.path),
+            key: project.key || createKey(`project-${itemIndex}`),
+            source: project.source || project.path,
+            path: project.path,
+            type: project.type === "folder" ? "folder" : "workspace",
+          };
+        })
+        .filter(Boolean) as ProjectItem[],
+    };
+  });
+};
+
+const readGroups = async () => {
+  if (isTauriRuntime()) {
+    return invokeTauri<ProjectGroup[]>("get_config_list");
+  }
+  const raw = window.localStorage.getItem(configStorageKey);
+  if (!raw) return starterGroups;
+  return normalizeGroups(JSON.parse(raw));
+};
+
+const writeGroups = async (groups: ProjectGroup[]) => {
+  if (isTauriRuntime()) {
+    await invokeTauri("update_project_list_all", { list: groups });
+    return;
+  }
+  window.localStorage.setItem(configStorageKey, JSON.stringify({ list: groups }));
+};
+
+const readPreferences = async () => {
+  if (isTauriRuntime()) {
+    return invokeTauri<Preferences>("get_preferences");
+  }
+  const raw = window.localStorage.getItem(preferencesStorageKey);
+  return normalizePreferences(raw ? JSON.parse(raw) : undefined);
+};
+
+const writePreferences = async (preferences: Preferences) => {
+  const next = normalizePreferences(preferences);
+  if (isTauriRuntime()) {
+    await invokeTauri("update_preferences", { preferences: next });
+    return next;
+  }
+  window.localStorage.setItem(preferencesStorageKey, JSON.stringify(next));
+  return next;
+};
+
+function ProjectCard({
+  item,
+  index,
+  onOpen,
+  onCopy,
+  onEdit,
+  onRemove,
+}: {
+  item: RenderProjectItem;
+  index: number;
+  onOpen: (item: RenderProjectItem) => void;
+  onCopy: (item: RenderProjectItem) => void;
+  onEdit: (item: RenderProjectItem) => void;
+  onRemove: (item: RenderProjectItem) => void;
+}) {
+  const palette = palettes[hashText(`${item.name}-${item.path}-${item.groupLabel}`) % palettes.length];
+  const style = {
+    "--seal-primary": palette.primary,
+    "--seal-secondary": palette.secondary,
+    ...cardGradient(index),
+  } as CSSProperties;
+
+  return (
+    <article className="ask-project-manage-card" style={style} onClick={() => onOpen(item)}>
+      <div className="ask-project-manage-card__box">
+        <div className="ask-project-manage-card__halo" />
+        <div className="ask-project-manage-card__top">
+          <div className="ask-project-manage-card__seal" aria-hidden="true">
+            <span>{sealText(item.name)}</span>
+            <i />
+          </div>
+          <div className="ask-project-manage-card__meta">
+            <span>{item.type === "workspace" ? "WORKSPACE" : "FOLDER"}</span>
+            <strong>{runeName(item, palette.element)}</strong>
+          </div>
+          <button
+            className="ask-project-manage-card__more"
+            title="打开项目"
+            onClick={(event) => {
+              event.stopPropagation();
+              onOpen(item);
+            }}
+          >
+            <MoreVertical size={14} />
+          </button>
+        </div>
+
+        <div className="ask-project-manage-card__main">
+          <h2>{item.name}</h2>
+          <p>{shortPath(item.path, item.source)}</p>
+        </div>
+
+        <div className="ask-project-manage-card__bottom">
+          <span>{item.groupLabel}</span>
+          <span>{item.type === "workspace" ? "阵盘" : "玉简"}</span>
+        </div>
+
+        <div className="ask-project-manage-card__quick-actions" onClick={(event) => event.stopPropagation()}>
+          <button title="复制路径" onClick={() => onCopy(item)}>
+            <Copy size={12} />
+          </button>
+          <button title="编辑符名" onClick={() => onEdit(item)}>
+            <Edit3 size={12} />
+          </button>
+          <button title="删除项目" onClick={() => onRemove(item)}>
+            <Trash2 size={12} />
+          </button>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+export default function Home() {
+  const [groups, setGroups] = useState<ProjectGroup[]>([]);
+  const [preferences, setPreferences] = useState(defaultPreferences);
+  const [isPreferenceOpen, setIsPreferenceOpen] = useState(false);
+  const [activeGroup, setActiveGroup] = useState("all");
+  const [keyword, setKeyword] = useState("");
+  const [toast, setToast] = useState("灵枢控制台已就绪");
+  const [editing, setEditing] = useState<ProjectItem | null>(null);
+  const [draftName, setDraftName] = useState("");
+  const importInputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    const bootstrap = async () => {
+      const [storedGroups, storedPreferences] = await Promise.all([
+        readGroups(),
+        readPreferences(),
+      ]);
+      setGroups(storedGroups);
+      setPreferences(storedPreferences);
+    };
+    bootstrap().catch((error) => {
+      setToast(error instanceof Error ? error.message : "初始化失败");
+      setGroups(starterGroups);
+    });
+  }, []);
+
+  const totals = useMemo(() => {
+    const project = groups.reduce((total, group) => total + group.children.length, 0);
+    const workspace = groups.reduce(
+      (total, group) =>
+        total + group.children.filter((item) => item.type === "workspace").length,
+      0
+    );
+    return {
+      project,
+      workspace,
+      folder: project - workspace,
+      group: groups.length,
+    };
+  }, [groups]);
+
+  const resolvedActiveGroup =
+    activeGroup !== "all" && groups.some((group) => group.key === activeGroup)
+      ? activeGroup
+      : "all";
+
+  const renderedProjects = useMemo(() => {
+    const normalizedKeyword = keyword.trim().toLowerCase();
+    const visibleGroups =
+      resolvedActiveGroup === "all"
+        ? groups
+        : groups.filter((group) => group.key === resolvedActiveGroup);
+
+    return visibleGroups.flatMap((group) =>
+      group.children
+        .map((item) => ({
+          ...item,
+          groupKey: group.key,
+          groupLabel: group.label,
+        }))
+        .filter((item) => {
+          if (!normalizedKeyword) return true;
+          return [item.name, item.path, item.source, item.groupLabel, item.type]
+            .join(" ")
+            .toLowerCase()
+            .includes(normalizedKeyword);
+        })
+    );
+  }, [groups, keyword, resolvedActiveGroup]);
+
+  const saveGroups = async (nextGroups: ProjectGroup[], message = "已保存") => {
+    setGroups(nextGroups);
+    await writeGroups(nextGroups);
+    setToast(message);
+  };
+
+  const addGroup = async () => {
+    const label = window.prompt("分组名称", "新分组")?.trim();
+    if (!label) return;
+    const group = { key: createKey("group"), label, children: [] };
+    await saveGroups([...groups, group], `已添加分组：${label}`);
+    setActiveGroup(group.key);
+  };
+
+  const removeActiveGroup = async () => {
+    if (groups.length === 0) {
+      setToast("当前没有可删除的分组");
+      return;
+    }
+    if (resolvedActiveGroup === "all") {
+      if (window.confirm("确认清空全部分组和项目吗？")) {
+        await saveGroups([], "全部分组已清空");
+      }
+      return;
+    }
+    const group = groups.find((item) => item.key === resolvedActiveGroup);
+    if (!group || !window.confirm(`确认删除「${group.label}」分组吗？`)) return;
+    await saveGroups(
+      groups.filter((item) => item.key !== resolvedActiveGroup),
+      `已删除分组：${group.label}`
+    );
+  };
+
+  const addProjects = async (type: ProjectType) => {
+    const raw = window.prompt(
+      type === "folder"
+        ? "输入文件夹路径，多个路径用换行分隔"
+        : "输入 .code-workspace 路径，多个路径用换行分隔",
+      ""
+    );
+    if (!raw) return;
+    const paths = raw
+      .split(/\n+/)
+      .map((item) => item.trim())
+      .filter(Boolean);
+    if (paths.length === 0) return;
+
+    let nextGroups = groups.slice();
+    let targetKey = resolvedActiveGroup;
+    if (nextGroups.length === 0 || targetKey === "all") {
+      const fallback = nextGroups[0] || {
+        key: createKey("group"),
+        label: "默认分组",
+        children: [],
+      };
+      if (nextGroups.length === 0) nextGroups = [fallback];
+      targetKey = fallback.key;
+      setActiveGroup(targetKey);
+    }
+
+    nextGroups = nextGroups.map((group) => {
+      if (group.key !== targetKey) return group;
+      const existing = new Set(group.children.map((item) => item.path));
+      const children = paths
+        .filter((path) => !existing.has(path))
+        .map((path) => buildProject(path, type));
+      return {
+        ...group,
+        children: [...group.children, ...children],
+      };
+    });
+    await saveGroups(nextGroups, `已导入 ${paths.length} 个项目`);
+  };
+
+  const removeProject = async (groupKey: string, projectKey: string) => {
+    const project = renderedProjects.find((item) => item.key === projectKey);
+    if (!project || !window.confirm(`确认删除「${project.name}」吗？`)) return;
+    await saveGroups(
+      groups.map((group) =>
+        group.key === groupKey
+          ? {
+              ...group,
+              children: group.children.filter((item) => item.key !== projectKey),
+            }
+          : group
+      ),
+      `已删除项目：${project.name}`
+    );
+  };
+
+  const startEdit = (item: ProjectItem) => {
+    setEditing(item);
+    setDraftName(item.name);
+  };
+
+  const saveEdit = async () => {
+    if (!editing || !draftName.trim()) return;
+    await saveGroups(
+      groups.map((group) => ({
+        ...group,
+        children: group.children.map((item) =>
+          item.key === editing.key ? { ...item, name: draftName.trim() } : item
+        ),
+      })),
+      "项目名称已更新"
+    );
+    setEditing(null);
+  };
+
+  const copyPath = async (path: string) => {
+    await navigator.clipboard.writeText(path);
+    setToast("路径已复制");
+  };
+
+  const openProject = async (item: ProjectItem) => {
+    if (isTauriRuntime()) {
+      await invokeTauri("open_project_path", { path: item.path });
+      setToast(`已打开：${item.name}`);
+      return;
+    }
+    setToast("浏览器调试模式下不会打开本地路径，Tauri 中会调用原生命令");
+  };
+
+  const exportConfig = (format: "json" | "yml") => {
+    const payload: ConfigPayload = {
+      name: "ask-project-manage",
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      config: { list: groups },
+    };
+    const text = JSON.stringify(payload, null, 2);
+    const blob = new Blob([text], { type: "application/json;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `ask-project-manage.config.${format === "json" ? "json" : "yml"}`;
+    link.click();
+    URL.revokeObjectURL(url);
+    setToast(`配置已导出为 ${format.toUpperCase()}`);
+  };
+
+  const importConfig = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    try {
+      const text = await file.text();
+      const imported = normalizeGroups(JSON.parse(text));
+      if (imported.length === 0) {
+        setToast("没有找到可导入的分组");
+        return;
+      }
+      await saveGroups([...groups, ...imported], `已导入 ${imported.length} 个分组`);
+    } catch {
+      setToast("当前 React 版先支持 JSON 导入，YML 导入会放到 Tauri 后端处理");
+    }
+  };
+
+  const updateMetric = async (key: ProjectHudMetricKey) => {
+    const next = await writePreferences({
+      ...preferences,
+      hud: {
+        ...preferences.hud,
+        metrics: {
+          ...preferences.hud.metrics,
+          [key]: !preferences.hud.metrics[key],
+        },
+      },
+    });
+    setPreferences(next);
+    setToast("设置已保存");
+  };
+
+  const savePreferences = async (nextPreferences: ProjectPreferencesModel) => {
+    const next = await writePreferences(nextPreferences);
+    setPreferences(next);
+    setToast("设置已保存");
+  };
+
+  const handleToolbarClick = async (type: ProjectToolbarAction) => {
+    switch (type) {
+      case "chooseWorkspace":
+        await addProjects("workspace");
+        break;
+      case "chooseFolder":
+        await addProjects("folder");
+        break;
+      case "importConfig":
+        importInputRef.current?.click();
+        break;
+      case "exportConfigJson":
+        exportConfig("json");
+        break;
+      case "exportConfigYml":
+        exportConfig("yml");
+        break;
+      case "addGroup":
+        await addGroup();
+        break;
+      case "setting":
+        setToast("批量管理会在下一步迁移");
+        break;
+      case "preferences":
+        setIsPreferenceOpen(true);
+        break;
+      case "removeGroup":
+        await removeActiveGroup();
+        break;
+    }
+  };
+
+  const groupList = [{ key: "all", label: "全部" }, ...groups.map(({ key, label }) => ({ key, label }))];
+  const visibleMetricKeys = (Object.keys(preferences.hud.metrics) as ProjectHudMetricKey[]).filter(
+    (key) => preferences.hud.metrics[key]
+  );
+
+  const metricItems = [
+    { key: "project" as const, label: "项目总数", value: totals.project, icon: VectorSquare },
+    { key: "folder" as const, label: "文件夹", value: totals.folder, icon: FolderCog },
+    { key: "workspace" as const, label: "工作区", value: totals.workspace, icon: BookOpen },
+    { key: "group" as const, label: "分组", value: totals.group, icon: Orbit },
+  ].filter((item) => visibleMetricKeys.includes(item.key));
+  const maxMetric = Math.max(1, ...metricItems.map((item) => item.value));
+
+  return (
+    <main className="ask-project-manage-wrap">
+      <ProjectManageBackground />
+      <div className="apm-shell">
+        <div className="apm-shell__sticky">
+          <ProjectCommandHeader
+            searchKeyword={keyword}
+            removeGroupTitle={resolvedActiveGroup === "all" ? "删除全部分组" : "删除当前分组"}
+            onSearchKeywordChange={setKeyword}
+            onToolbarClick={handleToolbarClick}
+          />
+          <input
+            ref={importInputRef}
+            className="apm-file-input"
+            type="file"
+            accept="application/json,.json"
+            onChange={importConfig}
+          />
+
+          {groupList.length > 0 ? (
+            <div className="ask-project-manage-tab">
+              <div className="apm-tabs">
+                {groupList.map((item) => (
+                  <button
+                    className={resolvedActiveGroup === item.key ? "apm-tab apm-tab--selected" : "apm-tab"}
+                    key={item.key}
+                    onClick={() => setActiveGroup(item.key)}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : null}
+        </div>
+
+        <div className={renderedProjects.length === 0 ? "apm-list apm-list--empty" : "apm-list"}>
+          {renderedProjects.length === 0 ? (
+            <div className="apm-empty-guide">
+              <strong>当前分组还没有项目符牌</strong>
+              <span>先导入一个文件夹或工作区，项目会自动收纳到当前分组。</span>
+              <div className="apm-empty-actions">
+                <button onClick={() => addProjects("folder")}>导入文件夹</button>
+                <button onClick={() => addProjects("workspace")}>导入工作区</button>
+              </div>
+              <div className="apm-empty-hint">{toast}</div>
+            </div>
+          ) : (
+            <div className="ask-project-manage-list">
+              {renderedProjects.map((item, index) => (
+                <ProjectCard
+                  item={item}
+                  index={index}
+                  key={item.key}
+                  onOpen={openProject}
+                  onCopy={(project) => copyPath(project.path)}
+                  onEdit={startEdit}
+                  onRemove={(project) => removeProject(project.groupKey, project.key)}
+                />
+              ))}
+              {preferences.hud.visible ? <div className="ask-project-manage-list__hud-spacer" aria-hidden="true" /> : null}
+            </div>
+          )}
+        </div>
+
+        {preferences.hud.visible ? (
+          <section className="apm-cockpit" aria-label="项目统计仪表盘">
+            <div className="apm-cockpit__panel">
+              <div className="apm-cockpit__scan" aria-hidden="true" />
+              <div className="apm-cockpit__body">
+                <div className="apm-cockpit__metrics" style={{ "--hud-metric-count": metricItems.length || 1 } as CSSProperties}>
+                  {metricItems.map((metric) => {
+                    const Icon = metric.icon;
+                    const level = Math.max(0.18, Math.min(1, metric.value / maxMetric)).toFixed(3);
+                    return (
+                      <article
+                        className={`apm-hud-card apm-hud-card--${metric.key}`}
+                        key={metric.key}
+                        style={{ "--metric-level": level } as CSSProperties}
+                        onClick={() => updateMetric(metric.key)}
+                      >
+                        <div className="apm-hud-card__icon">
+                          <Icon size={18} />
+                        </div>
+                        <div className="apm-hud-card__content">
+                          <span>{metric.label}</span>
+                          <strong>{metric.value}</strong>
+                        </div>
+                        <div className="apm-hud-card__bar" aria-hidden="true">
+                          <span />
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              </div>
+              <footer className="apm-cockpit__footer" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </footer>
+            </div>
+          </section>
+        ) : null}
+      </div>
+
+      {isPreferenceOpen ? (
+        <ProjectPreferenceSetting
+          open={isPreferenceOpen}
+          preferences={preferences}
+          onOpenChange={setIsPreferenceOpen}
+          onSavePreferences={savePreferences}
+          onOpenGuide={() => setToast("新手引导会在后续迁移")}
+        />
+      ) : null}
+
+      {editing ? (
+        <div className="apm-modal" role="dialog" aria-modal="true">
+          <div className="apm-modal__panel">
+            <h2>编辑符名</h2>
+            <input value={draftName} onChange={(event) => setDraftName(event.target.value)} />
+            <footer>
+              <button onClick={() => setEditing(null)}>取消</button>
+              <button onClick={saveEdit}>保存</button>
+            </footer>
+          </div>
+        </div>
+      ) : null}
+    </main>
+  );
+}

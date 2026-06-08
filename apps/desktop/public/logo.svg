@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="78 78 644 644" role="img" aria-label="Ask Project Manage">
+    <defs>
+        <linearGradient id="apmBadge" x1="164" y1="124" x2="636" y2="676" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#173a3a"/>
+            <stop offset=".44" stop-color="#07181d"/>
+            <stop offset="1" stop-color="#151124"/>
+        </linearGradient>
+        <linearGradient id="apmBadgeStroke" x1="176" y1="154" x2="640" y2="650" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#73f1df"/>
+            <stop offset=".56" stop-color="#41c9e7"/>
+            <stop offset="1" stop-color="#ff8cb0"/>
+        </linearGradient>
+        <radialGradient id="apmCoreGlow" cx="50%" cy="48%" r="58%">
+            <stop offset="0" stop-color="#f7fff4" stop-opacity=".92"/>
+            <stop offset=".24" stop-color="#78ffe9" stop-opacity=".5"/>
+            <stop offset=".58" stop-color="#43d2e9" stop-opacity=".18"/>
+            <stop offset="1" stop-color="#071217" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="apmSurface" cx="32%" cy="20%" r="86%">
+            <stop offset="0" stop-color="#6df5df" stop-opacity=".24"/>
+            <stop offset=".52" stop-color="#0a1a22" stop-opacity=".42"/>
+            <stop offset="1" stop-color="#04070e" stop-opacity=".88"/>
+        </radialGradient>
+        <filter id="apmSoftGlow" x="-35%" y="-35%" width="170%" height="170%">
+            <feGaussianBlur stdDeviation="16" result="blur"/>
+            <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.28 0 0 0 0 1 0 0 0 0 0.88 0 0 0 .62 0" result="glow"/>
+            <feMerge>
+                <feMergeNode in="glow"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+        <filter id="apmStarGlow" x="-55%" y="-55%" width="210%" height="210%">
+            <feGaussianBlur stdDeviation="10" result="blur"/>
+            <feFlood flood-color="#70ffe8" flood-opacity=".9" result="color"/>
+            <feComposite in="color" in2="blur" operator="in" result="coloredBlur"/>
+            <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+    </defs>
+
+    <rect width="800" height="800" fill="none"/>
+
+    <g transform="rotate(-7 400 400)">
+        <rect x="112" y="112" width="576" height="576" rx="150" fill="#051013" opacity=".7" filter="url(#apmSoftGlow)"/>
+        <rect x="118" y="118" width="564" height="564" rx="146" fill="none" stroke="#071014" stroke-opacity=".9" stroke-width="16"/>
+        <rect x="126" y="126" width="548" height="548" rx="138" fill="url(#apmBadgeStroke)"/>
+        <rect x="162" y="162" width="476" height="476" rx="114" fill="url(#apmBadge)"/>
+        <rect x="168" y="168" width="464" height="464" rx="110" fill="url(#apmSurface)" stroke="#d9fff3" stroke-opacity=".2" stroke-width="5"/>
+    </g>
+
+    <g transform="translate(400 400) scale(.94) translate(-400 -400)">
+        <g opacity=".58">
+            <circle cx="400" cy="400" r="210" fill="none" stroke="#74ffe9" stroke-opacity=".24" stroke-width="5" stroke-dasharray="46 28"/>
+            <circle cx="400" cy="400" r="148" fill="none" stroke="#ff8cb0" stroke-opacity=".26" stroke-width="4" stroke-dasharray="88 42"/>
+            <path d="M178 398h122m200 0h122M402 178v122m0 200v122" stroke="#73f1df" stroke-opacity=".32" stroke-width="4" stroke-linecap="round"/>
+            <circle cx="226" cy="398" r="9" fill="#73f1df"/>
+            <circle cx="574" cy="398" r="7" fill="#ff8cb0"/>
+            <circle cx="402" cy="226" r="7" fill="#f8fff2"/>
+        </g>
+
+        <circle cx="400" cy="400" r="168" fill="url(#apmCoreGlow)" opacity=".9"/>
+
+        <g filter="url(#apmStarGlow)">
+            <path d="M400 180l51 170 169 50-169 50-51 170-51-170-169-50 169-50z" fill="#f6fff5"/>
+            <path d="M400 244l32 122 124 34-124 34-32 122-32-122-124-34 124-34z" fill="#061214"/>
+            <path d="M400 286l22 88 88 26-88 26-22 88-22-88-88-26 88-26z" fill="#73f1df"/>
+            <path d="M400 324l14 60 60 16-60 16-14 60-14-60-60-16 60-16z" fill="#f7fff4"/>
+        </g>
+
+        <path d="M210 594c58 52 122 76 191 76 73 0 140-28 198-84" fill="none" stroke="#73f1df" stroke-opacity=".18" stroke-width="14" stroke-linecap="round"/>
+        <path d="M196 217c50-45 112-68 188-70" fill="none" stroke="#f7fff4" stroke-opacity=".24" stroke-width="10" stroke-linecap="round"/>
+    </g>
+</svg>

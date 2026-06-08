@@ -1,0 +1,14 @@
+.DS_Store
+node_modules
+.tmp
+.nuxt
+.output
+.next
+out
+dist
+target
+src-tauri/target
+*.log
+.env
+.env.*
+!.env.example

@@ -1,0 +1,19 @@
+[package]
+name = "ask-project-desktop"
+version = "26.605.1"
+description = "Ask Project desktop workspace"
+authors = ["Ask Me Why"]
+edition = "2021"
+
+[lib]
+name = "ask_project_desktop_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tauri = { version = "2", features = [] }
+tauri-plugin-opener = "2"
