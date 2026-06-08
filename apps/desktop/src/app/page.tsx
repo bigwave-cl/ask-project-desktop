@@ -4,7 +4,9 @@ import { BookOpen, Copy, Edit3, FolderCog, MoreVertical, Orbit, Trash2, VectorSq
 import { ChangeEvent, CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 
 import { ProjectCommandHeader, type ProjectToolbarAction } from "@/components/project-command-header";
+import { ProjectEmpty } from "@/components/project-empty";
 import { ProjectManageBackground } from "@/components/project-manage-background";
+import { ProjectManageTab } from "@/components/project-manage-tab";
 import { ProjectPreferenceSetting, type ProjectPreferencesModel } from "@/components/project-preference-setting";
 
 type ProjectType = "workspace" | "folder";
@@ -341,7 +343,7 @@ export default function Home() {
   const [isPreferenceOpen, setIsPreferenceOpen] = useState(false);
   const [activeGroup, setActiveGroup] = useState("all");
   const [keyword, setKeyword] = useState("");
-  const [toast, setToast] = useState("灵枢控制台已就绪");
+  const [, setToast] = useState("灵枢控制台已就绪");
   const [editing, setEditing] = useState<ProjectItem | null>(null);
   const [draftName, setDraftName] = useState("");
   const importInputRef = useRef<HTMLInputElement | null>(null);
@@ -648,34 +650,34 @@ export default function Home() {
             onChange={importConfig}
           />
 
-          {groupList.length > 0 ? (
-            <div className="ask-project-manage-tab">
-              <div className="apm-tabs">
-                {groupList.map((item) => (
-                  <button
-                    className={resolvedActiveGroup === item.key ? "apm-tab apm-tab--selected" : "apm-tab"}
-                    key={item.key}
-                    onClick={() => setActiveGroup(item.key)}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            </div>
+          {groups.length > 1 ? (
+            <ProjectManageTab activeKey={resolvedActiveGroup} list={groupList} onActiveChange={setActiveGroup} />
           ) : null}
         </div>
 
         <div className={renderedProjects.length === 0 ? "apm-list apm-list--empty" : "apm-list"}>
-          {renderedProjects.length === 0 ? (
-            <div className="apm-empty-guide">
-              <strong>当前分组还没有项目符牌</strong>
-              <span>先导入一个文件夹或工作区，项目会自动收纳到当前分组。</span>
+          {groups.length === 0 ? (
+            <ProjectEmpty text={<div>当前还没有分组数据，可以先添加分组，也可以直接从顶部导入项目</div>}>
+              <div className="apm-empty-actions">
+                <button onClick={addGroup}>添加分组</button>
+                <button onClick={() => importInputRef.current?.click()}>导入配置</button>
+              </div>
+            </ProjectEmpty>
+          ) : renderedProjects.length === 0 ? (
+            <ProjectEmpty
+              text={
+                <div className="apm-empty-guide">
+                  <strong>当前分组还没有项目符牌</strong>
+                  <span>先导入一个文件夹或工作区，项目会自动收纳到当前分组。</span>
+                </div>
+              }
+            >
               <div className="apm-empty-actions">
                 <button onClick={() => addProjects("folder")}>导入文件夹</button>
                 <button onClick={() => addProjects("workspace")}>导入工作区</button>
               </div>
-              <div className="apm-empty-hint">{toast}</div>
-            </div>
+              <div className="apm-empty-hint">也可以使用顶部搜索清空关键词，查看当前分组的全部项目。</div>
+            </ProjectEmpty>
           ) : (
             <div className="ask-project-manage-list">
               {renderedProjects.map((item, index) => (
