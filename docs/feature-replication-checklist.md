@@ -67,12 +67,12 @@
 ## 项目卡片
 
 - [x] 已有卡片主体视觉、seal、rune name、short path 雏形。
-- [ ] 卡片右上角菜单改为 Radix Dropdown Menu。
-- [ ] 卡片菜单项复刻为“打开项目 / 编辑符名 / 复制路径 / 删除项目”。
-- [ ] 移除当前不属于原设计的底部 quick actions。
-- [ ] 复刻 `ask-project-manage-card--current` 当前窗口状态。
+- [x] 卡片右上角菜单改为 Radix Dropdown Menu。
+- [x] 卡片菜单项复刻为“打开项目 / 编辑符名 / 复制路径 / 删除项目”。
+- [x] 移除当前不属于原设计的底部 quick actions。
+- [x] 复刻 `ask-project-manage-card--current` 当前窗口状态。
 - [ ] 复刻卡片 hover、当前状态、菜单 hover 的全部视觉细节。
-- [ ] 卡片菜单点击不能触发卡片打开。
+- [x] 卡片菜单点击不能触发卡片打开。
 - [ ] 复制路径成功/失败走统一 Toast。
 - [ ] 删除项目走 ConfirmDialog，不再使用 `window.confirm`。
 

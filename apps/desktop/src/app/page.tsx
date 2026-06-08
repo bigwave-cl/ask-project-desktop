@@ -1,6 +1,6 @@
 "use client";
 
-import { BookOpen, Copy, Edit3, FolderCog, MoreVertical, Orbit, Trash2, VectorSquare } from "lucide-react";
+import { BookOpen, Copy, Edit3, ExternalLink, FolderCog, MoreVertical, Orbit, Trash2, VectorSquare } from "lucide-react";
 import { ChangeEvent, CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 
 import { ProjectCommandHeader, type ProjectToolbarAction } from "@/components/project-command-header";
@@ -8,6 +8,12 @@ import { ProjectEmpty } from "@/components/project-empty";
 import { ProjectManageBackground } from "@/components/project-manage-background";
 import { ProjectManageTab } from "@/components/project-manage-tab";
 import { ProjectPreferenceSetting, type ProjectPreferencesModel } from "@/components/project-preference-setting";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type ProjectType = "workspace" | "folder";
 type ProjectHudMetricKey = "project" | "folder" | "workspace" | "group";
@@ -313,16 +319,51 @@ function ProjectCard({
             <span>{item.type === "workspace" ? "WORKSPACE" : "FOLDER"}</span>
             <strong>{runeName(item, palette.element)}</strong>
           </div>
-          <button
-            className="ask-project-manage-card__more"
-            title="打开项目"
-            onClick={(event) => {
-              event.stopPropagation();
-              onOpen(item);
-            }}
-          >
-            <MoreVertical size={14} />
-          </button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                aria-label="项目操作"
+                className="ask-project-manage-card__more"
+                title="项目操作"
+                onClick={(event) => event.stopPropagation()}
+              >
+                <MoreVertical size={14} />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              className="ask-project-manage-card__menu"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <DropdownMenuItem
+                className="ask-project-manage-card__menu-item ask-project-manage-card__menu-item--mint"
+                onSelect={() => onOpen(item)}
+              >
+                <ExternalLink size={16} />
+                <span className="ask-project-manage-card__menu-title">打开项目</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="ask-project-manage-card__menu-item ask-project-manage-card__menu-item--mauve"
+                onSelect={() => onEdit(item)}
+              >
+                <Edit3 size={16} />
+                <span className="ask-project-manage-card__menu-title">编辑符名</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="ask-project-manage-card__menu-item ask-project-manage-card__menu-item--fog"
+                onSelect={() => onCopy(item)}
+              >
+                <Copy size={16} />
+                <span className="ask-project-manage-card__menu-title">复制路径</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="ask-project-manage-card__menu-item ask-project-manage-card__menu-item--danger"
+                onSelect={() => onRemove(item)}
+              >
+                <Trash2 size={16} />
+                <span className="ask-project-manage-card__menu-title">删除项目</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
         <div className="ask-project-manage-card__main">
@@ -337,18 +378,6 @@ function ProjectCard({
           ) : (
             <span>{item.type === "workspace" ? "阵盘" : "玉简"}</span>
           )}
-        </div>
-
-        <div className="ask-project-manage-card__quick-actions" onClick={(event) => event.stopPropagation()}>
-          <button title="复制路径" onClick={() => onCopy(item)}>
-            <Copy size={12} />
-          </button>
-          <button title="编辑符名" onClick={() => onEdit(item)}>
-            <Edit3 size={12} />
-          </button>
-          <button title="删除项目" onClick={() => onRemove(item)}>
-            <Trash2 size={12} />
-          </button>
         </div>
       </div>
     </article>
