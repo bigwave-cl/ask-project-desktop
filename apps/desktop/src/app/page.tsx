@@ -7,6 +7,7 @@ import { ProjectCommandHeader, type ProjectToolbarAction } from "@/components/Pr
 import { ProjectEmpty } from "@/components/ProjectEmpty";
 import { ProjectManageBackground } from "@/components/ProjectManageBackground";
 import { ProjectManageTab } from "@/components/ProjectManageTab";
+import { ProjectOnboardingGuide } from "@/components/ProjectOnboardingGuide";
 import { ProjectPreferenceSetting, type ProjectPreferencesModel } from "@/components/ProjectPreferenceSetting";
 import { copyText } from "@/hooks/useCopyText";
 import { projectConfirm } from "@/hooks/useProjectConfirm";
@@ -384,7 +385,9 @@ function ProjectCard({
 export default function Home() {
   const [groups, setGroups] = useState<ProjectGroup[]>([]);
   const [preferences, setPreferences] = useState(defaultPreferences);
+  const [hasBootstrappedPreferences, setHasBootstrappedPreferences] = useState(false);
   const [isPreferenceOpen, setIsPreferenceOpen] = useState(false);
+  const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
   const [activeGroup, setActiveGroup] = useState("all");
   const [keyword, setKeyword] = useState("");
   const [currentItemPath, setCurrentItemPath] = useState("");
@@ -401,12 +404,23 @@ export default function Home() {
         current !== "all" && !storedGroups.some((group) => group.key === current) ? "all" : current
       );
       setPreferences(storedPreferences);
+      setHasBootstrappedPreferences(true);
     };
     bootstrap().catch((error) => {
       projectToast.error(error instanceof Error ? error.message : "初始化失败");
       setGroups(starterGroups);
     });
   }, []);
+
+  useEffect(() => {
+    if (!hasBootstrappedPreferences || preferences.onboarding.seen) {
+      return;
+    }
+    const timer = window.setTimeout(() => {
+      setIsOnboardingOpen(true);
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [hasBootstrappedPreferences, preferences.onboarding.seen]);
 
   useEffect(() => {
     const applyCurrentPath = (value: unknown) => {
@@ -718,6 +732,17 @@ export default function Home() {
     projectToast.success("设置已保存");
   };
 
+  const finishOnboardingGuide = async () => {
+    const next = await writePreferences({
+      ...preferences,
+      onboarding: {
+        seen: true,
+      },
+    });
+    setPreferences(next);
+    projectToast.success("新手引导已完成");
+  };
+
   const handleToolbarClick = async (type: ProjectToolbarAction) => {
     switch (type) {
       case "chooseWorkspace":
@@ -879,9 +904,14 @@ export default function Home() {
           preferences={preferences}
           onOpenChange={setIsPreferenceOpen}
           onSavePreferences={savePreferences}
-          onOpenGuide={() => projectToast.info("新手引导会在后续迁移")}
+          onOpenGuide={() => setIsOnboardingOpen(true)}
         />
       ) : null}
+      <ProjectOnboardingGuide
+        open={isOnboardingOpen}
+        onOpenChange={setIsOnboardingOpen}
+        onFinish={finishOnboardingGuide}
+      />
     </main>
   );
 }

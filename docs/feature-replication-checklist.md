@@ -122,20 +122,20 @@
 - [x] HUD 指标开关已迁移。
 - [x] 恢复默认、取消、保存结构已迁移。
 - [x] 保存后以 Rust native 返回值作为单一可信来源。
-- [ ] “查看引导”打开真正的新手引导，不再只 toast。
+- [x] “查看引导”打开真正的新手引导，不再只 toast。
 - [ ] `autoOpenPanel` 后续需要接入 Electron 启动/窗口行为。
 - [ ] 偏好设置样式继续逐像素对齐 `preferenceSetting.vue`。
 
 ## 新手引导
 
-- [ ] 迁移 `onboardingGuide.vue`。
-- [ ] 支持 3 页引导：自动唤起、状态栏快捷入口、再次查看。
-- [ ] 支持页码计数、进度点、上一页、下一页、我知道了。
-- [ ] 支持状态栏图片预览弹窗。
-- [ ] 迁移 `statusbar-guide.png` 资源。
-- [ ] 首次打开时根据 `should_show_onboarding` 决定是否展示。
-- [ ] 完成后调用 `mark_onboarding_seen` 并持久化。
-- [ ] 从偏好设置中可再次打开引导。
+- [x] 迁移 `onboardingGuide.vue`。
+- [x] 支持 3 页引导：自动唤起、状态栏快捷入口、再次查看。
+- [x] 支持页码计数、进度点、上一页、下一页、我知道了。
+- [x] 支持状态栏图片预览弹窗。
+- [x] 迁移 `statusbar-guide.png` 资源。
+- [x] 首次打开时根据 `preferences.onboarding.seen` 决定是否展示。
+- [x] 完成后调用偏好设置持久化链路标记 onboarding 已读。
+- [x] 从偏好设置中可再次打开引导。
 
 ## Toast 与反馈
 
