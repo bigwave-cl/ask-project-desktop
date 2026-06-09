@@ -8,6 +8,7 @@
   - `main.ts` 创建桌面窗口、注册 IPC、调用 Rust native。
   - `preload.ts` 暴露 `window.askProjectDesktop` 给 React。
   - `tsconfig.json` 将 Electron TS 源码编译到 `electron/dist`。
+  - `assets/icons` 存放桌面端图标资源。
 - `native`：Rust sidecar。
   - `src/main.rs` 提供配置读写、偏好读写、打开项目路径等原生能力。
   - 通过 stdin/stdout JSON 协议和 Electron 主进程通信。
@@ -16,7 +17,6 @@
 - `src/components/ui`：shadcn/Radix 基础组件。
 - `src/hooks`：全局可调用 UI 能力和 React hooks。
 - `src/lib`：通用工具和运行时 adapter，例如 `desktopRuntime.ts`。
-- `src-tauri`：旧 Tauri 实现保留目录，仅作为参考和回退材料，当前主线不再使用。
 
 ## 启动方式
 

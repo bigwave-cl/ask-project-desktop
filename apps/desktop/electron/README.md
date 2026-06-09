@@ -4,6 +4,13 @@
 
 Electron 源码使用 TypeScript 编写，`main.ts` 和 `preload.ts` 会先编译到 `electron/dist`，再由 Electron 运行编译后的 JS。
 
+## 目录作用
+
+- `main.ts`：Electron 主进程，创建窗口、注册 IPC、调用 Rust sidecar。
+- `preload.ts`：安全暴露 `window.askProjectDesktop` 给 React。
+- `assets/icons`：桌面端图标资源，包含 macOS、Windows 和通用 PNG 图标。
+- `tsconfig.json`：Electron TypeScript 编译配置。
+
 ## 启动方式
 
 先确保桌面前端已经运行在 4000：

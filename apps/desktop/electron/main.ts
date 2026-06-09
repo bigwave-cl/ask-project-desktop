@@ -31,6 +31,13 @@ app.setName("Ask Project");
 const nativeBinaryName = process.platform === "win32" ? "ask-project-native.exe" : "ask-project-native";
 const nativeBinaryPath = path.join(__dirname, "..", "..", "native", "target", "debug", nativeBinaryName);
 const desktopCwd = path.join(__dirname, "..", "..");
+const windowIconPath = path.join(
+  __dirname,
+  "..",
+  "assets",
+  "icons",
+  process.platform === "win32" ? "icon.ico" : "icon.png",
+);
 
 const runNativeCommand = <T>(command?: string, args: Record<string, unknown> = {}) =>
   new Promise<T>((resolve, reject) => {
@@ -93,6 +100,7 @@ const createMainWindow = () => {
     minWidth: 1100,
     minHeight: 720,
     title: "Ask Project",
+    icon: windowIconPath,
     backgroundColor: "#030710",
     show: false,
     titleBarStyle: "hiddenInset",
