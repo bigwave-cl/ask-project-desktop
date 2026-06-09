@@ -8,8 +8,11 @@ import { ProjectEmpty } from "@/components/ProjectEmpty";
 import { ProjectManageBackground } from "@/components/ProjectManageBackground";
 import { ProjectManageTab } from "@/components/ProjectManageTab";
 import { ProjectPreferenceSetting, type ProjectPreferencesModel } from "@/components/ProjectPreferenceSetting";
+import { copyText } from "@/hooks/useCopyText";
 import { projectConfirm } from "@/hooks/useProjectConfirm";
+import { projectInfoDialog } from "@/hooks/useProjectInfoDialog";
 import { projectToast } from "@/hooks/useProjectToast";
+import { invokeDesktop, isDesktopRuntime } from "@/lib/desktopRuntime";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -112,14 +115,6 @@ const palettes = [
   { primary: "var(--apm-our-little-secret)", secondary: "var(--apm-dinner-party)", element: "离火" },
   { primary: "var(--apm-mamas-new-bag)", secondary: "var(--apm-riviera)", element: "幻雷" },
 ];
-
-const isTauriRuntime = () =>
-  typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
-
-const invokeTauri = async <T,>(command: string, args?: Record<string, unknown>) => {
-  const { invoke } = await import("@tauri-apps/api/core");
-  return invoke<T>(command, args);
-};
 
 const createKey = (prefix: string) =>
   `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
@@ -248,8 +243,8 @@ const normalizeGroups = (value: unknown): ProjectGroup[] => {
 };
 
 const readGroups = async () => {
-  if (isTauriRuntime()) {
-    return invokeTauri<ProjectGroup[]>("get_config_list");
+  if (isDesktopRuntime()) {
+    return invokeDesktop<ProjectGroup[]>("get_config_list");
   }
   const raw = window.localStorage.getItem(configStorageKey);
   if (!raw) return starterGroups;
@@ -257,16 +252,16 @@ const readGroups = async () => {
 };
 
 const writeGroups = async (groups: ProjectGroup[]) => {
-  if (isTauriRuntime()) {
-    await invokeTauri("update_project_list_all", { list: groups });
+  if (isDesktopRuntime()) {
+    await invokeDesktop("update_project_list_all", { list: groups });
     return;
   }
   window.localStorage.setItem(configStorageKey, JSON.stringify({ list: groups }));
 };
 
 const readPreferences = async () => {
-  if (isTauriRuntime()) {
-    return invokeTauri<Preferences>("get_preferences");
+  if (isDesktopRuntime()) {
+    return invokeDesktop<Preferences>("get_preferences");
   }
   const raw = window.localStorage.getItem(preferencesStorageKey);
   return normalizePreferences(raw ? JSON.parse(raw) : undefined);
@@ -274,8 +269,8 @@ const readPreferences = async () => {
 
 const writePreferences = async (preferences: Preferences) => {
   const next = normalizePreferences(preferences);
-  if (isTauriRuntime()) {
-    await invokeTauri("update_preferences", { preferences: next });
+  if (isDesktopRuntime()) {
+    await invokeDesktop("update_preferences", { preferences: next });
     return next;
   }
   window.localStorage.setItem(preferencesStorageKey, JSON.stringify(next));
@@ -393,8 +388,6 @@ export default function Home() {
   const [activeGroup, setActiveGroup] = useState("all");
   const [keyword, setKeyword] = useState("");
   const [currentItemPath, setCurrentItemPath] = useState("");
-  const [editing, setEditing] = useState<ProjectItem | null>(null);
-  const [draftName, setDraftName] = useState("");
   const importInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -420,13 +413,13 @@ export default function Home() {
       const path = typeof value === "string" ? value : (value as { path?: unknown } | null)?.path;
       if (typeof path === "string") {
         setCurrentItemPath(path);
-        if (!isTauriRuntime()) {
+        if (!isDesktopRuntime()) {
           window.localStorage.setItem(currentWindowPathStorageKey, path);
         }
       }
     };
 
-    if (!isTauriRuntime()) {
+    if (!isDesktopRuntime()) {
       applyCurrentPath(window.localStorage.getItem(currentWindowPathStorageKey) || "");
     }
 
@@ -441,33 +434,10 @@ export default function Home() {
       applyCurrentPath((event as CustomEvent<{ path?: string }>).detail);
     };
 
-    let disposed = false;
-    let unlistenTauri: (() => void) | undefined;
-    if (isTauriRuntime()) {
-      import("@tauri-apps/api/event")
-        .then(({ listen }) =>
-          listen<{ path: string }>(updateWindowInfoEvent, (event) => {
-            applyCurrentPath(event.payload);
-          })
-        )
-        .then((unlisten) => {
-          if (disposed) {
-            unlisten();
-            return;
-          }
-          unlistenTauri = unlisten;
-        })
-        .catch((error) => {
-          projectToast.error(error instanceof Error ? error.message : "监听当前窗口路径失败");
-        });
-    }
-
     window.addEventListener("message", handleMessage);
     window.addEventListener(updateWindowInfoEvent, handleCustomEvent);
 
     return () => {
-      disposed = true;
-      unlistenTauri?.();
       window.removeEventListener("message", handleMessage);
       window.removeEventListener(updateWindowInfoEvent, handleCustomEvent);
     };
@@ -528,7 +498,11 @@ export default function Home() {
   };
 
   const addGroup = async () => {
-    const label = window.prompt("分组名称", "新分组")?.trim();
+    const label = await projectInfoDialog({
+      title: "添加分组",
+      nameLabel: "分组名称",
+      name: "新分组",
+    });
     if (!label) return;
     const group = { key: createKey("group"), label, children: [] };
     await saveGroups([...groups, group], `已添加分组：${label}`);
@@ -564,12 +538,15 @@ export default function Home() {
   };
 
   const addProjects = async (type: ProjectType) => {
-    const raw = window.prompt(
-      type === "folder"
-        ? "输入文件夹路径，多个路径用换行分隔"
-        : "输入 .code-workspace 路径，多个路径用换行分隔",
-      ""
-    );
+    const raw = await projectInfoDialog({
+      title: type === "folder" ? "导入文件夹" : "导入工作区",
+      nameLabel: type === "folder" ? "文件夹路径" : "工作区路径",
+      placeholder:
+        type === "folder"
+          ? "输入文件夹路径，多个路径用换行分隔"
+          : "输入 .code-workspace 路径，多个路径用换行分隔",
+      multiline: true,
+    });
     if (!raw) return;
     const paths = raw
       .split(/\n+/)
@@ -628,41 +605,40 @@ export default function Home() {
     );
   };
 
-  const startEdit = (item: ProjectItem) => {
-    setEditing(item);
-    setDraftName(item.name);
-  };
-
-  const saveEdit = async () => {
-    if (!editing || !draftName.trim()) return;
+  const startEdit = async (editing: ProjectItem) => {
+    const nextName = await projectInfoDialog({
+      title: "编辑项目符名",
+      nameLabel: "项目名称",
+      name: editing.name,
+    });
+    if (!nextName) return;
     await saveGroups(
       groups.map((group) => ({
         ...group,
         children: group.children.map((item) =>
-          item.key === editing.key ? { ...item, name: draftName.trim() } : item
+          item.key === editing.key ? { ...item, name: nextName } : item
         ),
       })),
       "项目名称已更新"
     );
-    setEditing(null);
   };
 
   const copyPath = async (path: string) => {
-    try {
-      await navigator.clipboard.writeText(path);
+    const copied = await copyText(path);
+    if (copied) {
       projectToast.success("路径已复制");
-    } catch {
-      projectToast.error("路径复制失败");
+      return;
     }
+    projectToast.error("路径复制失败");
   };
 
   const openProject = async (item: ProjectItem) => {
-    if (isTauriRuntime()) {
-      await invokeTauri("open_project_path", { path: item.path });
+    if (isDesktopRuntime()) {
+      await invokeDesktop("open_project_path", { path: item.path });
       projectToast.success(`已打开：${item.name}`);
       return;
     }
-    projectToast.info("浏览器调试模式下不会打开本地路径，Tauri 中会调用原生命令");
+    projectToast.info("浏览器调试模式下不会打开本地路径，Electron 中会调用 Rust 原生命令");
   };
 
   const exportConfig = (format: "json" | "yml") => {
@@ -696,7 +672,7 @@ export default function Home() {
       }
       await saveGroups([...groups, ...imported], `已导入 ${imported.length} 个分组`);
     } catch {
-      projectToast.error("当前 React 版先支持 JSON 导入，YML 导入会放到 Tauri 后端处理");
+      projectToast.error("当前 React 版先支持 JSON 导入，YML 导入会放到 Rust 原生层处理");
     }
   };
 
@@ -880,19 +856,6 @@ export default function Home() {
           onSavePreferences={savePreferences}
           onOpenGuide={() => projectToast.info("新手引导会在后续迁移")}
         />
-      ) : null}
-
-      {editing ? (
-        <div className="apm-modal" role="dialog" aria-modal="true">
-          <div className="apm-modal__panel">
-            <h2>编辑符名</h2>
-            <input value={draftName} onChange={(event) => setDraftName(event.target.value)} />
-            <footer>
-              <button onClick={() => setEditing(null)}>取消</button>
-              <button onClick={saveEdit}>保存</button>
-            </footer>
-          </div>
-        </div>
       ) : null}
     </main>
   );

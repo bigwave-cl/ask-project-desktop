@@ -3,13 +3,13 @@
 ## 说明
 
 - 原项目路径：`/Users/bobo/Desktop/joyme/ask/ask-project-manage/webview-app`
-- 当前项目：Tauri + Next + React + shadcn/Radix + Tailwind v4
+- 当前项目：Electron + Rust sidecar + Next + React + shadcn/Radix + Tailwind v4
 - 复刻规则：样式完全以原项目为准，不自行发挥；完成一个功能就勾选一个。
 - 清单用途：作为桌面版复刻总账，后续每次迁移、修复、验证后都同步更新勾选状态。
 
 ## 基础框架与约束
 
-- [x] 桌面端使用 Tauri + Next + React。
+- [x] 桌面端切换为 Electron + Rust sidecar + Next + React。
 - [x] UI 基础使用 shadcn/Radix + Tailwind v4。
 - [x] 桌面开发端口使用 `4000`。
 - [x] 版本号使用年月日次格式，例如 `26.605.1`。
@@ -20,7 +20,7 @@
 - [x] 后续新增组件优先查 shadcn 文档；shadcn 没有对应组件时再自实现。
 - [ ] 收敛现有原生 `<button>` / `<input>`：逐步替换为 `ui/Button`、`ui/Input` 或基于它们封装。
 - [ ] 迁移过程中保持原 Vue 项目的组件边界，不把所有逻辑继续堆在 `page.tsx`。
-- [ ] 建立桌面端统一的 project service 适配层：浏览器调试走 fallback，Tauri 环境走 `invoke`。
+- [x] 建立桌面端统一的 runtime 适配层：浏览器调试走 fallback，Electron 环境走 IPC + Rust sidecar。
 - [ ] 抽出并复用原项目类型模型：`ProjectItemModel`、`ProjectRenderItemModel`、`ProjectGroupItemModel`、`ProjectConfigItemModel`、`ProjectPreferencesModel`、`ProjectHudMetricKey`、`FormDataModel`。
 
 ## 主界面布局
@@ -55,7 +55,7 @@
 - [x] 保留动画循环、暂停/恢复、卸载销毁逻辑。
 - [x] 保留原 `useBackground.ts` 的绘制算法、色彩、粒子/线条/符号节奏。
 - [x] 验证 Canvas 在 4000 浏览器调试中非空、不卡顿、不遮挡 UI。
-- [ ] 验证 Canvas 在 Tauri WebView 中非空、不卡顿、不遮挡 UI。
+- [x] 验证 Canvas 在 Electron Chromium 中非空、不卡顿、不遮挡 UI。
 
 ## 分组与项目列表
 
@@ -84,13 +84,13 @@
 ## 弹窗系统
 
 - [x] 偏好设置已改为 Radix Dialog。
-- [ ] 迁移 `infoDialog.vue` 为 React + Radix Dialog。
-- [ ] InfoDialog 支持添加分组。
+- [x] 迁移 `infoDialog.vue` 为 React + Radix Dialog。
+- [x] InfoDialog 支持添加分组。
 - [ ] InfoDialog 支持编辑分组名。
-- [ ] InfoDialog 支持编辑项目名。
+- [x] InfoDialog 支持编辑项目名。
 - [ ] InfoDialog 支持修改分组排序。
 - [ ] InfoDialog 支持修改项目排序。
-- [ ] 替换所有 `window.prompt`。
+- [x] 替换所有 `window.prompt`。
 - [x] 迁移 `confirmDialog.vue` 为 Promise 式 ConfirmDialog。
 - [x] ConfirmDialog 支持标题、内容、确认按钮、取消按钮、危险样式。
 - [x] 替换所有 `window.confirm`。
@@ -121,9 +121,9 @@
 - [x] 底部 HUD 总开关已迁移。
 - [x] HUD 指标开关已迁移。
 - [x] 恢复默认、取消、保存结构已迁移。
-- [ ] 保存后以 Tauri 后端返回值作为单一可信来源。
+- [x] 保存后以 Rust native 返回值作为单一可信来源。
 - [ ] “查看引导”打开真正的新手引导，不再只 toast。
-- [ ] `autoOpenPanel` 后续需要接入 Tauri 启动/窗口行为。
+- [ ] `autoOpenPanel` 后续需要接入 Electron 启动/窗口行为。
 - [ ] 偏好设置样式继续逐像素对齐 `preferenceSetting.vue`。
 
 ## 新手引导
@@ -145,13 +145,15 @@
 - [x] 所有已实现流程的成功、失败、导入导出结果统一走 Toast。
 - [x] Toast 样式、动画、自动消失时长对齐原项目。
 
-## Tauri 原生能力
+## Electron + Rust 原生能力
 
-- [x] 已有 `get_config_list`。
-- [x] 已有 `update_project_list_all`。
-- [x] 已有 `get_preferences`。
-- [x] 已有 `update_preferences`。
-- [x] 已有 `open_project_path` 雏形。
+- [x] Electron 主进程已接入 `ask-project:native` IPC。
+- [x] React 已通过 `desktopRuntime.invoke` 统一调用桌面原生能力。
+- [x] Rust sidecar 已有 `get_config_list`。
+- [x] Rust sidecar 已有 `update_project_list_all`。
+- [x] Rust sidecar 已有 `get_preferences`。
+- [x] Rust sidecar 已有 `update_preferences`。
+- [x] Rust sidecar 已有 `open_project_path` 雏形。
 - [ ] 补齐 `choose_folder`，支持多选文件夹。
 - [ ] 补齐 `choose_workspace`，支持多选 `.code-workspace`。
 - [ ] 补齐 `import_config`，支持 JSON / YML。
@@ -166,8 +168,8 @@
 
 ## 数据持久化
 
-- [x] 当前 Tauri 侧已将配置写入 app data。
-- [x] 当前 Tauri 侧已将偏好写入 app data。
+- [x] 当前 Rust native 已将配置写入 Electron app data。
+- [x] 当前 Rust native 已将偏好写入 Electron app data。
 - [ ] 配置文件结构保持兼容原 `ProjectConfigItemModel[]`。
 - [ ] 导入旧配置时保留 key、label、children、type、path、source、name。
 - [ ] 导入异常时不破坏现有配置。
@@ -188,7 +190,9 @@
 - [ ] 每次迁移后更新本文件勾选状态。
 - [x] `pnpm --filter desktop lint` 通过。
 - [x] `pnpm build:desktop` 通过。
-- [ ] `pnpm --filter desktop tauri:build` 通过。
+- [x] `pnpm --filter desktop native:check` 通过。
+- [ ] Electron 打包构建通过。
 - [x] 4000 浏览器调试验证核心交互。
-- [ ] Tauri WebView 开发模式验证原生能力。
+- [x] Electron 开发模式验证基础加载。
+- [ ] Electron 开发模式验证全部原生能力。
 - [ ] 桌面打包产物验证无需安装开发依赖。

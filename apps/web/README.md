@@ -1,75 +1,45 @@
-# Nuxt Minimal Starter
+# Ask Project Web
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+官网使用 Nuxt 4，目标域名是 `project.askmewhy.cn`。当前官网还处在基础脚手架阶段，后续内容和规则会单独补充。
 
-## Setup
+## 目录作用
 
-Make sure to install dependencies:
+- `app`：Nuxt 应用入口。
+- `public`：静态资源。
+- `nuxt.config.ts`：Nuxt 配置。
+- `AGENTS.md`：官网 agent 规则占位，后续补充。
 
-```bash
-# npm
-npm install
+## 启动命令
 
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+开发服务端口是 `4001`：
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
+pnpm --filter web dev
 ```
 
-## Production
-
-Build the application for production:
+构建：
 
 ```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+pnpm --filter web build
 ```
 
-Locally preview production build:
+静态生成：
 
 ```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
+pnpm --filter web generate
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+本地预览：
+
+```bash
+pnpm --filter web preview
+```
+
+也可以使用根目录转发命令：
+
+```bash
+pnpm dev:web
+pnpm build:web
+pnpm generate:web
+pnpm preview:web
+```

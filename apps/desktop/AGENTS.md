@@ -13,7 +13,7 @@
 - 桌面项目目录：`apps/desktop`
 - 桌面版复刻源项目：`ask-project-manage/webview-app`
 - 如果源项目不在同一台设备的固定位置，先通过仓库同级目录、用户提供路径或清单文档确认；不要依赖某台机器上的绝对路径。
-- 桌面应用技术栈：Tauri + Next + React + shadcn/Radix + Tailwind v4
+- 桌面应用技术栈：Electron + Rust sidecar + Next + React + shadcn/Radix + Tailwind v4
 - 桌面开发端口：`4000`
 - 版本号格式：年月日次，例如 `26.605.1`
 
@@ -22,7 +22,7 @@
 - 样式必须完全复刻 `ask-project-manage/webview-app`，不要自行发挥视觉设计。
 - 每完成一个复刻功能，必须自检，并更新 `docs/feature-replication-checklist.md`。
 - 迁移时保持原 Vue 项目的组件边界，不要继续把所有逻辑堆进 `page.tsx`。
-- 浏览器调试 fallback 只用于开发；桌面正式能力以 Tauri 后端和 `invoke` 为准。
+- 浏览器调试 fallback 只用于开发；桌面正式能力以 Electron IPC + Rust sidecar 为准。
 - Rust 代码需要添加适合学习的注释，方便不熟悉 Rust 的维护者理解。
 - 不要重置或覆盖用户未提交的改动。
 
@@ -53,10 +53,10 @@
 ## 复刻流程
 
 1. 先阅读原 Vue 组件及其相关 composable、样式、类型。
-2. 再阅读当前 React/Tauri 实现和清单状态。
+2. 再阅读当前 React/Electron/Rust 实现和清单状态。
 3. 按原项目组件边界迁移到 React。
 4. 涉及弹窗、菜单、Toast 等基础交互时，优先使用 `components/ui` 中的 shadcn/Radix 封装。
-5. 完成后在浏览器或 Tauri 开发模式中自检。
+5. 完成后在浏览器或 Electron 开发模式中自检。
 6. 更新 `docs/feature-replication-checklist.md`，完成一个勾选一个。
 
 ## 已确定的复刻约束
@@ -68,6 +68,7 @@
 - Toast 使用 Sonner，并通过 `useProjectToast` / `projectToast` 维护全局调用入口。
 - Canvas 背景必须独立迁移，不允许合并成普通 CSS 背景。
 - Canvas 背景需要保留 aura 层、canvas 层、resize、DPR、动画循环和销毁逻辑。
+- 桌面原生能力通过 `apps/desktop/native` Rust sidecar 提供，Electron 主进程负责 IPC 转发。
 - 拖拽排序必须使用成熟拖拽库，不手写核心拖拽规则。
 - `window.prompt` 后续要替换为 InfoDialog。
 - `window.confirm` 不允许继续使用。
@@ -85,6 +86,7 @@
   - 关键交互是否可点击
   - Toast/Dialog/Dropdown 是否在正确位置和状态出现
   - Canvas 是否非空、不遮挡 UI、不明显卡顿
+  - Electron 桌面壳是否能加载 4000 并调用 Rust 原生能力
 - 如果用户已手动启动服务，不要擅自终止或重启，除非用户明确要求。
 
 ## Git 与提交

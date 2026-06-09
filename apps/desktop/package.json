@@ -7,13 +7,15 @@
     "build": "next build",
     "start": "next start --port 4000",
     "lint": "eslint",
-    "tauri": "tauri",
-    "tauri:dev": "tauri dev",
-    "tauri:build": "tauri build"
+    "native:build": "cargo build --manifest-path native/Cargo.toml",
+    "native:check": "cargo check --manifest-path native/Cargo.toml",
+    "electron:dev": "pnpm native:build && electron electron/main.cjs",
+    "electron:dev:tools": "pnpm native:build && ASK_PROJECT_ELECTRON_DEVTOOLS=1 electron electron/main.cjs",
+    "electron:smoke": "pnpm native:build && electron electron/main.cjs --smoke-test"
   },
   "dependencies": {
-    "@tauri-apps/api": "2.11.0",
     "class-variance-authority": "^0.7.1",
+    "clipboard": "^2.0.11",
     "clsx": "^2.1.1",
     "lucide-react": "^1.17.0",
     "next": "16.2.6",
@@ -26,10 +28,10 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.0",
-    "@tauri-apps/cli": "2.11.2",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "electron": "^42.3.3",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
     "tailwindcss": "^4.3.0",

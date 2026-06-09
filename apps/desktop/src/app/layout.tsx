@@ -4,7 +4,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Ask Project Manage",
-  description: "React desktop version of Ask Project Manage powered by Tauri and Next.js.",
+  description: "React desktop version of Ask Project Manage powered by Electron, Rust, and Next.js.",
 };
 
 export default function RootLayout({
