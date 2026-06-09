@@ -32,34 +32,18 @@ pnpm install
 一条命令同时启动桌面前端和 Electron 桌面壳：
 
 ```bash
-pnpm dev:app
+pnpm dev:desktop
 ```
 
 一条命令启动桌面前端、Electron 桌面壳并打开 DevTools：
 
 ```bash
-pnpm dev:app:tools
+pnpm dev:desktop:tools
 ```
 
-桌面端前端开发服务，端口 `4000`：
+桌面端前端开发服务端口是 `4000`。
 
-```bash
-pnpm dev:desktop
-```
-
-Electron 桌面壳：
-
-```bash
-pnpm electron:desktop
-```
-
-带 DevTools 的 Electron 桌面壳：
-
-```bash
-pnpm electron:desktop:tools
-```
-
-`dev:app` / `dev:app:tools` 会先检查 `4000` 是否已启动；如果没有，会自动启动前端服务，等页面可访问后再启动 Electron。退出 Electron 时，由脚本启动的前端服务会一起退出。
+`dev:desktop` / `dev:desktop:tools` 会先检查 `4000` 是否已启动；如果没有，会自动启动前端服务，等页面可访问后再启动 Electron。退出 Electron 时，由脚本启动的前端服务会一起退出。
 
 官网开发服务，端口 `4001`：
 
@@ -111,32 +95,7 @@ pnpm lint
 
 构建命令会先清理自己负责的历史产物；开发命令不清理，由 Next、Cargo、Electron 各自的开发模式控制。
 
-构建 macOS 应用和安装包：
-
-```bash
-pnpm release:desktop:mac
-```
-
-只构建指定 macOS 架构：
-
-```bash
-pnpm release:desktop:mac:arm64
-pnpm release:desktop:mac:x64
-```
-
-构建 Windows `.exe`：
-
-```bash
-pnpm release:desktop:win
-```
-
-只构建指定 Windows 架构：
-
-```bash
-pnpm release:desktop:win:x64
-```
-
-构建当前系统对应目标：
+桌面端 release 统一使用一个入口，通过参数指定目标。不传参数时构建当前系统对应目标：
 
 ```bash
 pnpm release:desktop
@@ -145,7 +104,22 @@ pnpm release:desktop
 构建全部已配置平台目标：
 
 ```bash
-pnpm release:desktop:all
+pnpm release:desktop all
+```
+
+构建 macOS 应用和安装包：
+
+```bash
+pnpm release:desktop mac
+```
+
+只构建指定目标：
+
+```bash
+pnpm release:desktop mac:arm64
+pnpm release:desktop mac:x64
+pnpm release:desktop win
+pnpm release:desktop win:x64
 ```
 
 Windows `.exe` 建议在 Windows 环境构建，确保 Rust sidecar 同时产出 `ask-project-native.exe`。

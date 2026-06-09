@@ -30,34 +30,16 @@
 推荐用一个命令同时启动 React/Next 页面和 Electron 桌面壳：
 
 ```bash
-pnpm dev:app
+pnpm dev:desktop
 ```
 
 需要同时打开 DevTools：
 
 ```bash
-pnpm dev:app:tools
+pnpm dev:desktop:tools
 ```
 
-也可以拆成两个终端手动启动。先启动 React/Next 页面：
-
-```bash
-pnpm --filter desktop dev
-```
-
-再启动 Electron 桌面壳：
-
-```bash
-pnpm electron:desktop
-```
-
-需要调试 Electron/Chromium：
-
-```bash
-pnpm electron:desktop:tools
-```
-
-`pnpm dev:app` 会先检查 `http://localhost:4000` 是否已启动；如果没有，会自动启动前端服务，等页面可访问后再启动 Electron。
+`pnpm dev:desktop` 会先检查 `http://localhost:4000` 是否已启动；如果没有，会自动启动前端服务，等页面可访问后再启动 Electron。
 
 Electron 启动前会自动执行：
 
@@ -71,11 +53,8 @@ pnpm --filter desktop electron:compile
 ## 常用命令
 
 ```bash
-pnpm --filter desktop dev
-pnpm dev:app
-pnpm dev:app:tools
-pnpm electron:desktop
-pnpm electron:desktop:tools
+pnpm dev:desktop
+pnpm dev:desktop:tools
 pnpm --filter desktop native:compile
 pnpm --filter desktop electron:compile
 pnpm --filter desktop electron:build
@@ -84,12 +63,12 @@ pnpm --filter desktop lint
 pnpm build:desktop
 pnpm --filter desktop electron:smoke
 pnpm release:desktop
-pnpm release:desktop:all
-pnpm release:desktop:mac
-pnpm release:desktop:mac:arm64
-pnpm release:desktop:mac:x64
-pnpm release:desktop:win
-pnpm release:desktop:win:x64
+pnpm release:desktop all
+pnpm release:desktop mac
+pnpm release:desktop mac:arm64
+pnpm release:desktop mac:x64
+pnpm release:desktop win
+pnpm release:desktop win:x64
 ```
 
 `electron:smoke` 需要 `http://localhost:4000` 已经启动。它会加载页面，并验证 renderer -> preload -> Electron IPC -> Rust native 链路。
@@ -111,27 +90,27 @@ apps/desktop/dist/
 - `dist-web`：`pnpm build:desktop` 中 Next 静态导出输出。
 - `dist-rust`：`pnpm --filter desktop native:build` 输出。
 - `dist-native`：release 脚本根据当前目标平台/架构从 `dist-rust` 拷贝出的 sidecar 暂存目录。
-- `dist-release`：`pnpm release:desktop:mac` 或 `pnpm release:desktop:win` 输出。
+- `dist-release`：`pnpm release:desktop mac` 或 `pnpm release:desktop win:x64` 输出。
 
 构建命令会先清理自己负责的历史产物：
 
 - `pnpm build:desktop` 清理 `dist/dist-web`。
 - `pnpm --filter desktop electron:build` 清理 `dist/dist-electron`。
-- `pnpm --filter desktop native:build` 和 `native:build:release` 清理 `dist/dist-rust`。
-- `pnpm release:desktop:*` 清理 `dist/dist-release`、`dist/dist-rust`、`dist/dist-native`，再按目标平台/架构重新生成。
+- `pnpm --filter desktop native:build` 清理 `dist/dist-rust`。
+- `pnpm release:desktop <target>` 清理 `dist/dist-release`、`dist/dist-rust`、`dist/dist-native`，再按目标平台/架构重新生成。
 
-开发命令不做这些清理，例如 `pnpm dev:app`、`pnpm electron:desktop`、`pnpm --filter desktop electron:smoke` 使用 `compile` 脚本。
+开发命令不做这些清理，例如 `pnpm dev:desktop`、`pnpm --filter desktop electron:dev`、`pnpm --filter desktop electron:smoke` 使用 `compile` 脚本。
 
-macOS 构建会生成 `.app`、`.dmg`、`.zip`。`pnpm release:desktop:mac` 会依次构建 `mac:arm64` 和 `mac:x64`；也可以用 `pnpm release:desktop:mac:arm64` 或 `pnpm release:desktop:mac:x64` 指定单个架构。
+macOS 构建会生成 `.app`、`.dmg`、`.zip`。`pnpm release:desktop mac` 会依次构建 `mac:arm64` 和 `mac:x64`；也可以用 `pnpm release:desktop mac:arm64` 或 `pnpm release:desktop mac:x64` 指定单个架构。
 
-Windows 构建会生成 NSIS `.exe` 和 `.zip`。`pnpm release:desktop:win` 当前构建 `win:x64`；macOS 上交叉构建需要：
+Windows 构建会生成 NSIS `.exe` 和 `.zip`。`pnpm release:desktop win` 当前构建 `win:x64`；也可以使用 `pnpm release:desktop win:x64` 指定目标。macOS 上交叉构建需要：
 
 ```bash
 rustup target add x86_64-pc-windows-gnu
 brew install mingw-w64
 ```
 
-全部已配置平台可以用 `pnpm release:desktop:all`，但它要求当前环境具备对应平台的 Rust target 和打包能力。
+全部已配置平台可以用 `pnpm release:desktop all`，但它要求当前环境具备对应平台的 Rust target 和打包能力。
 
 打包后的 Electron 应用只运行静态页面、Electron 编译产物和 Rust sidecar，不需要 `node_modules`。React、Next、shadcn/Radix、Tailwind 等构建期依赖应放在 `devDependencies`，避免 Electron Builder 把整套依赖打进 `.app` / `.exe`。
 

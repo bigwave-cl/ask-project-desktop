@@ -2,7 +2,8 @@ import { spawn } from "node:child_process";
 
 const devUrl = "http://localhost:4000";
 const shouldOpenDevTools = process.argv.includes("--tools");
-const commandName = shouldOpenDevTools ? "electron:desktop:tools" : "electron:desktop";
+const frontendArgs = ["--filter", "desktop", "dev"];
+const electronArgs = ["--filter", "desktop", "electron:dev", ...(shouldOpenDevTools ? ["--", "--tools"] : [])];
 
 let frontendProcess = null;
 let electronProcess = null;
@@ -64,21 +65,21 @@ const start = async () => {
   const alreadyReady = await isDevServerReady();
 
   if (alreadyReady) {
-    console.log(`[dev:app] 复用已启动的 ${devUrl}`);
+    console.log(`[dev:desktop] 复用已启动的 ${devUrl}`);
   } else {
-    console.log("[dev:app] 启动桌面端前端服务...");
-    frontendProcess = spawnProcess("pnpm", ["dev:desktop"]);
+    console.log("[dev:desktop] 启动桌面端前端服务...");
+    frontendProcess = spawnProcess("pnpm", frontendArgs);
     frontendProcess.on("exit", (code) => {
       if (!isShuttingDown && code !== 0) {
-        console.error(`[dev:app] 前端服务异常退出，退出码：${code}`);
+        console.error(`[dev:desktop] 前端服务异常退出，退出码：${code}`);
         shutdown(code ?? 1);
       }
     });
     await waitForDevServer();
   }
 
-  console.log(`[dev:app] 启动 ${shouldOpenDevTools ? "带 DevTools 的 " : ""}Electron 桌面壳...`);
-  electronProcess = spawnProcess("pnpm", [commandName]);
+  console.log(`[dev:desktop] 启动 ${shouldOpenDevTools ? "带 DevTools 的 " : ""}Electron 桌面壳...`);
+  electronProcess = spawnProcess("pnpm", electronArgs);
   electronProcess.on("exit", (code) => {
     shutdown(code ?? 0);
   });
@@ -88,6 +89,6 @@ process.on("SIGINT", () => shutdown(0));
 process.on("SIGTERM", () => shutdown(0));
 
 start().catch((error) => {
-  console.error(`[dev:app] ${error instanceof Error ? error.message : String(error)}`);
+  console.error(`[dev:desktop] ${error instanceof Error ? error.message : String(error)}`);
   shutdown(1);
 });

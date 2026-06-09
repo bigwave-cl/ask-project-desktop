@@ -1,8 +1,9 @@
 import { spawn } from "node:child_process";
+import { readFileSync } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 
-import { app, BrowserWindow, ipcMain, Menu, net, protocol, shell } from "electron";
+import { app, BrowserWindow, ipcMain, Menu, nativeImage, net, protocol, shell } from "electron";
 
 type NativePayload = {
   command?: string;
@@ -19,6 +20,12 @@ type NativeResult<T> =
       error?: string;
     };
 
+type DesktopPackageConfig = {
+  name?: string;
+  productName?: string;
+  version?: string;
+};
+
 const defaultDevUrl = "http://localhost:4000";
 const appScheme = "ask-project";
 const devAppUrl = process.env.ASK_PROJECT_ELECTRON_URL || defaultDevUrl;
@@ -30,7 +37,6 @@ const isSmokeTest = process.argv.includes("--smoke-test");
 let mainWindow: BrowserWindow | null = null;
 let smokeTimer: ReturnType<typeof setTimeout> | null = null;
 
-app.setName("Ask Project");
 protocol.registerSchemesAsPrivileged([
   {
     scheme: appScheme,
@@ -46,6 +52,7 @@ protocol.registerSchemesAsPrivileged([
 const nativeBinaryName = process.platform === "win32" ? "ask-project-native.exe" : "ask-project-native";
 const distRoot = path.join(__dirname, "..");
 const desktopRoot = path.join(distRoot, "..");
+const desktopPackagePath = path.join(desktopRoot, "package.json");
 const nativeBinaryPath = app.isPackaged
   ? path.join(process.resourcesPath, "native", nativeBinaryName)
   : path.join(distRoot, "dist-rust", "debug", nativeBinaryName);
@@ -60,6 +67,32 @@ const windowIconPath = path.join(
   process.platform === "win32" ? "icon.ico" : "icon.png",
 );
 const packagedWebRoot = path.join(distRoot, "dist-web");
+
+const readDesktopPackageConfig = () => {
+  try {
+    return JSON.parse(readFileSync(desktopPackagePath, "utf8")) as DesktopPackageConfig;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(`[electron] 项目配置读取失败: ${desktopPackagePath}\n${message}`);
+    return {};
+  }
+};
+
+const desktopPackageConfig = readDesktopPackageConfig();
+const baseAppName = desktopPackageConfig.productName || desktopPackageConfig.name || "Ask Project";
+const displayAppName = app.isPackaged ? baseAppName : `[DEV] ${baseAppName}`;
+
+app.setName(displayAppName);
+
+const createAppIcon = () => {
+  const icon = nativeImage.createFromPath(windowIconPath);
+
+  if (icon.isEmpty()) {
+    console.warn(`[electron] 应用图标加载失败: ${windowIconPath}`);
+  }
+
+  return icon;
+};
 
 const registerPackagedWebProtocol = () => {
   protocol.handle(appScheme, (request) => {
@@ -131,13 +164,15 @@ const runNativeCommand = <T>(command?: string, args: Record<string, unknown> = {
   });
 
 const createMainWindow = () => {
+  const appIcon = createAppIcon();
+
   mainWindow = new BrowserWindow({
     width: 1280,
     height: 820,
     minWidth: 1100,
     minHeight: 720,
-    title: "Ask Project",
-    icon: windowIconPath,
+    title: displayAppName,
+    icon: appIcon,
     backgroundColor: "#030710",
     show: false,
     titleBarStyle: "hiddenInset",
@@ -200,6 +235,10 @@ const createMainWindow = () => {
 app.whenReady().then(() => {
   if (app.isPackaged) {
     registerPackagedWebProtocol();
+  }
+
+  if (process.platform === "darwin") {
+    app.dock?.setIcon(createAppIcon());
   }
 
   Menu.setApplicationMenu(null);

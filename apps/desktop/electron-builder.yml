@@ -1,6 +1,4 @@
 appId: cn.askmewhy.project.desktop
-productName: Ask Project
-copyright: Copyright © 2026 Ask Project
 
 directories:
   output: dist/dist-release
@@ -53,6 +51,6 @@ nsis:
   allowToChangeInstallationDirectory: true
   createDesktopShortcut: true
   createStartMenuShortcut: true
-  shortcutName: Ask Project
+  shortcutName: ${productName}
 
-artifactName: Ask-Project-${version}-${os}-${arch}.${ext}
+artifactName: ${productName}-${version}-${os}-${arch}.${ext}
