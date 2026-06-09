@@ -20,7 +20,11 @@ const iconTargetName = "ask-project-dev.icns";
 const iconTargetPath = path.join(devAppPath, "Contents", "Resources", iconTargetName);
 const rawArgs = process.argv.slice(2);
 const shouldOpenDevTools = rawArgs.includes("--tools");
-const electronArgs = rawArgs.filter((arg) => arg !== "--tools" && arg !== "--");
+const launchSwitchPrefixes = ["--inspect", "--inspect-brk", "--remote-debugging-port"];
+const forwardedArgs = rawArgs.filter((arg) => arg !== "--tools" && arg !== "--");
+const isLaunchSwitch = (arg) => launchSwitchPrefixes.some((prefix) => arg === prefix || arg.startsWith(`${prefix}=`));
+const electronLaunchArgs = forwardedArgs.filter(isLaunchSwitch);
+const appArgs = forwardedArgs.filter((arg) => !isLaunchSwitch(arg));
 
 const runPlistBuddy = (args) => {
   const result = spawnSync("/usr/libexec/PlistBuddy", args, {
@@ -68,7 +72,7 @@ const launchElectron = async () => {
     await prepareMacDevApp();
   }
 
-  const child = spawn(executable, [electronMain, ...electronArgs], {
+  const child = spawn(executable, [...electronLaunchArgs, electronMain, ...appArgs], {
     cwd: desktopRoot,
     stdio: "inherit",
     env: {

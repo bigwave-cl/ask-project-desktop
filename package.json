@@ -5,7 +5,9 @@
   "packageManager": "pnpm@11.1.0",
   "scripts": {
     "dev:desktop": "node scripts/devDesktop.mjs",
+    "dev:desktop:agent": "node scripts/devDesktop.mjs --agent",
     "dev:desktop:tools": "node scripts/devDesktop.mjs --tools",
+    "debug:desktop:agent": "node scripts/debugDesktopAgent.mjs",
     "build:desktop": "pnpm --filter desktop build",
     "release:desktop": "pnpm --filter desktop release",
     "dev:web": "pnpm --filter web dev",
@@ -13,5 +15,8 @@
     "generate:web": "pnpm --filter web generate",
     "preview:web": "pnpm --filter web preview",
     "lint": "pnpm -r lint"
+  },
+  "devDependencies": {
+    "playwright": "^1.60.0"
   }
 }
