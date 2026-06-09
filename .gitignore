@@ -7,7 +7,6 @@ node_modules
 out
 dist
 target
-apps/desktop/electron/dist
 *.log
 .env
 .env.*

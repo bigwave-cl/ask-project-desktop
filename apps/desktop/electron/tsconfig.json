@@ -9,7 +9,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "rootDir": ".",
-    "outDir": "dist",
+    "outDir": "../dist/dist-electron",
     "sourceMap": true
   },
   "include": ["main.ts", "preload.ts"]

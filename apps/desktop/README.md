@@ -7,8 +7,9 @@
 - `electron`：Electron 主进程和 preload。
   - `main.ts` 创建桌面窗口、注册 IPC、调用 Rust native。
   - `preload.ts` 暴露 `window.askProjectDesktop` 给 React。
-  - `tsconfig.json` 将 Electron TS 源码编译到 `electron/dist`。
+  - `tsconfig.json` 将 Electron TS 源码编译到 `dist/dist-electron`。
   - `assets/icons` 存放桌面端图标资源。
+- `electron-builder.yml`：macOS/Windows 安装包构建配置。
 - `native`：Rust sidecar。
   - `src/main.rs` 提供配置读写、偏好读写、打开项目路径等原生能力。
   - 通过 stdin/stdout JSON 协议和 Electron 主进程通信。
@@ -17,6 +18,12 @@
 - `src/components/ui`：shadcn/Radix 基础组件。
 - `src/hooks`：全局可调用 UI 能力和 React hooks。
 - `src/lib`：通用工具和运行时 adapter，例如 `desktopRuntime.ts`。
+- `dist`：桌面端统一构建产物目录。
+  - `dist-electron` 是 Electron 编译产物。
+  - `dist-web` 是 Next 静态导出产物。
+  - `dist-rust` 是 Rust native 的 Cargo target 产物。
+  - `dist-native` 是 release 打包时暂存当前目标平台 Rust sidecar 的目录。
+  - `dist-release` 是 `.app`、`.dmg`、`.exe` 等 release 产物。
 
 ## 启动方式
 
@@ -55,9 +62,11 @@ pnpm electron:desktop:tools
 Electron 启动前会自动执行：
 
 ```bash
-pnpm --filter desktop native:build
-pnpm --filter desktop electron:build
+pnpm --filter desktop native:compile
+pnpm --filter desktop electron:compile
 ```
+
+开发启动只编译必要内容，不主动清理 `dist` 下的产物；开发缓存、增量编译和 dev server 状态交给各自工具控制。
 
 ## 常用命令
 
@@ -67,14 +76,66 @@ pnpm dev:app
 pnpm dev:app:tools
 pnpm electron:desktop
 pnpm electron:desktop:tools
+pnpm --filter desktop native:compile
+pnpm --filter desktop electron:compile
 pnpm --filter desktop electron:build
 pnpm --filter desktop native:check
 pnpm --filter desktop lint
 pnpm build:desktop
 pnpm --filter desktop electron:smoke
+pnpm release:desktop
+pnpm release:desktop:all
+pnpm release:desktop:mac
+pnpm release:desktop:mac:arm64
+pnpm release:desktop:mac:x64
+pnpm release:desktop:win
+pnpm release:desktop:win:x64
 ```
 
 `electron:smoke` 需要 `http://localhost:4000` 已经启动。它会加载页面，并验证 renderer -> preload -> Electron IPC -> Rust native 链路。
+
+## 构建产物
+
+桌面端所有构建产物统一收口到 `dist`：
+
+```text
+apps/desktop/dist/
+├── dist-electron/
+├── dist-web/
+├── dist-rust/
+├── dist-native/
+└── dist-release/
+```
+
+- `dist-electron`：`pnpm --filter desktop electron:build` 输出。
+- `dist-web`：`pnpm build:desktop` 中 Next 静态导出输出。
+- `dist-rust`：`pnpm --filter desktop native:build` 输出。
+- `dist-native`：release 脚本根据当前目标平台/架构从 `dist-rust` 拷贝出的 sidecar 暂存目录。
+- `dist-release`：`pnpm release:desktop:mac` 或 `pnpm release:desktop:win` 输出。
+
+构建命令会先清理自己负责的历史产物：
+
+- `pnpm build:desktop` 清理 `dist/dist-web`。
+- `pnpm --filter desktop electron:build` 清理 `dist/dist-electron`。
+- `pnpm --filter desktop native:build` 和 `native:build:release` 清理 `dist/dist-rust`。
+- `pnpm release:desktop:*` 清理 `dist/dist-release`、`dist/dist-rust`、`dist/dist-native`，再按目标平台/架构重新生成。
+
+开发命令不做这些清理，例如 `pnpm dev:app`、`pnpm electron:desktop`、`pnpm --filter desktop electron:smoke` 使用 `compile` 脚本。
+
+macOS 构建会生成 `.app`、`.dmg`、`.zip`。`pnpm release:desktop:mac` 会依次构建 `mac:arm64` 和 `mac:x64`；也可以用 `pnpm release:desktop:mac:arm64` 或 `pnpm release:desktop:mac:x64` 指定单个架构。
+
+Windows 构建会生成 NSIS `.exe` 和 `.zip`。`pnpm release:desktop:win` 当前构建 `win:x64`；macOS 上交叉构建需要：
+
+```bash
+rustup target add x86_64-pc-windows-gnu
+brew install mingw-w64
+```
+
+全部已配置平台可以用 `pnpm release:desktop:all`，但它要求当前环境具备对应平台的 Rust target 和打包能力。
+
+打包后的 Electron 应用只运行静态页面、Electron 编译产物和 Rust sidecar，不需要 `node_modules`。React、Next、shadcn/Radix、Tailwind 等构建期依赖应放在 `devDependencies`，避免 Electron Builder 把整套依赖打进 `.app` / `.exe`。
+
+Electron/Chromium 运行时是桌面包体积的主要来源。当前只保留 `en`、`en-US`、`zh_CN`、`zh-CN` Electron 语言包，避免把所有 locale 打进安装包。
 
 ## 原生能力约定
 

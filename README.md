@@ -99,6 +99,57 @@ pnpm --filter desktop electron:smoke
 pnpm lint
 ```
 
+## 桌面构建产物
+
+桌面端构建产物统一输出到 `apps/desktop/dist`：
+
+- `apps/desktop/dist/dist-electron`：Electron 主进程与 preload 编译产物。
+- `apps/desktop/dist/dist-web`：Next 静态导出产物。
+- `apps/desktop/dist/dist-rust`：Rust native 的 Cargo target 产物。
+- `apps/desktop/dist/dist-native`：release 打包时暂存当前目标平台的 Rust sidecar。
+- `apps/desktop/dist/dist-release`：Electron 安装包和 macOS 应用产物。
+
+构建命令会先清理自己负责的历史产物；开发命令不清理，由 Next、Cargo、Electron 各自的开发模式控制。
+
+构建 macOS 应用和安装包：
+
+```bash
+pnpm release:desktop:mac
+```
+
+只构建指定 macOS 架构：
+
+```bash
+pnpm release:desktop:mac:arm64
+pnpm release:desktop:mac:x64
+```
+
+构建 Windows `.exe`：
+
+```bash
+pnpm release:desktop:win
+```
+
+只构建指定 Windows 架构：
+
+```bash
+pnpm release:desktop:win:x64
+```
+
+构建当前系统对应目标：
+
+```bash
+pnpm release:desktop
+```
+
+构建全部已配置平台目标：
+
+```bash
+pnpm release:desktop:all
+```
+
+Windows `.exe` 建议在 Windows 环境构建，确保 Rust sidecar 同时产出 `ask-project-native.exe`。
+
 ## 开发规范
 
 - 桌面端样式必须完全复刻原 `ask-project-manage/webview-app`，不要自行发挥视觉设计。

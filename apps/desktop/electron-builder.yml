@@ -1,0 +1,58 @@
+appId: cn.askmewhy.project.desktop
+productName: Ask Project
+copyright: Copyright © 2026 Ask Project
+
+directories:
+  output: dist/dist-release
+
+asar: true
+npmRebuild: false
+electronLanguages:
+  - en
+  - en-US
+  - zh_CN
+  - zh-CN
+
+files:
+  - package.json
+  - from: dist/dist-electron
+    to: dist/dist-electron
+  - from: dist/dist-web
+    to: dist/dist-web
+  - from: electron/assets/icons
+    to: electron/assets/icons
+
+extraResources:
+  - from: dist/dist-native
+    to: native
+    filter:
+      - ask-project-native
+      - ask-project-native.exe
+
+mac:
+  category: public.app-category.developer-tools
+  icon: electron/assets/icons/icon.icns
+  identity: null
+  target:
+    - target: dmg
+    - target: zip
+    - target: tar.gz
+
+win:
+  icon: electron/assets/icons/icon.ico
+  target:
+    - target: nsis
+      arch:
+        - x64
+    - target: zip
+      arch:
+        - x64
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Ask Project
+
+artifactName: Ask-Project-${version}-${os}-${arch}.${ext}

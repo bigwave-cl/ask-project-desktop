@@ -1,7 +1,8 @@
 import { spawn } from "node:child_process";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 
-import { app, BrowserWindow, ipcMain, Menu, shell } from "electron";
+import { app, BrowserWindow, ipcMain, Menu, net, protocol, shell } from "electron";
 
 type NativePayload = {
   command?: string;
@@ -19,7 +20,10 @@ type NativeResult<T> =
     };
 
 const defaultDevUrl = "http://localhost:4000";
-const appUrl = process.env.ASK_PROJECT_ELECTRON_URL || defaultDevUrl;
+const appScheme = "ask-project";
+const devAppUrl = process.env.ASK_PROJECT_ELECTRON_URL || defaultDevUrl;
+const packagedAppUrl = `${appScheme}://app/index.html`;
+const appUrl = app.isPackaged ? packagedAppUrl : devAppUrl;
 const shouldOpenDevTools = process.env.ASK_PROJECT_ELECTRON_DEVTOOLS === "1";
 const isSmokeTest = process.argv.includes("--smoke-test");
 
@@ -27,17 +31,50 @@ let mainWindow: BrowserWindow | null = null;
 let smokeTimer: ReturnType<typeof setTimeout> | null = null;
 
 app.setName("Ask Project");
+protocol.registerSchemesAsPrivileged([
+  {
+    scheme: appScheme,
+    privileges: {
+      standard: true,
+      secure: true,
+      supportFetchAPI: true,
+      corsEnabled: true,
+    },
+  },
+]);
 
 const nativeBinaryName = process.platform === "win32" ? "ask-project-native.exe" : "ask-project-native";
-const nativeBinaryPath = path.join(__dirname, "..", "..", "native", "target", "debug", nativeBinaryName);
-const desktopCwd = path.join(__dirname, "..", "..");
+const distRoot = path.join(__dirname, "..");
+const desktopRoot = path.join(distRoot, "..");
+const nativeBinaryPath = app.isPackaged
+  ? path.join(process.resourcesPath, "native", nativeBinaryName)
+  : path.join(distRoot, "dist-rust", "debug", nativeBinaryName);
+const desktopCwd = app.isPackaged ? process.resourcesPath : desktopRoot;
 const windowIconPath = path.join(
   __dirname,
   "..",
+  "..",
+  "electron",
   "assets",
   "icons",
   process.platform === "win32" ? "icon.ico" : "icon.png",
 );
+const packagedWebRoot = path.join(distRoot, "dist-web");
+
+const registerPackagedWebProtocol = () => {
+  protocol.handle(appScheme, (request) => {
+    const requestUrl = new URL(request.url);
+    const requestPath = decodeURIComponent(requestUrl.pathname === "/" ? "/index.html" : requestUrl.pathname);
+    const filePath = path.join(packagedWebRoot, requestPath);
+    const relativePath = path.relative(packagedWebRoot, filePath);
+
+    if (relativePath.startsWith("..") || path.isAbsolute(relativePath)) {
+      throw new Error(`非法静态资源路径：${requestPath}`);
+    }
+
+    return net.fetch(pathToFileURL(filePath).toString());
+  });
+};
 
 const runNativeCommand = <T>(command?: string, args: Record<string, unknown> = {}) =>
   new Promise<T>((resolve, reject) => {
@@ -161,6 +198,10 @@ const createMainWindow = () => {
 };
 
 app.whenReady().then(() => {
+  if (app.isPackaged) {
+    registerPackagedWebProtocol();
+  }
+
   Menu.setApplicationMenu(null);
   ipcMain.handle("ask-project:native", (_event, payload: NativePayload) =>
     runNativeCommand(payload?.command, payload?.args),
