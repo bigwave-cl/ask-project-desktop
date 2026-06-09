@@ -5,8 +5,9 @@
 ## 目录作用
 
 - `electron`：Electron 主进程和 preload。
-  - `main.cjs` 创建桌面窗口、注册 IPC、调用 Rust native。
-  - `preload.cjs` 暴露 `window.askProjectDesktop` 给 React。
+  - `main.ts` 创建桌面窗口、注册 IPC、调用 Rust native。
+  - `preload.ts` 暴露 `window.askProjectDesktop` 给 React。
+  - `tsconfig.json` 将 Electron TS 源码编译到 `electron/dist`。
 - `native`：Rust sidecar。
   - `src/main.rs` 提供配置读写、偏好读写、打开项目路径等原生能力。
   - 通过 stdin/stdout JSON 协议和 Electron 主进程通信。
@@ -55,6 +56,7 @@ Electron 启动前会自动执行：
 
 ```bash
 pnpm --filter desktop native:build
+pnpm --filter desktop electron:build
 ```
 
 ## 常用命令
@@ -65,6 +67,7 @@ pnpm dev:app
 pnpm dev:app:tools
 pnpm electron:desktop
 pnpm electron:desktop:tools
+pnpm --filter desktop electron:build
 pnpm --filter desktop native:check
 pnpm --filter desktop lint
 pnpm build:desktop

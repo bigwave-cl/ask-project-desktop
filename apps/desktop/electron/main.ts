@@ -1,30 +1,46 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
-const { app, BrowserWindow, ipcMain, Menu, shell } = require("electron");
-const path = require("node:path");
-const { spawn } = require("node:child_process");
+import { spawn } from "node:child_process";
+import path from "node:path";
+
+import { app, BrowserWindow, ipcMain, Menu, shell } from "electron";
+
+type NativePayload = {
+  command?: string;
+  args?: Record<string, unknown>;
+};
+
+type NativeResult<T> =
+  | {
+      ok: true;
+      data: T;
+    }
+  | {
+      ok: false;
+      error?: string;
+    };
 
 const defaultDevUrl = "http://localhost:4000";
 const appUrl = process.env.ASK_PROJECT_ELECTRON_URL || defaultDevUrl;
 const shouldOpenDevTools = process.env.ASK_PROJECT_ELECTRON_DEVTOOLS === "1";
 const isSmokeTest = process.argv.includes("--smoke-test");
 
-let mainWindow = null;
-let smokeTimer = null;
+let mainWindow: BrowserWindow | null = null;
+let smokeTimer: ReturnType<typeof setTimeout> | null = null;
 
 app.setName("Ask Project");
 
 const nativeBinaryName = process.platform === "win32" ? "ask-project-native.exe" : "ask-project-native";
-const nativeBinaryPath = path.join(__dirname, "..", "native", "target", "debug", nativeBinaryName);
+const nativeBinaryPath = path.join(__dirname, "..", "..", "native", "target", "debug", nativeBinaryName);
+const desktopCwd = path.join(__dirname, "..", "..");
 
-const runNativeCommand = (command, args = {}) =>
-  new Promise((resolve, reject) => {
+const runNativeCommand = <T>(command?: string, args: Record<string, unknown> = {}) =>
+  new Promise<T>((resolve, reject) => {
     if (!command) {
       reject(new Error("缺少 Rust native command"));
       return;
     }
 
     const child = spawn(nativeBinaryPath, [command], {
-      cwd: path.join(__dirname, ".."),
+      cwd: desktopCwd,
       stdio: ["pipe", "pipe", "pipe"],
     });
 
@@ -33,10 +49,10 @@ const runNativeCommand = (command, args = {}) =>
 
     child.stdout.setEncoding("utf8");
     child.stderr.setEncoding("utf8");
-    child.stdout.on("data", (chunk) => {
+    child.stdout.on("data", (chunk: string) => {
       stdout += chunk;
     });
-    child.stderr.on("data", (chunk) => {
+    child.stderr.on("data", (chunk: string) => {
       stderr += chunk;
     });
 
@@ -46,7 +62,7 @@ const runNativeCommand = (command, args = {}) =>
 
     child.on("close", (code) => {
       try {
-        const payload = JSON.parse(stdout);
+        const payload = JSON.parse(stdout) as NativeResult<T>;
         if (payload.ok) {
           resolve(payload.data);
           return;
@@ -57,14 +73,17 @@ const runNativeCommand = (command, args = {}) =>
           reject(new Error(stderr || `Rust 原生能力执行失败，退出码：${code}`));
           return;
         }
-        reject(new Error(`Rust 原生能力返回格式异常：${error.message}`));
+        const message = error instanceof Error ? error.message : String(error);
+        reject(new Error(`Rust 原生能力返回格式异常：${message}`));
       }
     });
 
-    child.stdin.end(JSON.stringify({
-      storeDir: app.getPath("userData"),
-      args,
-    }));
+    child.stdin.end(
+      JSON.stringify({
+        storeDir: app.getPath("userData"),
+        args,
+      }),
+    );
   });
 
 const createMainWindow = () => {
@@ -79,7 +98,7 @@ const createMainWindow = () => {
     titleBarStyle: "hiddenInset",
     trafficLightPosition: { x: 14, y: 14 },
     webPreferences: {
-      preload: path.join(__dirname, "preload.cjs"),
+      preload: path.join(__dirname, "preload.js"),
       nodeIntegration: false,
       contextIsolation: true,
       sandbox: true,
@@ -109,18 +128,21 @@ const createMainWindow = () => {
 
   mainWindow.webContents.once("did-finish-load", () => {
     console.log(`[electron] 已加载: ${appUrl}`);
-    if (isSmokeTest) {
-      mainWindow.webContents
-        .executeJavaScript("window.askProjectDesktop.invoke('get_preferences')")
-        .then(() => {
-          console.log("[electron] Rust native IPC smoke 通过");
-          smokeTimer = setTimeout(() => app.quit(), 300);
-        })
-        .catch((error) => {
-          console.error(`[electron] Rust native IPC smoke 失败: ${error.message}`);
-          app.exit(1);
-        });
+    if (!isSmokeTest) {
+      return;
     }
+
+    mainWindow
+      ?.webContents.executeJavaScript("window.askProjectDesktop.invoke('get_preferences')")
+      .then(() => {
+        console.log("[electron] Rust native IPC smoke 通过");
+        smokeTimer = setTimeout(() => app.quit(), 300);
+      })
+      .catch((error: unknown) => {
+        const message = error instanceof Error ? error.message : String(error);
+        console.error(`[electron] Rust native IPC smoke 失败: ${message}`);
+        app.exit(1);
+      });
   });
 
   mainWindow.on("closed", () => {
@@ -132,7 +154,9 @@ const createMainWindow = () => {
 
 app.whenReady().then(() => {
   Menu.setApplicationMenu(null);
-  ipcMain.handle("ask-project:native", (_event, payload) => runNativeCommand(payload?.command, payload?.args));
+  ipcMain.handle("ask-project:native", (_event, payload: NativePayload) =>
+    runNativeCommand(payload?.command, payload?.args),
+  );
   createMainWindow();
 
   app.on("activate", () => {

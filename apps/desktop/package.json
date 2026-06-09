@@ -9,9 +9,10 @@
     "lint": "eslint",
     "native:build": "cargo build --manifest-path native/Cargo.toml",
     "native:check": "cargo check --manifest-path native/Cargo.toml",
-    "electron:dev": "pnpm native:build && electron electron/main.cjs",
-    "electron:dev:tools": "pnpm native:build && ASK_PROJECT_ELECTRON_DEVTOOLS=1 electron electron/main.cjs",
-    "electron:smoke": "pnpm native:build && electron electron/main.cjs --smoke-test"
+    "electron:build": "tsc -p electron/tsconfig.json",
+    "electron:dev": "pnpm native:build && pnpm electron:build && electron electron/dist/main.js",
+    "electron:dev:tools": "pnpm native:build && pnpm electron:build && ASK_PROJECT_ELECTRON_DEVTOOLS=1 electron electron/dist/main.js",
+    "electron:smoke": "pnpm native:build && pnpm electron:build && electron electron/dist/main.js --smoke-test"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
