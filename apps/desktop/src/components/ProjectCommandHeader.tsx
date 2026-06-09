@@ -9,6 +9,7 @@ import {
   FileCode,
   FolderPlus,
   Grid2X2Plus,
+  PencilLine,
   LayoutGrid,
   ListPlus,
   Search,
@@ -36,12 +37,14 @@ export type ProjectToolbarAction =
   | "exportConfigJson"
   | "exportConfigYml"
   | "addGroup"
+  | "editGroup"
   | "setting"
   | "preferences"
   | "removeGroup";
 
 type ProjectCommandHeaderProps = {
   searchKeyword: string;
+  canEditGroup?: boolean;
   removeGroupTitle?: string;
   onSearchKeywordChange: (value: string) => void;
   onToolbarClick: (type: ProjectToolbarAction) => void | Promise<void>;
@@ -49,6 +52,7 @@ type ProjectCommandHeaderProps = {
 
 export function ProjectCommandHeader({
   searchKeyword,
+  canEditGroup = false,
   removeGroupTitle = "删除当前分组",
   onSearchKeywordChange,
   onToolbarClick,
@@ -189,6 +193,15 @@ export function ProjectCommandHeader({
               <Grid2X2Plus size={18} />
               <span className="apm-menu__item-title">添加分组</span>
             </DropdownMenuItem>
+            {canEditGroup ? (
+              <DropdownMenuItem
+                className="apm-menu__item--mauve"
+                onSelect={() => emitToolbarClick("editGroup")}
+              >
+                <PencilLine size={18} />
+                <span className="apm-menu__item-title">编辑当前分组</span>
+              </DropdownMenuItem>
+            ) : null}
             <DropdownMenuItem
               className="apm-menu__item--mauve"
               onSelect={() => emitToolbarClick("setting")}

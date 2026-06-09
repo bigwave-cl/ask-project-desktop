@@ -86,7 +86,7 @@
 - [x] 偏好设置已改为 Radix Dialog。
 - [x] 迁移 `infoDialog.vue` 为 React + Radix Dialog。
 - [x] InfoDialog 支持添加分组。
-- [ ] InfoDialog 支持编辑分组名。
+- [x] InfoDialog 支持编辑分组名。
 - [x] InfoDialog 支持编辑项目名。
 - [ ] InfoDialog 支持修改分组排序。
 - [ ] InfoDialog 支持修改项目排序。

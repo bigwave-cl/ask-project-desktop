@@ -509,6 +509,27 @@ export default function Home() {
     setActiveGroup(group.key);
   };
 
+  const editActiveGroup = async () => {
+    if (resolvedActiveGroup === "all") {
+      projectToast.warning("请先选择一个具体分组");
+      return;
+    }
+    const group = groups.find((item) => item.key === resolvedActiveGroup);
+    if (!group) return;
+
+    const nextLabel = await projectInfoDialog({
+      title: "编辑分组",
+      nameLabel: "分组名称",
+      name: group.label,
+    });
+    if (!nextLabel || nextLabel === group.label) return;
+
+    await saveGroups(
+      groups.map((item) => (item.key === group.key ? { ...item, label: nextLabel } : item)),
+      "分组名称已更新"
+    );
+  };
+
   const removeActiveGroup = async () => {
     if (groups.length === 0) {
       projectToast.warning("当前没有可删除的分组");
@@ -717,6 +738,9 @@ export default function Home() {
       case "addGroup":
         await addGroup();
         break;
+      case "editGroup":
+        await editActiveGroup();
+        break;
       case "setting":
         projectToast.info("批量管理会在下一步迁移");
         break;
@@ -749,6 +773,7 @@ export default function Home() {
         <div className="apm-shell__sticky">
           <ProjectCommandHeader
             searchKeyword={keyword}
+            canEditGroup={resolvedActiveGroup !== "all"}
             removeGroupTitle={resolvedActiveGroup === "all" ? "删除全部分组" : "删除当前分组"}
             onSearchKeywordChange={setKeyword}
             onToolbarClick={handleToolbarClick}
