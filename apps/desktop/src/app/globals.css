@@ -433,8 +433,7 @@
 
 .apm-import-control__primary,
 .apm-import-control__toggle,
-.apm-command__icon-button,
-.apm-empty-actions button {
+.apm-command__icon-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -464,8 +463,7 @@
 
 .apm-import-control__primary:hover,
 .apm-import-control__toggle:hover,
-.apm-command__icon-button:hover,
-.apm-empty-actions button:hover {
+.apm-command__icon-button:hover {
   transform: translateY(-2px);
   box-shadow:
     0 10px 22px rgba(0, 0, 0, .24),
@@ -695,10 +693,6 @@
   opacity: .82;
 }
 
-.apm-file-input {
-  display: none;
-}
-
 .apm-sonner {
   --width: min(460px, calc(100vw - 32px));
 }
@@ -820,36 +814,6 @@
 .apm-toast__close:hover {
   color: var(--apm-swan-dive);
   background: color-mix(in srgb, var(--apm-radio-silence) 12%, transparent);
-}
-
-.ask-project-manage-tab {
-  min-height: 38px;
-  overflow: hidden;
-}
-
-.apm-tabs {
-  min-height: 38px;
-  display: flex;
-  align-items: stretch;
-  overflow-x: auto;
-  border: 1px solid var(--apm-border-subtle);
-  border-radius: 14px;
-  background: rgba(7, 13, 15, .46);
-}
-
-.apm-tab {
-  min-width: auto;
-  padding: 0 14px;
-  border: 0;
-  color: var(--apm-text-muted);
-  background: transparent;
-  letter-spacing: 0;
-  cursor: pointer;
-}
-
-.apm-tab--selected {
-  color: var(--apm-text-main);
-  background: linear-gradient(90deg, color-mix(in srgb, var(--apm-radio-silence) 18%, transparent), color-mix(in srgb, var(--apm-mamas-new-bag) 14%, transparent));
 }
 
 .apm-list {
@@ -1222,120 +1186,6 @@
 .apm-menu.ask-project-manage-card__menu .ask-project-manage-card__menu-item--danger:hover .ask-project-manage-card__menu-title,
 .apm-menu.ask-project-manage-card__menu .ask-project-manage-card__menu-item--danger[data-highlighted] .ask-project-manage-card__menu-title {
   color: var(--apm-riviera);
-}
-
-.ask-project-manage-empty {
-  display: block;
-  width: 100%;
-  height: 100%;
-  min-height: 220px;
-}
-
-.ask-project-manage-empty__box {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  min-height: inherit;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-flow: column nowrap;
-  color: color-mix(in srgb, var(--apm-faded-letter) 72%, transparent);
-  isolation: isolate;
-}
-
-.ask-project-manage-empty__box::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 46%;
-  z-index: -1;
-  width: min(520px, 70%);
-  height: 180px;
-  background:
-    radial-gradient(ellipse at 50% 42%, color-mix(in srgb, var(--apm-radio-silence) 16%, transparent), transparent 58%),
-    radial-gradient(ellipse at 50% 64%, color-mix(in srgb, var(--apm-riviera) 10%, transparent), transparent 62%);
-  filter: blur(12px);
-  transform: translate(-50%, -50%);
-  opacity: .72;
-}
-
-.ask-project-manage-empty__box--text {
-  max-width: min(520px, 82%);
-  padding: 18px 0 24px;
-  font-size: 14px;
-  line-height: 1.7;
-  word-break: break-all;
-  text-align: center;
-  text-shadow: 0 0 16px color-mix(in srgb, var(--apm-radio-silence) 16%, transparent);
-}
-
-.ask-project-manage-empty__sigil {
-  position: relative;
-  width: auto;
-  min-height: 58px;
-  display: grid;
-  place-items: center;
-  color: color-mix(in srgb, var(--apm-swan-dive) 70%, transparent);
-  opacity: .82;
-}
-
-.ask-project-manage-empty__sigil svg {
-  position: relative;
-  z-index: 1;
-  filter:
-    drop-shadow(0 0 12px color-mix(in srgb, var(--apm-radio-silence) 28%, transparent))
-    drop-shadow(0 0 22px color-mix(in srgb, var(--apm-riviera) 14%, transparent));
-}
-
-.apm-empty-guide {
-  display: grid;
-  gap: 8px;
-  justify-items: center;
-  max-width: min(560px, 86vw);
-  text-align: center;
-}
-
-.apm-empty-guide strong {
-  color: var(--apm-text-main);
-  font-size: 18px;
-  line-height: 1.35;
-  font-weight: 800;
-  letter-spacing: 0;
-  text-shadow: 0 0 18px color-mix(in srgb, var(--apm-radio-silence) 22%, transparent);
-}
-
-.apm-empty-guide span {
-  color: color-mix(in srgb, var(--apm-faded-letter) 78%, transparent);
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-.apm-empty-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 12px;
-}
-
-.apm-empty-actions button {
-  min-width: 128px;
-  border-radius: 16px;
-  font-weight: 800;
-  letter-spacing: 0;
-}
-
-.apm-empty-actions button:last-child {
-  color: var(--apm-mamas-new-bag);
-  border-color: color-mix(in srgb, var(--apm-mamas-new-bag) 40%, transparent);
-}
-
-.apm-empty-hint {
-  margin-top: 14px;
-  color: color-mix(in srgb, var(--apm-faded-letter) 56%, transparent);
-  font-size: 12px;
-  line-height: 1.6;
 }
 
 .apm-cockpit {
