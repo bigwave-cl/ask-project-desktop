@@ -10,7 +10,6 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
 } from "@/components/ui/Dialog";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
@@ -157,31 +156,25 @@ function ProjectInfoDialog({
 
   return (
     <Dialog open={state.open} onOpenChange={onOpenChange}>
-      <DialogContent className="apm-info-dialog">
-        <div className="apm-info-dialog__veil" aria-hidden="true">
-          <span />
-          <span />
-        </div>
+      <DialogContent variant="project" tone="mint" size="lg">
+        <DialogHeader
+          variant="project"
+          tone="mint"
+          icon={<Sparkles size={22} />}
+          eyebrow="Ling Shu Node"
+          heading={state.title}
+        />
 
-        <DialogHeader className="apm-info-dialog__header">
-          <div className="apm-info-dialog__sigil" aria-hidden="true">
-            <Sparkles size={22} />
-          </div>
-          <div className="apm-info-dialog__heading">
-            <span>Ling Shu Node</span>
-            <DialogTitle>{state.title}</DialogTitle>
-          </div>
-        </DialogHeader>
-
-        <DialogDescription className="apm-info-dialog__description">
+        <DialogDescription variant="srOnly">
           {state.nameLabel}
         </DialogDescription>
 
-        <div className="apm-info-dialog__content">
-          <label className="apm-info-dialog__field">
+        <div className="relative z-[1] px-6 pb-7 pt-3.5">
+          <label className="grid gap-2 [&>span]:text-[13px] [&>span]:font-bold [&>span]:tracking-normal [&>span]:text-[var(--apm-text-muted)]">
             <span>{state.nameLabel}</span>
             {state.multiline ? (
               <Textarea
+                variant="project"
                 id={inputId}
                 name="project-info-dialog-value"
                 ref={inputRef as React.Ref<HTMLTextAreaElement>}
@@ -198,6 +191,7 @@ function ProjectInfoDialog({
               />
             ) : (
               <Input
+                variant="project"
                 id={inputId}
                 name="project-info-dialog-value"
                 ref={inputRef as React.Ref<HTMLInputElement>}
@@ -215,25 +209,20 @@ function ProjectInfoDialog({
           </label>
         </div>
 
-        <div className="apm-info-dialog__divider" aria-hidden="true">
-          <span />
-          <span />
-          <span />
-        </div>
-
-        <DialogFooter className="apm-info-dialog__actions">
+        <DialogFooter variant="project">
           <Button
-            className="apm-info-dialog__btn apm-info-dialog__btn--ghost"
             type="button"
-            variant="ghost"
+            variant="projectGhost"
+            size="project"
             onClick={onCancel}
           >
             {state.cancelText}
           </Button>
           <Button
-            className="apm-info-dialog__btn apm-info-dialog__btn--primary"
             disabled={isConfirmDisabled}
             type="button"
+            variant="projectPrimary"
+            size="project"
             onClick={confirm}
           >
             {state.confirmText}

@@ -28,6 +28,8 @@
 
 - P1 迁移后基线：`apps/desktop/src/app/globals.css` 当前 2207 行。
 - P1 迁移后业务 class 基线：`rg -o "\.(apm|ask-project-manage)[A-Za-z0-9_-]*" apps/desktop/src/app/globals.css | sort -u | wc -l` 当前为 113 个。
+- P2 Info/Confirm 迁移后基线：`apps/desktop/src/app/globals.css` 当前 1853 行。
+- P2 Info/Confirm 迁移后业务 class 基线：`rg -o "\.(apm|ask-project-manage)[A-Za-z0-9_-]*" apps/desktop/src/app/globals.css | sort -u | wc -l` 当前为 94 个。
 - 主要业务样式集中在：
   - 主壳层：`ask-project-manage-wrap`、`apm-shell`。
   - Header：`apm-command`、`apm-import-control`、`apm-menu`。
@@ -56,9 +58,9 @@
 - [x] 将本 TODO 作为后续样式治理入口。
 - [x] 统计 `globals.css` 业务选择器数量，建立迁移基线。
 - [ ] 确认 `globals.css` 最终目标行数范围：仅保留 token/base/少量全局 portal 样式。
-- [ ] 后续每次迁移后运行 `pnpm --filter desktop lint`。
-- [ ] 后续每次迁移后运行 `pnpm build:desktop`。
-- [ ] UI 迁移后使用 Electron agent 做可见验证。
+- [x] 后续每次迁移后运行 `pnpm --filter desktop lint`。
+- [x] 后续每次迁移后运行 `pnpm build:desktop`。
+- [x] UI 迁移后使用 Electron agent 做可见验证。
 
 ### P1：低风险独立组件
 
@@ -69,11 +71,11 @@
 
 ### P2：弹窗与反馈系统
 
-- [ ] 迁移 `useProjectInfoDialog`：InfoDialog 全部改为 Tailwind class 常量。
-- [ ] 迁移 `useProjectConfirm`：ConfirmDialog 复用 InfoDialog 的 Tailwind class 常量或共享 helper。
+- [x] 迁移 `useProjectInfoDialog`：InfoDialog 改为通过 UI 组件 variant 使用 Tailwind 样式。
+- [x] 迁移 `useProjectConfirm`：ConfirmDialog 复用 Dialog/Button/Input 等 UI 组件 variant。
 - [ ] 迁移 `ProjectPreferenceSetting`：移除 `.apm-preferences`、`.apm-preference-card`、`.apm-switch`、`.apm-hud-option`。
 - [ ] 迁移 `useProjectToast` / `Sonner`：移除 `.apm-sonner`、`.apm-toast`、`.apm-toast__*`。
-- [ ] 评估 Radix `Dialog` / `AlertDialog` 基础 overlay/content 是否保留为全局基础样式，或改为组件默认 Tailwind class。
+- [x] 评估 Radix `Dialog` / `AlertDialog` 基础 overlay/content 是否保留为全局基础样式，或改为组件默认 Tailwind class。
 
 ### P3：Header 与菜单
 

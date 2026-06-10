@@ -10,7 +10,6 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle,
 } from "@/components/ui/AlertDialog";
 import { mountReactComponent } from "@/lib/mountReactComponent";
 
@@ -123,42 +122,30 @@ function ProjectConfirmDialog({
 }: ProjectConfirmDialogProps) {
   return (
     <AlertDialog open={state.open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="apm-confirm-dialog">
-        <div className="apm-info-dialog__veil" aria-hidden="true">
-          <span />
-          <span />
-        </div>
+      <AlertDialogContent variant="project" tone="danger" size="md">
+        <AlertDialogHeader
+          variant="project"
+          tone="danger"
+          icon={<AlertTriangle size={22} />}
+          eyebrow="Ling Shu Guard"
+          heading={state.title}
+        />
 
-        <AlertDialogHeader className="apm-info-dialog__header">
-          <div className="apm-info-dialog__sigil apm-confirm-dialog__sigil" aria-hidden="true">
-            <AlertTriangle size={22} />
-          </div>
-          <div className="apm-info-dialog__heading">
-            <span>Ling Shu Guard</span>
-            <AlertDialogTitle>{state.title}</AlertDialogTitle>
-          </div>
-        </AlertDialogHeader>
-
-        <AlertDialogDescription className="apm-confirm-dialog__content">
+        <AlertDialogDescription variant="projectConfirm">
           {state.content}
         </AlertDialogDescription>
 
-        <div className="apm-info-dialog__divider" aria-hidden="true">
-          <span />
-          <span />
-          <span />
-        </div>
-
-        <AlertDialogFooter className="apm-info-dialog__actions">
-          <AlertDialogCancel className="apm-info-dialog__btn apm-info-dialog__btn--ghost" onClick={onCancel}>
+        <AlertDialogFooter variant="project">
+          <AlertDialogCancel
+            variant="projectGhost"
+            size="project"
+            onClick={onCancel}
+          >
             {state.cancelText}
           </AlertDialogCancel>
           <AlertDialogAction
-            className={
-              state.danger
-                ? "apm-info-dialog__btn apm-confirm-dialog__btn--danger"
-                : "apm-info-dialog__btn apm-info-dialog__btn--primary"
-            }
+            variant={state.danger ? "projectDanger" : "projectPrimary"}
+            size="project"
             onClick={onConfirm}
           >
             {state.confirmText}
