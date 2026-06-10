@@ -17,11 +17,13 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         projectGhost:
-          "border border-[color-mix(in_srgb,currentColor_22%,transparent)] bg-transparent text-[color-mix(in_srgb,var(--apm-swan-dive)_76%,transparent)] hover:border-[color-mix(in_srgb,var(--apm-swan-dive)_34%,transparent)] hover:bg-[color-mix(in_srgb,var(--apm-swan-dive)_7%,transparent)] hover:text-[var(--apm-text-main)]",
+          "border border-[color-mix(in_srgb,currentColor_22%,transparent)] bg-transparent text-[color-mix(in_srgb,var(--apm-swan-dive)_76%,transparent)] hover:border-[color-mix(in_srgb,var(--apm-swan-dive)_34%,transparent)] hover:bg-[color-mix(in_srgb,var(--apm-swan-dive)_7%,transparent)] hover:text-[var(--apm-text-main)] focus-visible:border-[color-mix(in_srgb,var(--apm-radio-silence)_44%,transparent)] focus-visible:ring-0 focus-visible:shadow-[0_0_0_1px_color-mix(in_srgb,var(--apm-radio-silence)_18%,transparent),0_0_18px_color-mix(in_srgb,var(--apm-radio-silence)_14%,transparent)]",
         projectPrimary:
-          "border border-[color-mix(in_srgb,currentColor_22%,transparent)] bg-[linear-gradient(135deg,var(--apm-radio-silence),var(--apm-swan-dive))] text-[#061211] shadow-[0_0_18px_color-mix(in_srgb,var(--apm-radio-silence)_24%,transparent),inset_0_1px_0_rgba(255,255,255,.34)]",
+          "border border-[color-mix(in_srgb,currentColor_22%,transparent)] bg-[linear-gradient(135deg,var(--apm-radio-silence),var(--apm-swan-dive))] text-[#061211] shadow-[0_0_18px_color-mix(in_srgb,var(--apm-radio-silence)_24%,transparent),inset_0_1px_0_rgba(255,255,255,.34)] focus-visible:border-[color-mix(in_srgb,var(--apm-radio-silence)_70%,transparent)] focus-visible:ring-0 focus-visible:shadow-[0_0_0_1px_color-mix(in_srgb,var(--apm-radio-silence)_28%,transparent),0_0_24px_color-mix(in_srgb,var(--apm-radio-silence)_28%,transparent),inset_0_1px_0_rgba(255,255,255,.4)]",
         projectDanger:
-          "border border-[color-mix(in_srgb,currentColor_22%,transparent)] bg-[linear-gradient(135deg,var(--apm-riviera),color-mix(in_srgb,var(--apm-radio-silence)_58%,var(--apm-riviera)))] text-[#14080a] shadow-[0_0_18px_color-mix(in_srgb,var(--apm-riviera)_24%,transparent),inset_0_1px_0_rgba(255,255,255,.34)] hover:shadow-[0_0_26px_color-mix(in_srgb,var(--apm-riviera)_34%,transparent),0_0_18px_color-mix(in_srgb,var(--apm-radio-silence)_16%,transparent),inset_0_1px_0_rgba(255,255,255,.42)]",
+          "border border-[color-mix(in_srgb,currentColor_22%,transparent)] bg-[linear-gradient(135deg,var(--apm-riviera),color-mix(in_srgb,var(--apm-radio-silence)_58%,var(--apm-riviera)))] text-[#14080a] shadow-[0_0_18px_color-mix(in_srgb,var(--apm-riviera)_24%,transparent),inset_0_1px_0_rgba(255,255,255,.34)] hover:shadow-[0_0_26px_color-mix(in_srgb,var(--apm-riviera)_34%,transparent),0_0_18px_color-mix(in_srgb,var(--apm-radio-silence)_16%,transparent),inset_0_1px_0_rgba(255,255,255,.42)] focus-visible:border-[color-mix(in_srgb,var(--apm-riviera)_70%,transparent)] focus-visible:ring-0 focus-visible:shadow-[0_0_0_1px_color-mix(in_srgb,var(--apm-riviera)_28%,transparent),0_0_24px_color-mix(in_srgb,var(--apm-riviera)_28%,transparent),inset_0_1px_0_rgba(255,255,255,.4)]",
+        projectPlain:
+          "border-0 bg-transparent p-0 text-inherit shadow-none hover:bg-transparent hover:text-inherit focus-visible:border-transparent focus-visible:ring-0 focus-visible:shadow-none",
       },
       size: {
         default: "h-9 px-4 py-2",
@@ -29,6 +31,7 @@ const buttonVariants = cva(
         lg: "h-10 rounded-md px-6",
         icon: "size-9",
         project: "min-h-[38px] min-w-[92px] rounded-lg px-4 py-2",
+        projectPlain: "",
       },
     },
     defaultVariants: {

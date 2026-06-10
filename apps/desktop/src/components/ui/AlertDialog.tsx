@@ -24,7 +24,7 @@ const alertDialogContentVariants = cva(
       variant: {
         default: "",
         project:
-          "relative z-[72] overflow-hidden rounded-[18px_8px_18px_8px] text-[var(--apm-text-main)]",
+          "z-[72] overflow-hidden rounded-[18px_8px_18px_8px] text-[var(--apm-text-main)]",
       },
       tone: {
         default: "",

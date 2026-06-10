@@ -80,7 +80,12 @@
   - `pnpm --filter desktop lint`
   - `pnpm build:desktop`
 - 已知本地桌面调试地址：`http://localhost:4000/`
-- 有 UI 变化时，使用浏览器检查真实页面：
+- 桌面端调试优先使用 Electron 桌面壳的 Agent 调试链路，不要默认打开普通浏览器：
+  - 如需启动壳子，优先使用 `pnpm dev:desktop:agent`，它会复用已启动的 `4000` 前端服务，并暴露 renderer CDP：`http://127.0.0.1:9222/json/list`。
+  - 如壳子已启动且 `9222` 可用，直接使用 `pnpm debug:desktop:agent` 或 Playwright `chromium.connectOverCDP("http://127.0.0.1:9222")` 连接 Electron renderer 验证。
+  - 不要擅自终止用户已启动的 `4000` 服务或 Electron 壳子；只在用户明确要求时重启。
+  - 普通浏览器调试只作为 fallback，或在用户明确要求“浏览器/localhost 页面”时使用。
+- 有 UI 变化时，优先在 Electron 桌面壳中检查真实页面：
   - 页面是否正常加载
   - 控制台是否有报错
   - 关键交互是否可点击

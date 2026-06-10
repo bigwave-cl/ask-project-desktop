@@ -1335,11 +1335,7 @@
 }
 
 .apm-preferences {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  z-index: 71;
-  transform: translate(-50%, -50%);
+  transform: none;
   overflow: hidden;
   width: min(620px, calc(100vw - 48px));
   max-height: calc(100vh - 48px);
@@ -1412,11 +1408,20 @@
   color: var(--apm-text-muted);
   background: transparent;
   cursor: pointer;
+  outline: none;
 }
 
 .apm-preferences__icon-button:hover {
   color: var(--apm-text-main);
   background: color-mix(in srgb, var(--apm-radio-silence) 10%, transparent);
+}
+
+.apm-preferences__icon-button:focus-visible {
+  color: var(--apm-text-main);
+  background: color-mix(in srgb, var(--apm-radio-silence) 10%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--apm-radio-silence) 28%, transparent),
+    0 0 18px color-mix(in srgb, var(--apm-radio-silence) 18%, transparent);
 }
 
 .apm-preferences__body {
@@ -1594,6 +1599,7 @@
     linear-gradient(180deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .02)),
     rgba(5, 13, 18, .68);
   cursor: pointer;
+  outline: none;
 }
 
 .apm-preference-card__action {
@@ -1609,6 +1615,14 @@
 
 .apm-preferences__save-button {
   color: var(--apm-radio-silence);
+}
+
+.apm-preference-card__action:focus-visible,
+.apm-preferences__text-button:focus-visible,
+.apm-preferences__save-button:focus-visible {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, currentColor 26%, transparent),
+    0 0 18px color-mix(in srgb, currentColor 18%, transparent);
 }
 
 .apm-preferences__footer {

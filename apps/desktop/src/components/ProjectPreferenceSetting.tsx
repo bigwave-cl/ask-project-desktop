@@ -12,6 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/Dialog";
+import { Button } from "@/components/ui/Button";
 
 export type ProjectHudMetricKey = "project" | "folder" | "workspace" | "group";
 
@@ -130,9 +131,15 @@ export function ProjectPreferenceSetting({
             </DialogDescription>
           </div>
           <DialogClose asChild>
-            <button className="apm-preferences__icon-button" aria-label="关闭设置">
+            <Button
+              type="button"
+              variant="projectPlain"
+              size="projectPlain"
+              className="apm-preferences__icon-button"
+              aria-label="关闭设置"
+            >
               <X size={18} />
-            </button>
+            </Button>
           </DialogClose>
         </DialogHeader>
 
@@ -147,14 +154,17 @@ export function ProjectPreferenceSetting({
                 <p>打开 Cursor / VS Code 项目时自动唤起项目控制台。</p>
               </div>
             </div>
-            <button
+            <Button
+              type="button"
+              variant="projectPlain"
+              size="projectPlain"
               className={draft.autoOpenPanel ? "apm-switch apm-switch--checked" : "apm-switch"}
               aria-label="默认激活 Panel"
               aria-pressed={draft.autoOpenPanel}
               onClick={updateAutoOpenPanel}
             >
               <span />
-            </button>
+            </Button>
           </article>
 
           <article className="apm-preference-card apm-preference-card--stack">
@@ -166,14 +176,17 @@ export function ProjectPreferenceSetting({
                 <h3>底部 HUD</h3>
                 <p>控制底部统计仪表是否显示，以及保留哪些统计项。</p>
               </div>
-              <button
+              <Button
+                type="button"
+                variant="projectPlain"
+                size="projectPlain"
                 className={draft.hud.visible ? "apm-switch apm-switch--checked" : "apm-switch"}
                 aria-label="显示底部 HUD"
                 aria-pressed={draft.hud.visible}
                 onClick={updateHudVisible}
               >
                 <span />
-              </button>
+              </Button>
             </div>
 
             <div className={draft.hud.visible ? "apm-hud-options" : "apm-hud-options apm-hud-options--disabled"}>
@@ -181,16 +194,18 @@ export function ProjectPreferenceSetting({
                 const active = draft.hud.metrics[option.key];
                 const Icon = active ? CheckSquare : Square;
                 return (
-                  <button
+                  <Button
                     key={option.key}
                     type="button"
+                    variant="projectPlain"
+                    size="projectPlain"
                     className={active ? "apm-hud-option apm-hud-option--active" : "apm-hud-option"}
                     disabled={!draft.hud.visible}
                     onClick={() => toggleHudMetric(option.key)}
                   >
                     <Icon size={18} />
                     <span>{option.label}</span>
-                  </button>
+                  </Button>
                 );
               })}
             </div>
@@ -206,24 +221,44 @@ export function ProjectPreferenceSetting({
                 <p>重新查看面板自动打开、状态栏快捷入口和设置入口说明。</p>
               </div>
             </div>
-            <button className="apm-preference-card__action" onClick={openGuide}>
+            <Button
+              type="button"
+              variant="projectPlain"
+              size="projectPlain"
+              className="apm-preference-card__action"
+              onClick={openGuide}
+            >
               <PlayCircle size={17} />
               查看引导
-            </button>
+            </Button>
           </article>
         </div>
 
         <DialogFooter className="apm-preferences__footer">
-          <button className="apm-preferences__text-button" onClick={resetDraft}>
+          <Button
+            type="button"
+            variant="projectPlain"
+            size="projectPlain"
+            className="apm-preferences__text-button"
+            onClick={resetDraft}
+          >
             恢复默认
-          </button>
+          </Button>
           <div>
             <DialogClose asChild>
-              <button className="apm-preferences__text-button">取消</button>
+              <Button type="button" variant="projectPlain" size="projectPlain" className="apm-preferences__text-button">
+                取消
+              </Button>
             </DialogClose>
-            <button className="apm-preferences__save-button" onClick={savePreferences}>
+            <Button
+              type="button"
+              variant="projectPlain"
+              size="projectPlain"
+              className="apm-preferences__save-button"
+              onClick={savePreferences}
+            >
               保存
-            </button>
+            </Button>
           </div>
         </DialogFooter>
       </DialogContent>
