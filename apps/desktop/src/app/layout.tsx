@@ -16,7 +16,7 @@ export default function RootLayout({
     <html lang="zh-CN">
       <body>
         {children}
-        <Toaster />
+        <Toaster variant="project" />
       </body>
     </html>
   );

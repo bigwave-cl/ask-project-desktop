@@ -1,20 +1,40 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import { cva, type VariantProps } from "class-variance-authority";
 import { Toaster as Sonner, type ToasterProps } from "sonner";
 
-export function Toaster(props: ToasterProps) {
+import { cn } from "@/lib/utils";
+
+const toasterVariants = cva("", {
+  variants: {
+    variant: {
+      default: "",
+      project: "[--width:min(460px,calc(100vw-32px))]",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
+type ProjectToasterProps = ToasterProps & VariantProps<typeof toasterVariants>;
+
+export function Toaster({
+  className,
+  style,
+  toastOptions,
+  variant,
+  ...props
+}: ProjectToasterProps) {
   return (
     <Sonner
-      className="apm-sonner"
+      className={cn(toasterVariants({ variant }), className)}
       duration={2000}
       gap={10}
       position="top-right"
-      style={{ "--width": "min(460px, calc(100vw - 32px))" } as CSSProperties}
+      style={style}
       theme="dark"
-      toastOptions={{
-        className: "apm-toast",
-      }}
+      toastOptions={toastOptions}
       {...props}
     />
   );
