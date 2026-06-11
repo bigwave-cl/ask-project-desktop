@@ -15,7 +15,7 @@
 - `@theme inline` 中的 Tailwind token 映射。
 - `:root` 全局变量，例如颜色、radius、全局语义 token。
 - `@layer base` 中的全局 reset、`html/body/a` 基础样式。
-- 少量真正跨组件的全局 portal 基础样式，例如 Radix overlay/content 的最小定位骨架；后续也应评估是否能组件化。
+- 少量仍在复用的全局 keyframes，例如 Header 装饰线、logo 呼吸、菜单入场、HUD 扫描动画。
 
 不允许继续保留或新增：
 
@@ -50,8 +50,10 @@
 - P4 Card 迁移后业务 class 基线：`rg -o "\.(apm|ask-project-manage)[A-Za-z0-9_-]*" apps/desktop/src/app/globals.css | sort -u | wc -l` 当前为 16 个。
 - P5 HUD 迁移后基线：`apps/desktop/src/app/globals.css` 当前 271 行。
 - P5 HUD 迁移后业务 class 基线：`rg -o "\.(apm|ask-project-manage)[A-Za-z0-9_-]*" apps/desktop/src/app/globals.css | sort -u | wc -l` 当前为 2 个。
+- P6 Dialog/Keyframes 清理后基线：`apps/desktop/src/app/globals.css` 当前 164 行。
+- P6 Dialog/Keyframes 清理后业务 class 基线：`rg -o "\.(apm|ask-project-manage)[A-Za-z0-9_-]*" apps/desktop/src/app/globals.css | sort -u | wc -l` 当前为 0 个。
 - 主要业务样式集中在：
-  - Dialog portal 基础样式：`apm-dialog-overlay`、`apm-dialog-content`。
+  - 暂无业务选择器残留；剩余 `apm-` 命中为 CSS 变量与仍在使用的全局 keyframes。
 - 新手引导 `ProjectOnboardingGuide` 已按 Tailwind-first 方式实现，可作为后续迁移参考。
 
 ## 迁移原则
@@ -118,12 +120,12 @@
 
 ### P6：全局 CSS 清理收口
 
-- [ ] 删除所有已迁移的业务选择器。
-- [ ] 删除不再使用的 `@keyframes`。
-- [ ] 删除不再使用的 `@media`。
-- [ ] 使用 `rg "apm-|ask-project-manage"` 检查残留业务 class。
-- [ ] 使用浏览器/Electron 检查核心界面无样式闪烁、错位、遮挡。
-- [ ] 更新 `docs/feature-replication-checklist.md` 中“收敛现有原生 button/input”和“临时代码/临时布局”相关进度。
+- [x] 删除所有已迁移的业务选择器。
+- [x] 删除不再使用的 `@keyframes`。
+- [x] 删除不再使用的 `@media`。
+- [x] 使用 `rg "apm-|ask-project-manage"` 检查残留业务 class。
+- [x] 使用浏览器/Electron 检查核心界面无样式闪烁、错位、遮挡。
+- [x] 更新 `docs/feature-replication-checklist.md` 中“收敛现有原生 button/input”和“临时代码/临时布局”相关进度。
 
 ## 每块迁移验收标准
 

@@ -5,10 +5,10 @@ import { Dialog as DialogPrimitive } from "radix-ui";
 import { cn } from "@/lib/utils";
 
 const dialogOverlayBaseClass =
-  "apm-dialog-overlay fixed inset-0 z-50 bg-black/80";
+  "pointer-events-none fixed inset-0 z-50 bg-black/80 opacity-0 transition-opacity duration-[160ms] data-[state=open]:!pointer-events-auto data-[state=open]:opacity-100 data-[state=closed]:!pointer-events-none data-[state=closed]:opacity-0";
 
 const dialogContentBaseClass =
-  "apm-dialog-content fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg outline-none sm:rounded-lg";
+  "pointer-events-none fixed left-1/2 top-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 scale-[.96] origin-center gap-4 border bg-background p-6 opacity-0 shadow-lg outline-none transition-[opacity,scale] duration-[180ms] ease-[cubic-bezier(.4,0,.2,1)] will-change-[opacity,scale] data-[state=open]:!pointer-events-auto data-[state=open]:scale-100 data-[state=open]:opacity-100 data-[state=open]:ease-[cubic-bezier(.16,1,.3,1)] data-[state=closed]:!pointer-events-none data-[state=closed]:scale-[.96] data-[state=closed]:opacity-0 data-[state=closed]:duration-[160ms] sm:rounded-lg";
 
 const dialogOverlayVariants = cva(dialogOverlayBaseClass, {
   variants: {

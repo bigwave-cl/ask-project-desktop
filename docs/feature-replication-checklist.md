@@ -19,6 +19,7 @@
 - [x] 基础组件优先从 `apps/desktop/src/components/ui` 获取，业务组件基于 UI 组件封装。
 - [x] 后续新增组件优先查 shadcn 文档；shadcn 没有对应组件时再自实现。
 - [ ] 收敛现有原生 `<button>` / `<input>`：逐步替换为 `ui/Button`、`ui/Input` 或基于它们封装。
+  - 进度：全局业务 CSS 已收敛到 Tailwind/组件内样式，后续继续处理组件内原生控件替换。
 - [ ] 迁移过程中保持原 Vue 项目的组件边界，不把所有逻辑继续堆在 `page.tsx`。
 - [x] 建立桌面端统一的 runtime 适配层：浏览器调试走 fallback，Electron 环境走 IPC + Rust sidecar。
 - [ ] 抽出并复用原项目类型模型：`ProjectItemModel`、`ProjectRenderItemModel`、`ProjectGroupItemModel`、`ProjectConfigItemModel`、`ProjectPreferencesModel`、`ProjectHudMetricKey`、`FormDataModel`。
@@ -31,6 +32,7 @@
 - [ ] 复刻 sticky header 高度测量与 `--apm-sticky-safe-space` 联动。
 - [ ] 复刻列表区域滚动、空状态居中、HUD spacer 预留空间。
 - [ ] 移除不符合原项目结构的临时代码和临时布局。
+  - 进度：项目卡片与 HUD 已从 `page.tsx` 抽出，剩余页面逻辑和布局状态继续拆分。
 
 ## Header 与菜单
 
