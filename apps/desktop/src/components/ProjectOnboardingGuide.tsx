@@ -12,6 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/Dialog";
+import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
 type ProjectOnboardingGuideProps = {
@@ -144,10 +145,12 @@ export function ProjectOnboardingGuide({
                       {slide.description}
                     </p>
                     {slide.image ? (
-                      <button
+                      <Button
                         aria-label="查看状态栏快捷入口大图"
                         className="relative mt-[14px] block w-[min(320px,100%)] cursor-zoom-in overflow-hidden rounded-[14px_7px_14px_7px] border border-[color-mix(in_srgb,var(--apm-mamas-new-bag)_36%,transparent)] bg-[rgba(3,8,15,.72)] p-0 shadow-[0_16px_34px_rgba(0,0,0,.32),0_0_22px_color-mix(in_srgb,var(--apm-mamas-new-bag)_12%,transparent),inset_0_1px_0_rgba(255,255,255,.08)] max-[720px]:mx-auto [&_img]:aspect-[16/6] [&_img]:w-full [&_img]:object-cover [&_img]:object-right-bottom [&_img]:opacity-90 [&_img]:transition [&_img]:duration-200 hover:[&_img]:scale-[1.035] hover:[&_img]:opacity-100"
+                        size="projectPlain"
                         type="button"
+                        variant="projectPlain"
                         onClick={() => {
                           setPreviewImage(slide.image);
                           setPreviewOpen(true);
@@ -164,7 +167,7 @@ export function ProjectOnboardingGuide({
                           <Search size={15} />
                           点击查看大图
                         </span>
-                      </button>
+                      </Button>
                     ) : null}
                   </div>
                 </article>
@@ -174,7 +177,7 @@ export function ProjectOnboardingGuide({
 
           <div className="relative z-[1] flex justify-center gap-[9px] px-7 pb-[18px]" aria-label="引导进度">
             {slides.map((slide, index) => (
-              <button
+              <Button
                 aria-label={`查看第 ${index + 1} 页`}
                 className={cn(
                   "h-1.5 w-11 rounded-full border-0 bg-[color-mix(in_srgb,var(--apm-faded-letter)_24%,transparent)] transition-[background,box-shadow] duration-150",
@@ -182,41 +185,49 @@ export function ProjectOnboardingGuide({
                     "bg-[var(--apm-radio-silence)] shadow-[0_0_14px_color-mix(in_srgb,var(--apm-radio-silence)_42%,transparent)]"
                 )}
                 key={slide.key}
+                size="projectPlain"
                 type="button"
+                variant="projectPlain"
                 onClick={() => setCurrentIndex(index)}
               />
             ))}
           </div>
 
           <footer className="relative z-[1] flex items-center justify-between gap-4 border-t border-[color-mix(in_srgb,var(--apm-radio-silence)_18%,transparent)] px-7 pb-[26px] pt-[18px]">
-            <button
+            <Button
               className="inline-flex min-h-[38px] min-w-[96px] items-center justify-center gap-1.5 rounded-[12px_6px_12px_6px] border border-[color-mix(in_srgb,currentColor_22%,transparent)] bg-transparent px-[14px] text-sm font-extrabold text-[color-mix(in_srgb,var(--apm-swan-dive)_76%,transparent)] disabled:cursor-not-allowed disabled:opacity-45"
               disabled={currentIndex === 0}
+              size="projectPlain"
               type="button"
+              variant="projectPlain"
               onClick={() => setCurrentIndex((index) => Math.max(0, index - 1))}
             >
               <ChevronLeft size={18} />
               上一页
-            </button>
+            </Button>
             <div className="flex gap-2.5">
               {isLastSlide ? (
-                <button
+                <Button
                   className="inline-flex min-h-[38px] min-w-[104px] items-center justify-center gap-1.5 rounded-[12px_6px_12px_6px] border border-[color-mix(in_srgb,currentColor_22%,transparent)] bg-[linear-gradient(135deg,var(--apm-radio-silence),var(--apm-swan-dive))] px-[14px] text-sm font-extrabold text-[#061211] shadow-[0_0_18px_color-mix(in_srgb,var(--apm-radio-silence)_24%,transparent),inset_0_1px_0_rgba(255,255,255,.34)]"
+                  size="projectPlain"
                   type="button"
+                  variant="projectPlain"
                   onClick={finishGuide}
                 >
                   我知道了
                   <Check size={18} />
-                </button>
+                </Button>
               ) : (
-                <button
+                <Button
                   className="inline-flex min-h-[38px] min-w-[104px] items-center justify-center gap-1.5 rounded-[12px_6px_12px_6px] border border-[color-mix(in_srgb,currentColor_22%,transparent)] bg-[linear-gradient(135deg,var(--apm-radio-silence),var(--apm-swan-dive))] px-[14px] text-sm font-extrabold text-[#061211] shadow-[0_0_18px_color-mix(in_srgb,var(--apm-radio-silence)_24%,transparent),inset_0_1px_0_rgba(255,255,255,.34)]"
+                  size="projectPlain"
                   type="button"
+                  variant="projectPlain"
                   onClick={() => setCurrentIndex((index) => Math.min(slides.length - 1, index + 1))}
                 >
                   下一页
                   <ChevronRight size={18} />
-                </button>
+                </Button>
               )}
             </div>
           </footer>
@@ -237,13 +248,15 @@ export function ProjectOnboardingGuide({
               状态栏 Ask Project Manage 快捷入口大图
             </DialogDescription>
             <DialogClose asChild>
-              <button
+              <Button
                 aria-label="关闭大图"
                 className="inline-grid h-9 w-9 place-items-center rounded-[10px_5px_10px_5px] text-[var(--apm-text-muted)] hover:bg-[color-mix(in_srgb,var(--apm-radio-silence)_10%,transparent)] hover:text-[var(--apm-text-main)]"
+                size="projectPlain"
                 type="button"
+                variant="projectPlain"
               >
                 <X size={18} />
-              </button>
+              </Button>
             </DialogClose>
           </header>
           {previewImage ? (
