@@ -5,11 +5,17 @@ import { AlertDialog as AlertDialogPrimitive } from "radix-ui";
 import { buttonVariants } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
-const alertDialogOverlayVariants = cva("fixed inset-0 z-[70]", {
+const alertDialogOverlayBaseClass =
+  "apm-dialog-overlay fixed inset-0 z-50 bg-black/80";
+
+const alertDialogContentBaseClass =
+  "apm-dialog-content fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg outline-none sm:rounded-lg";
+
+const alertDialogOverlayVariants = cva(alertDialogOverlayBaseClass, {
   variants: {
     variant: {
-      default: "bg-black/60 backdrop-blur-[7px]",
-      project: "bg-black/60 backdrop-blur-[7px]",
+      default: "",
+      project: "z-[70] bg-black/60 backdrop-blur-[7px]",
     },
   },
   defaultVariants: {
@@ -18,13 +24,14 @@ const alertDialogOverlayVariants = cva("fixed inset-0 z-[70]", {
 });
 
 const alertDialogContentVariants = cva(
-  "fixed left-1/2 top-1/2 z-[71] -translate-x-1/2 -translate-y-1/2 outline-none",
+  alertDialogContentBaseClass,
   {
     variants: {
       variant: {
         default: "",
+        custom: "max-w-none gap-0 border-0 bg-transparent p-0 shadow-none sm:rounded-none",
         project:
-          "z-[72] overflow-hidden rounded-[18px_8px_18px_8px] text-[var(--apm-text-main)]",
+          "z-[72] max-w-none gap-0 overflow-hidden rounded-[18px_8px_18px_8px] p-0 text-[var(--apm-text-main)] sm:rounded-[18px_8px_18px_8px]",
       },
       tone: {
         default: "",
@@ -151,6 +158,7 @@ function AlertDialogOverlay({
 function AlertDialogContent({
   className,
   children,
+  forceMount,
   overlayVariant,
   size,
   tone,
@@ -161,10 +169,14 @@ function AlertDialogContent({
     overlayVariant?: VariantProps<typeof alertDialogOverlayVariants>["variant"];
   }) {
   return (
-    <AlertDialogPortal>
-      <AlertDialogOverlay variant={overlayVariant ?? (variant === "project" ? "project" : "default")} />
+    <AlertDialogPortal forceMount={forceMount}>
+      <AlertDialogOverlay
+        forceMount={forceMount}
+        variant={overlayVariant ?? (variant === "project" ? "project" : "default")}
+      />
       <AlertDialogPrimitive.Content
         data-slot="alert-dialog-content"
+        forceMount={forceMount}
         className={cn(alertDialogContentVariants({ variant, tone, size, className }))}
         {...props}
       >
@@ -246,15 +258,15 @@ function AlertDialogDescription({
 
 function AlertDialogAction({
   className,
-  size,
-  variant,
+  size = "default",
+  variant = "default",
   ...props
 }: React.ComponentProps<typeof AlertDialogPrimitive.Action> &
   VariantProps<typeof buttonVariants>) {
   return (
     <AlertDialogPrimitive.Action
       data-slot="alert-dialog-action"
-      className={cn(variant || size ? buttonVariants({ variant, size }) : undefined, className)}
+      className={cn(buttonVariants({ variant, size }), className)}
       {...props}
     />
   );
@@ -262,15 +274,15 @@ function AlertDialogAction({
 
 function AlertDialogCancel({
   className,
-  size,
-  variant,
+  size = "default",
+  variant = "outline",
   ...props
 }: React.ComponentProps<typeof AlertDialogPrimitive.Cancel> &
   VariantProps<typeof buttonVariants>) {
   return (
     <AlertDialogPrimitive.Cancel
       data-slot="alert-dialog-cancel"
-      className={cn(variant || size ? buttonVariants({ variant, size }) : undefined, className)}
+      className={cn(buttonVariants({ variant, size }), "mt-2 sm:mt-0", className)}
       {...props}
     />
   );

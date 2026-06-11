@@ -47,7 +47,7 @@ let activeConfirm: { resolve: (value: boolean) => void; unmount: () => void } | 
 const unmountAfterClose = (unmount: () => void) => {
   window.setTimeout(() => {
     unmount();
-  }, 180);
+  }, 220);
 };
 
 export function projectConfirm(options: ProjectConfirmOptions) {
@@ -122,7 +122,7 @@ function ProjectConfirmDialog({
 }: ProjectConfirmDialogProps) {
   return (
     <AlertDialog open={state.open} onOpenChange={onOpenChange}>
-      <AlertDialogContent variant="project" tone="danger" size="md">
+      <AlertDialogContent forceMount variant="project" tone="danger" size="md">
         <AlertDialogHeader
           variant="project"
           tone="danger"

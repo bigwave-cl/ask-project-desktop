@@ -119,7 +119,7 @@ export function ProjectPreferenceSetting({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="apm-preferences">
+      <DialogContent forceMount variant="custom" className="apm-preferences">
         <DialogHeader className="apm-preferences__header">
           <div>
             <span>Console Preferences</span>

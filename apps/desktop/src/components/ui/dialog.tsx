@@ -4,11 +4,17 @@ import { Dialog as DialogPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
 
-const dialogOverlayVariants = cva("fixed inset-0 z-[70]", {
+const dialogOverlayBaseClass =
+  "apm-dialog-overlay fixed inset-0 z-50 bg-black/80";
+
+const dialogContentBaseClass =
+  "apm-dialog-content fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg outline-none sm:rounded-lg";
+
+const dialogOverlayVariants = cva(dialogOverlayBaseClass, {
   variants: {
     variant: {
-      default: "bg-black/60 backdrop-blur-[7px]",
-      project: "bg-black/60 backdrop-blur-[7px]",
+      default: "",
+      project: "z-[70] bg-black/60 backdrop-blur-[7px]",
     },
   },
   defaultVariants: {
@@ -17,13 +23,14 @@ const dialogOverlayVariants = cva("fixed inset-0 z-[70]", {
 });
 
 const dialogContentVariants = cva(
-  "fixed left-1/2 top-1/2 z-[71] -translate-x-1/2 -translate-y-1/2 outline-none",
+  dialogContentBaseClass,
   {
     variants: {
       variant: {
         default: "",
+        custom: "max-w-none gap-0 border-0 bg-transparent p-0 shadow-none sm:rounded-none",
         project:
-          "z-[72] overflow-hidden rounded-[18px_8px_18px_8px] text-[var(--apm-text-main)]",
+          "z-[72] max-w-none gap-0 overflow-hidden rounded-[18px_8px_18px_8px] p-0 text-[var(--apm-text-main)] sm:rounded-[18px_8px_18px_8px]",
       },
       tone: {
         default: "",
@@ -145,6 +152,7 @@ function DialogOverlay({
 function DialogContent({
   className,
   children,
+  forceMount,
   overlayVariant,
   size,
   tone,
@@ -155,10 +163,14 @@ function DialogContent({
     overlayVariant?: VariantProps<typeof dialogOverlayVariants>["variant"];
   }) {
   return (
-    <DialogPortal>
-      <DialogOverlay variant={overlayVariant ?? (variant === "project" ? "project" : "default")} />
+    <DialogPortal forceMount={forceMount}>
+      <DialogOverlay
+        forceMount={forceMount}
+        variant={overlayVariant ?? (variant === "project" ? "project" : "default")}
+      />
       <DialogPrimitive.Content
         data-slot="dialog-content"
+        forceMount={forceMount}
         className={cn(dialogContentVariants({ variant, tone, size, className }))}
         {...props}
       >

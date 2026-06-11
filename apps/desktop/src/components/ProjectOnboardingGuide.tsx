@@ -51,17 +51,32 @@ export function ProjectOnboardingGuide({
   onFinish,
 }: ProjectOnboardingGuideProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isGuideMounted, setIsGuideMounted] = useState(open);
   const [previewImage, setPreviewImage] = useState("");
+  const [previewOpen, setPreviewOpen] = useState(false);
   const isLastSlide = currentIndex === slides.length - 1;
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
-      if (!open) return;
-      setCurrentIndex(0);
-      setPreviewImage("");
-    }, 0);
+      if (open) {
+        setIsGuideMounted(true);
+        setCurrentIndex(0);
+        setPreviewImage("");
+        setPreviewOpen(false);
+        return;
+      }
+      setIsGuideMounted(false);
+    }, open ? 0 : 220);
     return () => window.clearTimeout(timer);
   }, [open]);
+
+  useEffect(() => {
+    if (previewOpen || !previewImage) return;
+    const timer = window.setTimeout(() => {
+      setPreviewImage("");
+    }, 220);
+    return () => window.clearTimeout(timer);
+  }, [previewImage, previewOpen]);
 
   const finishGuide = async () => {
     await onFinish();
@@ -70,8 +85,11 @@ export function ProjectOnboardingGuide({
 
   return (
     <>
+      {isGuideMounted ? (
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent
+          forceMount
+          variant="custom"
           className={cn(
             "fixed left-1/2 top-1/2 z-[72] grid max-h-[calc(100vh-48px)] w-[min(760px,calc(100vw-48px))] grid-rows-[auto_286px_auto_auto] overflow-hidden rounded-[22px_9px_22px_9px] border border-[color-mix(in_srgb,var(--apm-radio-silence)_38%,transparent)] bg-[linear-gradient(180deg,rgba(11,24,31,.98),rgba(3,8,15,.98))] text-[var(--apm-text-main)] shadow-[0_30px_74px_rgba(0,0,0,.62),0_0_42px_color-mix(in_srgb,var(--apm-radio-silence)_16%,transparent),inset_0_1px_0_rgba(255,255,255,.12)] outline-none [contain:layout_paint]",
             "before:pointer-events-none before:absolute before:inset-x-[-16%] before:top-[-34%] before:h-[260px] before:bg-[radial-gradient(ellipse_at_50%_78%,rgba(120,240,224,.2),transparent_42%),repeating-linear-gradient(90deg,rgba(255,255,255,.05)_0_1px,transparent_1px_30px)] before:opacity-70 before:[filter:blur(.4px)] before:[transform:perspective(540px)_rotateX(62deg)]"
@@ -130,7 +148,10 @@ export function ProjectOnboardingGuide({
                         aria-label="查看状态栏快捷入口大图"
                         className="relative mt-[14px] block w-[min(320px,100%)] cursor-zoom-in overflow-hidden rounded-[14px_7px_14px_7px] border border-[color-mix(in_srgb,var(--apm-mamas-new-bag)_36%,transparent)] bg-[rgba(3,8,15,.72)] p-0 shadow-[0_16px_34px_rgba(0,0,0,.32),0_0_22px_color-mix(in_srgb,var(--apm-mamas-new-bag)_12%,transparent),inset_0_1px_0_rgba(255,255,255,.08)] max-[720px]:mx-auto [&_img]:aspect-[16/6] [&_img]:w-full [&_img]:object-cover [&_img]:object-right-bottom [&_img]:opacity-90 [&_img]:transition [&_img]:duration-200 hover:[&_img]:scale-[1.035] hover:[&_img]:opacity-100"
                         type="button"
-                        onClick={() => setPreviewImage(slide.image)}
+                        onClick={() => {
+                          setPreviewImage(slide.image);
+                          setPreviewOpen(true);
+                        }}
                       >
                         <Image
                           alt="状态栏快捷入口位置示意图"
@@ -201,9 +222,11 @@ export function ProjectOnboardingGuide({
           </footer>
         </DialogContent>
       </Dialog>
+      ) : null}
 
-      <Dialog open={Boolean(previewImage)} onOpenChange={(nextOpen) => !nextOpen && setPreviewImage("")}>
-        <DialogContent className="fixed left-1/2 top-1/2 z-[74] w-[min(980px,calc(100vw-48px))] overflow-hidden rounded-[18px_8px_18px_8px] border border-[color-mix(in_srgb,var(--apm-radio-silence)_34%,transparent)] bg-[linear-gradient(180deg,rgba(11,24,31,.98),rgba(3,8,15,.98))] shadow-[0_28px_70px_rgba(0,0,0,.64),0_0_34px_color-mix(in_srgb,var(--apm-radio-silence)_14%,transparent)] outline-none">
+      {previewImage ? (
+      <Dialog open={previewOpen} onOpenChange={(nextOpen) => setPreviewOpen(nextOpen)}>
+        <DialogContent forceMount variant="custom" className="fixed left-1/2 top-1/2 z-[74] w-[min(980px,calc(100vw-48px))] overflow-hidden rounded-[18px_8px_18px_8px] border border-[color-mix(in_srgb,var(--apm-radio-silence)_34%,transparent)] bg-[linear-gradient(180deg,rgba(11,24,31,.98),rgba(3,8,15,.98))] shadow-[0_28px_70px_rgba(0,0,0,.64),0_0_34px_color-mix(in_srgb,var(--apm-radio-silence)_14%,transparent)] outline-none">
           <header className="flex items-center justify-between border-b border-[color-mix(in_srgb,var(--apm-radio-silence)_20%,transparent)] px-[18px] py-3 pr-[14px] text-[var(--apm-text-main)]">
             <DialogTitle asChild>
               <span className="text-[11px] font-black uppercase tracking-[.1em] text-[color-mix(in_srgb,var(--apm-radio-silence)_78%,transparent)]">
@@ -235,6 +258,7 @@ export function ProjectOnboardingGuide({
           ) : null}
         </DialogContent>
       </Dialog>
+      ) : null}
     </>
   );
 }

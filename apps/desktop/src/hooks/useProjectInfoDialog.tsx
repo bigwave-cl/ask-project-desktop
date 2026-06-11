@@ -58,7 +58,7 @@ let activeInfoDialog: { resolve: (value: string | null) => void; unmount: () => 
 const unmountAfterClose = (unmount: () => void) => {
   window.setTimeout(() => {
     unmount();
-  }, 180);
+  }, 220);
 };
 
 export function projectInfoDialog(options: ProjectInfoDialogOptions) {
@@ -156,7 +156,7 @@ function ProjectInfoDialog({
 
   return (
     <Dialog open={state.open} onOpenChange={onOpenChange}>
-      <DialogContent variant="project" tone="mint" size="lg">
+      <DialogContent forceMount variant="project" tone="mint" size="lg">
         <DialogHeader
           variant="project"
           tone="mint"

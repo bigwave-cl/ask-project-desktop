@@ -394,6 +394,7 @@ export default function Home() {
   const [preferences, setPreferences] = useState(defaultPreferences);
   const [hasBootstrappedPreferences, setHasBootstrappedPreferences] = useState(false);
   const [isPreferenceOpen, setIsPreferenceOpen] = useState(false);
+  const [isPreferenceMounted, setIsPreferenceMounted] = useState(false);
   const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
   const [activeGroup, setActiveGroup] = useState("all");
   const [keyword, setKeyword] = useState("");
@@ -428,6 +429,15 @@ export default function Home() {
     }, 0);
     return () => window.clearTimeout(timer);
   }, [hasBootstrappedPreferences, preferences.onboarding.seen]);
+
+  useEffect(() => {
+    if (isPreferenceOpen || !isPreferenceMounted) return;
+
+    const timer = window.setTimeout(() => {
+      setIsPreferenceMounted(false);
+    }, 220);
+    return () => window.clearTimeout(timer);
+  }, [isPreferenceMounted, isPreferenceOpen]);
 
   useEffect(() => {
     const applyCurrentPath = (value: unknown) => {
@@ -777,6 +787,7 @@ export default function Home() {
         projectToast.info("批量管理会在下一步迁移");
         break;
       case "preferences":
+        setIsPreferenceMounted(true);
         setIsPreferenceOpen(true);
         break;
       case "removeGroup":
@@ -925,7 +936,7 @@ export default function Home() {
         ) : null}
       </div>
 
-      {isPreferenceOpen ? (
+      {isPreferenceMounted ? (
         <ProjectPreferenceSetting
           open={isPreferenceOpen}
           preferences={preferences}
