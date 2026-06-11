@@ -76,6 +76,9 @@ const emptyActionButtonClass =
 const emptySecondaryActionButtonClass =
   "border-[color-mix(in_srgb,var(--apm-mamas-new-bag)_40%,transparent)] text-[var(--apm-mamas-new-bag)]";
 
+const shellStickyClass =
+  "absolute left-6 right-6 top-[22px] z-10 flex flex-col gap-4 bg-transparent pb-4 backdrop-blur-[4px] after:pointer-events-none after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:bg-[linear-gradient(90deg,transparent,color-mix(in_srgb,var(--apm-radio-silence)_28%,transparent),color-mix(in_srgb,var(--apm-riviera)_18%,transparent),transparent)] after:opacity-70 after:shadow-[0_10px_24px_rgba(0,0,0,.26)]";
+
 const defaultPreferences: Preferences = {
   autoOpenPanel: true,
   hud: {
@@ -813,7 +816,7 @@ export default function Home() {
     <main className="ask-project-manage-wrap">
       <ProjectManageBackground />
       <div className="apm-shell">
-        <div className="apm-shell__sticky">
+        <div className={shellStickyClass}>
           <ProjectCommandHeader
             searchKeyword={keyword}
             canEditGroup={resolvedActiveGroup !== "all"}

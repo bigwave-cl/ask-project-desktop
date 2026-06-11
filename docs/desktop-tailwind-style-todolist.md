@@ -36,9 +36,12 @@
 - P2 PreferenceSetting 迁移后业务 class 基线：`rg -o "\.(apm|ask-project-manage)[A-Za-z0-9_-]*" apps/desktop/src/app/globals.css | sort -u | wc -l` 当前为 69 个。
 - P3 DropdownMenu 迁移后基线：`apps/desktop/src/app/globals.css` 当前 1364 行。
 - P3 DropdownMenu 迁移后业务 class 基线：`rg -o "\.(apm|ask-project-manage)[A-Za-z0-9_-]*" apps/desktop/src/app/globals.css | sort -u | wc -l` 当前为 58 个。
+- P3 Header 迁移后基线：`apps/desktop/src/app/globals.css` 当前 1014 行。
+- P3 Header 迁移后业务 class 基线：`rg -o "\.(apm|ask-project-manage)[A-Za-z0-9_-]*" apps/desktop/src/app/globals.css | sort -u | wc -l` 当前为 41 个。
+- P5 Sticky 迁移后基线：`apps/desktop/src/app/globals.css` 当前 972 行。
+- P5 Sticky 迁移后业务 class 基线：`rg -o "\.(apm|ask-project-manage)[A-Za-z0-9_-]*" apps/desktop/src/app/globals.css | sort -u | wc -l` 当前为 40 个。
 - 主要业务样式集中在：
   - 主壳层：`ask-project-manage-wrap`、`apm-shell`。
-  - Header：`apm-command`、`apm-import-control`。
   - 列表与卡片：`apm-list`、`ask-project-manage-card`。
   - 空状态：`ask-project-manage-empty`、`apm-empty-*`。
   - HUD：`apm-cockpit`、`apm-hud-card`。
@@ -85,10 +88,10 @@
 
 ### P3：Header 与菜单
 
-- [ ] 迁移 `ProjectCommandHeader` 主体：移除 `.apm-command` 及其结构样式。
-- [ ] 迁移搜索框与 clearable 行为样式：移除 `.apm-command__search*`。
-- [ ] 迁移导入组合按钮：移除 `.apm-import-control*`。
-- [ ] 迁移更多菜单按钮：移除 `.apm-command__icon-button`。
+- [x] 迁移 `ProjectCommandHeader` 主体：移除 `.apm-command` 及其结构样式。
+- [x] 迁移搜索框与 clearable 行为样式：移除 `.apm-command__search*`。
+- [x] 迁移导入组合按钮：移除 `.apm-import-control*`。
+- [x] 迁移更多菜单按钮：移除 `.apm-command__icon-button`。
 - [x] 迁移 DropdownMenu 基础样式：移除 `.apm-menu`、`.apm-menu__item`、`.apm-menu__divider` 等全局菜单样式。
 - [x] 保留菜单打开方向与状态时，优先使用 Radix data attribute + Tailwind data variant。
 
@@ -102,7 +105,8 @@
 
 ### P5：HUD 与主壳层
 
-- [ ] 迁移 `apm-shell`、`apm-shell__sticky` 到页面/布局组件 Tailwind。
+- [ ] 迁移 `apm-shell` 到页面/布局组件 Tailwind。
+- [x] 迁移 `apm-shell__sticky` 到页面/布局组件 Tailwind。
 - [ ] 迁移主背景包裹层 `ask-project-manage-wrap`，只保留必要 CSS 变量。
 - [ ] 迁移 HUD 面板：移除 `.apm-cockpit*`。
 - [ ] 迁移 HUD 卡片：移除 `.apm-hud-card*`。
