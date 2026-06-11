@@ -40,6 +40,24 @@ const palettes = [
   { primary: "var(--apm-mamas-new-bag)", secondary: "var(--apm-riviera)", element: "幻雷" },
 ];
 
+const cardClass =
+  "relative aspect-square w-full min-w-[140px] max-w-40 cursor-pointer overflow-hidden rounded-[18px] border border-[color-mix(in_srgb,var(--seal-primary)_32%,transparent)] shadow-[0_18px_44px_rgba(0,0,0,.28),inset_0_0_0_1px_rgba(255,255,255,.08)] backdrop-blur-[4px] transition-[transform,border-color,box-shadow] duration-[180ms] will-change-[transform,border-color,box-shadow] before:pointer-events-none before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_0_0,var(--card-color-tl,rgba(97,191,173,.28)),transparent_58%),radial-gradient(circle_at_100%_0,var(--card-color-tr,rgba(23,142,150,.26)),transparent_58%),radial-gradient(circle_at_100%_100%,var(--card-color-br,rgba(203,160,170,.22)),transparent_62%),radial-gradient(circle_at_0_100%,var(--card-color-bl,rgba(79,58,75,.28)),transparent_62%),linear-gradient(var(--card-angle,135deg),var(--card-color-tr,rgba(23,142,150,.2))_0%,var(--card-color-tl,rgba(97,191,173,.18))_32%,var(--card-color-br,rgba(203,160,170,.16))_68%,var(--card-color-bl,rgba(79,58,75,.2))_100%)] before:opacity-[.34] before:mix-blend-soft-light before:[mask-composite:add] before:[mask-image:radial-gradient(circle_at_82%_12%,black_0_30px,rgba(0,0,0,.78)_58px,transparent_104px),linear-gradient(135deg,transparent_0_12%,rgba(0,0,0,.9)_34%,rgba(0,0,0,.72)_64%,transparent_90%)] before:[-webkit-mask-composite:source-over] before:[-webkit-mask-image:radial-gradient(circle_at_82%_12%,black_0_30px,rgba(0,0,0,.78)_58px,transparent_104px),linear-gradient(135deg,transparent_0_12%,rgba(0,0,0,.9)_34%,rgba(0,0,0,.72)_64%,transparent_90%)] after:pointer-events-none after:absolute after:right-[-34px] after:top-[-36px] after:h-[92px] after:w-[92px] after:rounded-full after:border after:border-[color-mix(in_srgb,var(--seal-primary)_34%,transparent)] after:bg-[conic-gradient(from_0deg,transparent_0_16%,color-mix(in_srgb,var(--seal-primary)_40%,transparent)_18%,transparent_20%_48%,color-mix(in_srgb,var(--seal-secondary)_42%,transparent)_50%,transparent_52%_100%)] after:opacity-[.16] hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--seal-primary)_66%,transparent)] hover:shadow-[0_24px_56px_rgba(0,0,0,.36),0_0_26px_color-mix(in_srgb,var(--seal-primary)_22%,transparent)]";
+const currentCardClass =
+  "border-[var(--seal-primary)] shadow-[0_20px_52px_rgba(0,0,0,.32),0_0_30px_color-mix(in_srgb,var(--seal-primary)_32%,transparent)]";
+const cardBoxClass = "relative flex h-full w-full flex-col gap-[5px] p-2";
+const cardHaloClass =
+  "absolute right-[-42px] top-[-44px] h-24 w-24 rounded-full bg-[radial-gradient(circle,color-mix(in_srgb,var(--seal-secondary)_34%,transparent),transparent_68%)] blur-[2px]";
+const cardTopClass = "relative z-[1] flex items-center gap-1.5";
+const cardSealClass =
+  "relative grid h-[30px] w-[30px] shrink-0 place-items-center rounded-[14px] border border-[color-mix(in_srgb,var(--seal-primary)_52%,transparent)] bg-[radial-gradient(circle_at_50%_50%,color-mix(in_srgb,var(--seal-primary)_22%,transparent),transparent_58%),linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.02))] text-[#f4ffff] shadow-[inset_0_0_18px_color-mix(in_srgb,var(--seal-primary)_16%,transparent)]";
+const cardSealTextClass = "relative z-[1] text-[11px] font-extrabold";
+const cardSealInnerClass =
+  "absolute inset-1.5 rotate-45 border border-[color-mix(in_srgb,var(--seal-secondary)_70%,transparent)]";
+const cardMetaClass = "min-w-0 flex-1";
+const cardMetaKindClass =
+  "block overflow-hidden text-ellipsis whitespace-nowrap text-[8px] tracking-[.04em] text-[rgba(225,255,249,.48)]";
+const cardMetaRuneClass =
+  "mt-px block overflow-hidden text-ellipsis whitespace-nowrap text-[10px] font-[650] text-[color-mix(in_srgb,var(--seal-primary)_78%,white)]";
 const cardMenuClass = "min-w-[172px]";
 const cardMenuItemClass = "min-h-10 rounded-lg";
 const cardMenuTitleClass =
@@ -52,6 +70,18 @@ const cardMenuFogClass = "text-[var(--apm-faded-letter)]";
 const cardMenuDangerClass = "text-[var(--apm-riviera)]";
 const moreButtonClass =
   "grid h-[22px] w-[22px] min-w-[22px] cursor-pointer place-items-center rounded-full border-0 bg-transparent text-[rgba(239,255,252,.72)] hover:bg-[color-mix(in_srgb,var(--seal-primary)_12%,transparent)] hover:text-[var(--apm-swan-dive)] data-[state=open]:bg-[color-mix(in_srgb,var(--seal-primary)_12%,transparent)] data-[state=open]:text-[var(--apm-swan-dive)]";
+const cardMainClass =
+  "relative z-[1] flex min-h-[58px] min-w-0 flex-auto flex-col justify-center";
+const cardTitleClass =
+  "m-0 line-clamp-3 min-h-[46px] overflow-hidden text-ellipsis text-[13px] font-[680] leading-[1.18] tracking-normal text-[#f4ffff]";
+const cardPathClass =
+  "mt-[3px] overflow-hidden text-ellipsis whitespace-nowrap text-[8px] leading-[1.15] text-[rgba(225,255,249,.46)]";
+const cardBottomClass =
+  "relative z-[1] mt-auto flex items-center justify-between gap-2.5";
+const cardBadgeClass =
+  "min-w-0 max-w-[60%] overflow-hidden text-ellipsis whitespace-nowrap rounded-full border border-[rgba(255,255,255,.08)] bg-[rgba(255,255,255,.04)] px-[5px] py-0.5 text-[9px] text-[rgba(235,255,250,.68)]";
+const cardStatusClass =
+  "border-transparent bg-[linear-gradient(90deg,var(--seal-primary),var(--seal-secondary))] font-bold text-[#061211]";
 
 const hashText = (value: string) => {
   let hash = 0;
@@ -115,24 +145,26 @@ export function ProjectCard({
     "--seal-primary": palette.primary,
     "--seal-secondary": palette.secondary,
     ...cardGradient(index),
+    background:
+      "radial-gradient(circle at 0 0, var(--card-color-tl, rgba(97, 191, 173, .26)), transparent 62%), radial-gradient(circle at 100% 0, var(--card-color-tr, rgba(23, 142, 150, .26)), transparent 62%), radial-gradient(circle at 100% 100%, var(--card-color-br, rgba(203, 160, 170, .26)), transparent 66%), radial-gradient(circle at 0 100%, var(--card-color-bl, rgba(79, 58, 75, .26)), transparent 66%), linear-gradient(var(--card-angle, 135deg), var(--card-color-tr, rgba(23, 142, 150, .26)) 0%, var(--card-color-tl, rgba(97, 191, 173, .26)) 34%, var(--card-color-br, rgba(203, 160, 170, .26)) 68%, var(--card-color-bl, rgba(79, 58, 75, .26)) 100%), rgba(10, 17, 19, .24)",
   } as CSSProperties;
 
   return (
     <article
-      className={item.isCurrent ? "ask-project-manage-card ask-project-manage-card--current" : "ask-project-manage-card"}
+      className={cn(cardClass, item.isCurrent && currentCardClass)}
       style={style}
       onClick={() => onOpen(item)}
     >
-      <div className="ask-project-manage-card__box">
-        <div className="ask-project-manage-card__halo" />
-        <div className="ask-project-manage-card__top">
-          <div className="ask-project-manage-card__seal" aria-hidden="true">
-            <span>{sealText(item.name)}</span>
-            <i />
+      <div className={cardBoxClass}>
+        <div className={cardHaloClass} />
+        <div className={cardTopClass}>
+          <div className={cardSealClass} aria-hidden="true">
+            <span className={cardSealTextClass}>{sealText(item.name)}</span>
+            <i className={cardSealInnerClass} />
           </div>
-          <div className="ask-project-manage-card__meta">
-            <span>{item.type === "workspace" ? "WORKSPACE" : "FOLDER"}</span>
-            <strong>{runeName(item, palette.element)}</strong>
+          <div className={cardMetaClass}>
+            <span className={cardMetaKindClass}>{item.type === "workspace" ? "WORKSPACE" : "FOLDER"}</span>
+            <strong className={cardMetaRuneClass}>{runeName(item, palette.element)}</strong>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -181,17 +213,17 @@ export function ProjectCard({
           </DropdownMenu>
         </div>
 
-        <div className="ask-project-manage-card__main">
-          <h2>{item.name}</h2>
-          <p>{shortPath(item.path, item.source)}</p>
+        <div className={cardMainClass}>
+          <h2 className={cardTitleClass}>{item.name}</h2>
+          <p className={cardPathClass}>{shortPath(item.path, item.source)}</p>
         </div>
 
-        <div className="ask-project-manage-card__bottom">
-          <span>{item.groupLabel}</span>
+        <div className={cardBottomClass}>
+          <span className={cardBadgeClass}>{item.groupLabel}</span>
           {item.isCurrent ? (
-            <span className="ask-project-manage-card__status">当前窗口</span>
+            <span className={cn(cardBadgeClass, cardStatusClass)}>当前窗口</span>
           ) : (
-            <span>{item.type === "workspace" ? "阵盘" : "玉简"}</span>
+            <span className={cardBadgeClass}>{item.type === "workspace" ? "阵盘" : "玉简"}</span>
           )}
         </div>
       </div>
