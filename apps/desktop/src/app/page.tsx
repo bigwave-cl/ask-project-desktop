@@ -9,6 +9,8 @@ import { ProjectManageBackground } from "@/components/ProjectManageBackground";
 import { ProjectManageTab } from "@/components/ProjectManageTab";
 import { ProjectOnboardingGuide } from "@/components/ProjectOnboardingGuide";
 import { ProjectPreferenceSetting, type ProjectPreferencesModel } from "@/components/ProjectPreferenceSetting";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
 import { copyText } from "@/hooks/useCopyText";
 import { projectConfirm } from "@/hooks/useProjectConfirm";
 import { projectInfoDialog } from "@/hooks/useProjectInfoDialog";
@@ -59,7 +61,7 @@ const currentWindowPathStorageKey = "ask-project-manage.currentWindowPath";
 const updateWindowInfoEvent = "ask-project-manage.updateWindowInfo";
 
 const emptyActionButtonClass =
-  "inline-flex h-[var(--apm-command-control-height,40px)] min-h-[var(--apm-command-control-height,40px)] min-w-32 cursor-pointer items-center justify-center gap-1.5 rounded-2xl border border-[color-mix(in_srgb,currentColor_22%,transparent)] bg-[linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02)),rgba(5,13,18,.68)] px-4 font-extrabold text-[var(--apm-radio-silence)] tracking-normal shadow-[0_0_18px_color-mix(in_srgb,currentColor_14%,transparent),inset_0_1px_0_rgba(255,255,255,.08)] backdrop-blur transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_22px_rgba(0,0,0,.24),0_0_24px_color-mix(in_srgb,currentColor_22%,transparent),inset_0_1px_0_rgba(255,255,255,.12)]";
+  "inline-flex h-[var(--apm-command-control-height,40px)] min-h-[var(--apm-command-control-height,40px)] min-w-32 cursor-pointer items-center justify-center gap-1.5 rounded-2xl border border-[color-mix(in_srgb,currentColor_22%,transparent)] ![background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02)),rgba(5,13,18,.68)] px-4 font-extrabold text-[var(--apm-radio-silence)] tracking-normal shadow-[0_0_18px_color-mix(in_srgb,currentColor_14%,transparent),inset_0_1px_0_rgba(255,255,255,.08)] backdrop-blur transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_22px_rgba(0,0,0,.24),0_0_24px_color-mix(in_srgb,currentColor_22%,transparent),inset_0_1px_0_rgba(255,255,255,.12)]";
 
 const emptySecondaryActionButtonClass =
   "border-[color-mix(in_srgb,var(--apm-mamas-new-bag)_40%,transparent)] text-[var(--apm-mamas-new-bag)]";
@@ -659,7 +661,7 @@ export default function Home() {
             onSearchKeywordChange={setKeyword}
             onToolbarClick={handleToolbarClick}
           />
-          <input
+          <Input
             ref={importInputRef}
             className="hidden"
             type="file"
@@ -676,15 +678,24 @@ export default function Home() {
           {groups.length === 0 ? (
             <ProjectEmpty text={<div>当前还没有分组数据，可以先添加分组，也可以直接从顶部导入项目</div>}>
               <div className="mt-3 flex flex-wrap justify-center gap-3">
-                <button className={emptyActionButtonClass} onClick={addGroup}>
+                <Button
+                  type="button"
+                  variant="projectPlain"
+                  size="projectPlain"
+                  className={emptyActionButtonClass}
+                  onClick={addGroup}
+                >
                   添加分组
-                </button>
-                <button
+                </Button>
+                <Button
+                  type="button"
+                  variant="projectPlain"
+                  size="projectPlain"
                   className={cn(emptyActionButtonClass, emptySecondaryActionButtonClass)}
                   onClick={() => importInputRef.current?.click()}
                 >
                   导入配置
-                </button>
+                </Button>
               </div>
             </ProjectEmpty>
           ) : renderedProjects.length === 0 ? (
@@ -701,15 +712,24 @@ export default function Home() {
               }
             >
               <div className="mt-3 flex flex-wrap justify-center gap-3">
-                <button className={emptyActionButtonClass} onClick={() => addProjects("folder")}>
+                <Button
+                  type="button"
+                  variant="projectPlain"
+                  size="projectPlain"
+                  className={emptyActionButtonClass}
+                  onClick={() => addProjects("folder")}
+                >
                   导入文件夹
-                </button>
-                <button
+                </Button>
+                <Button
+                  type="button"
+                  variant="projectPlain"
+                  size="projectPlain"
                   className={cn(emptyActionButtonClass, emptySecondaryActionButtonClass)}
                   onClick={() => addProjects("workspace")}
                 >
                   导入工作区
-                </button>
+                </Button>
               </div>
               <div className="mt-3.5 text-xs leading-[1.6] text-[color-mix(in_srgb,var(--apm-faded-letter)_56%,transparent)]">
                 也可以使用顶部搜索清空关键词，查看当前分组的全部项目。

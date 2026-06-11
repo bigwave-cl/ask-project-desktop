@@ -23,6 +23,7 @@
   - 进度：`ProjectCommandHeader` 搜索输入、清空按钮、导入按钮和菜单触发器已切换到 `ui/Input`、`ui/Button`。
   - 进度：`ProjectManageTab` 分组按钮与 `ProjectCard` 项目操作触发器已切换到 `ui/Button`。
   - 进度：`ProjectOnboardingGuide` 引导控制、进度点、图片预览和关闭按钮已切换到 `ui/Button`。
+  - 进度：页面隐藏文件输入与空状态操作按钮已切换到 `ui/Input`、`ui/Button`。
 - [ ] 迁移过程中保持原 Vue 项目的组件边界，不把所有逻辑继续堆在 `page.tsx`。
 - [x] 建立桌面端统一的 runtime 适配层：浏览器调试走 fallback，Electron 环境走 IPC + Rust sidecar。
 - [ ] 抽出并复用原项目类型模型：`ProjectItemModel`、`ProjectRenderItemModel`、`ProjectGroupItemModel`、`ProjectConfigItemModel`、`ProjectPreferencesModel`、`ProjectHudMetricKey`、`FormDataModel`。

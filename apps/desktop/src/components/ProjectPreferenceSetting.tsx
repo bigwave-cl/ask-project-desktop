@@ -98,12 +98,12 @@ const hudOptionClass =
   "inline-grid min-h-[42px] w-full min-w-0 grid-cols-[18px_minmax(0,1fr)] items-center gap-[7px] rounded-[9px_5px_9px_5px] border border-[color-mix(in_srgb,var(--apm-radio-silence)_18%,transparent)] bg-[rgba(5,13,18,.48)] px-3 text-[color-mix(in_srgb,var(--apm-faded-letter)_78%,transparent)] shadow-none transition-[border-color,color,background,box-shadow] duration-[160ms] hover:border-[color-mix(in_srgb,var(--apm-radio-silence)_38%,transparent)] hover:bg-[color-mix(in_srgb,var(--apm-radio-silence)_10%,rgba(5,13,18,.62))] hover:text-[var(--apm-text-main)] disabled:cursor-not-allowed disabled:opacity-100";
 
 const hudOptionActiveClass =
-  "border-[color-mix(in_srgb,var(--apm-radio-silence)_46%,transparent)] bg-[linear-gradient(90deg,color-mix(in_srgb,var(--apm-radio-silence)_13%,transparent),transparent_70%),rgba(5,13,18,.62)] text-[var(--apm-text-main)] shadow-[0_0_16px_color-mix(in_srgb,var(--apm-radio-silence)_12%,transparent)]";
+  "border-[color-mix(in_srgb,var(--apm-radio-silence)_46%,transparent)] ![background:linear-gradient(90deg,color-mix(in_srgb,var(--apm-radio-silence)_13%,transparent),transparent_70%),rgba(5,13,18,.62)] text-[var(--apm-text-main)] shadow-[0_0_16px_color-mix(in_srgb,var(--apm-radio-silence)_12%,transparent)]";
 
 const hudOptionTextClass = "min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-[13px] font-extrabold tracking-normal";
 
 const preferenceActionButtonClass =
-  "inline-flex min-h-[38px] items-center justify-center gap-1.5 rounded-[12px_6px_12px_6px] border border-[color-mix(in_srgb,currentColor_22%,transparent)] bg-[linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02)),rgba(5,13,18,.68)] px-3.5 text-[var(--apm-mamas-new-bag)] shadow-none focus-visible:border-transparent focus-visible:ring-0 focus-visible:shadow-[0_0_0_1px_color-mix(in_srgb,currentColor_26%,transparent),0_0_18px_color-mix(in_srgb,currentColor_18%,transparent)]";
+  "inline-flex min-h-[38px] items-center justify-center gap-1.5 rounded-[12px_6px_12px_6px] border border-[color-mix(in_srgb,currentColor_22%,transparent)] ![background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02)),rgba(5,13,18,.68)] px-3.5 text-[var(--apm-mamas-new-bag)] shadow-none focus-visible:border-transparent focus-visible:ring-0 focus-visible:shadow-[0_0_0_1px_color-mix(in_srgb,currentColor_26%,transparent),0_0_18px_color-mix(in_srgb,currentColor_18%,transparent)]";
 
 const preferencesFooterClass =
   "relative z-[1] flex items-center justify-between gap-4 border-t border-[color-mix(in_srgb,var(--apm-radio-silence)_18%,transparent)] px-6 pb-[22px] pt-4";
