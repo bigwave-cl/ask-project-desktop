@@ -34,9 +34,11 @@
 - P2 Toast 迁移后业务 class 基线：`rg -o "\.(apm|ask-project-manage)[A-Za-z0-9_-]*" apps/desktop/src/app/globals.css | sort -u | wc -l` 当前为 86 个。
 - P2 PreferenceSetting 迁移后基线：`apps/desktop/src/app/globals.css` 当前 1548 行。
 - P2 PreferenceSetting 迁移后业务 class 基线：`rg -o "\.(apm|ask-project-manage)[A-Za-z0-9_-]*" apps/desktop/src/app/globals.css | sort -u | wc -l` 当前为 69 个。
+- P3 DropdownMenu 迁移后基线：`apps/desktop/src/app/globals.css` 当前 1364 行。
+- P3 DropdownMenu 迁移后业务 class 基线：`rg -o "\.(apm|ask-project-manage)[A-Za-z0-9_-]*" apps/desktop/src/app/globals.css | sort -u | wc -l` 当前为 58 个。
 - 主要业务样式集中在：
   - 主壳层：`ask-project-manage-wrap`、`apm-shell`。
-  - Header：`apm-command`、`apm-import-control`、`apm-menu`。
+  - Header：`apm-command`、`apm-import-control`。
   - 列表与卡片：`apm-list`、`ask-project-manage-card`。
   - 空状态：`ask-project-manage-empty`、`apm-empty-*`。
   - HUD：`apm-cockpit`、`apm-hud-card`。
@@ -87,8 +89,8 @@
 - [ ] 迁移搜索框与 clearable 行为样式：移除 `.apm-command__search*`。
 - [ ] 迁移导入组合按钮：移除 `.apm-import-control*`。
 - [ ] 迁移更多菜单按钮：移除 `.apm-command__icon-button`。
-- [ ] 迁移 DropdownMenu 基础样式：移除 `.apm-menu`、`.apm-menu__item`、`.apm-menu__divider` 等全局菜单样式。
-- [ ] 保留菜单打开方向与状态时，优先使用 Radix data attribute + Tailwind data variant。
+- [x] 迁移 DropdownMenu 基础样式：移除 `.apm-menu`、`.apm-menu__item`、`.apm-menu__divider` 等全局菜单样式。
+- [x] 保留菜单打开方向与状态时，优先使用 Radix data attribute + Tailwind data variant。
 
 ### P4：项目列表与卡片
 

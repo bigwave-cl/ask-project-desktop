@@ -50,6 +50,16 @@ type ProjectCommandHeaderProps = {
   onToolbarClick: (type: ProjectToolbarAction) => void | Promise<void>;
 };
 
+const importMenuClass = "w-[198px] min-w-[198px] overflow-visible";
+const exportMenuClass = "w-[138px] min-w-[138px]";
+const moreMenuClass = "min-w-[188px]";
+const menuItemMintClass = "text-[var(--apm-radio-silence)]";
+const menuItemMauveClass = "text-[var(--apm-mamas-new-bag)]";
+const menuItemCoralClass = "text-[var(--apm-riviera)]";
+const menuItemTitleClass =
+  "text-[15px] font-bold tracking-normal text-[color-mix(in_srgb,var(--apm-swan-dive)_88%,transparent)] group-hover:text-[var(--apm-swan-dive)] group-data-[highlighted]:text-[var(--apm-swan-dive)]";
+const menuItemArrowClass = "justify-self-end";
+
 export function ProjectCommandHeader({
   searchKeyword,
   canEditGroup = false,
@@ -130,49 +140,49 @@ export function ProjectCommandHeader({
                 <ChevronDown size={18} />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="apm-import-menu">
+            <DropdownMenuContent className={importMenuClass}>
               <DropdownMenuItem
-                className="apm-menu__item--mauve"
+                className={menuItemMauveClass}
                 onSelect={() => emitToolbarClick("chooseWorkspace")}
               >
                 <BookPlus size={18} />
-                <span className="apm-menu__item-title">导入工作区</span>
+                <span className={menuItemTitleClass}>导入工作区</span>
               </DropdownMenuItem>
               <DropdownMenuItem
-                className="apm-menu__item--mint"
+                className={menuItemMintClass}
                 onSelect={() => emitToolbarClick("chooseFolder")}
               >
                 <FolderPlus size={18} />
-                <span className="apm-menu__item-title">导入文件夹</span>
+                <span className={menuItemTitleClass}>导入文件夹</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                className="apm-menu__item--mint"
+                className={menuItemMintClass}
                 onSelect={() => emitToolbarClick("importConfig")}
               >
                 <DatabaseZap size={18} />
-                <span className="apm-menu__item-title">导入配置</span>
+                <span className={menuItemTitleClass}>导入配置</span>
               </DropdownMenuItem>
               <DropdownMenuSub>
-                <DropdownMenuSubTrigger className="apm-menu__item--coral">
+                <DropdownMenuSubTrigger className={menuItemCoralClass}>
                   <DatabaseBackup size={18} />
-                  <span className="apm-menu__item-title">导出配置</span>
-                  <ChevronRight className="apm-menu__item-arrow" size={17} />
+                  <span className={menuItemTitleClass}>导出配置</span>
+                  <ChevronRight className={menuItemArrowClass} size={17} />
                 </DropdownMenuSubTrigger>
-                <DropdownMenuSubContent className="apm-export-menu">
+                <DropdownMenuSubContent className={exportMenuClass}>
                   <DropdownMenuItem
-                    className="apm-menu__item--mauve"
+                    className={menuItemMauveClass}
                     onSelect={() => emitToolbarClick("exportConfigJson")}
                   >
                     <FileCode size={18} />
-                    <span className="apm-menu__item-title">JSON</span>
+                    <span className={menuItemTitleClass}>JSON</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem
-                    className="apm-menu__item--mint"
+                    className={menuItemMintClass}
                     onSelect={() => emitToolbarClick("exportConfigYml")}
                   >
                     <FileCode size={18} />
-                    <span className="apm-menu__item-title">YML</span>
+                    <span className={menuItemTitleClass}>YML</span>
                   </DropdownMenuItem>
                 </DropdownMenuSubContent>
               </DropdownMenuSub>
@@ -185,43 +195,43 @@ export function ProjectCommandHeader({
               <LayoutGrid size={18} />
             </button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="apm-command__more-menu">
+          <DropdownMenuContent className={moreMenuClass}>
             <DropdownMenuItem
-              className="apm-menu__item--mint"
+              className={menuItemMintClass}
               onSelect={() => emitToolbarClick("addGroup")}
             >
               <Grid2X2Plus size={18} />
-              <span className="apm-menu__item-title">添加分组</span>
+              <span className={menuItemTitleClass}>添加分组</span>
             </DropdownMenuItem>
             {canEditGroup ? (
               <DropdownMenuItem
-                className="apm-menu__item--mauve"
+                className={menuItemMauveClass}
                 onSelect={() => emitToolbarClick("editGroup")}
               >
                 <PencilLine size={18} />
-                <span className="apm-menu__item-title">编辑当前分组</span>
+                <span className={menuItemTitleClass}>编辑当前分组</span>
               </DropdownMenuItem>
             ) : null}
             <DropdownMenuItem
-              className="apm-menu__item--mauve"
+              className={menuItemMauveClass}
               onSelect={() => emitToolbarClick("setting")}
             >
               <ListPlus size={18} />
-              <span className="apm-menu__item-title">批量管理</span>
+              <span className={menuItemTitleClass}>批量管理</span>
             </DropdownMenuItem>
             <DropdownMenuItem
-              className="apm-menu__item--mauve"
+              className={menuItemMauveClass}
               onSelect={() => emitToolbarClick("preferences")}
             >
               <Settings2 size={18} />
-              <span className="apm-menu__item-title">设置</span>
+              <span className={menuItemTitleClass}>设置</span>
             </DropdownMenuItem>
             <DropdownMenuItem
-              className="apm-menu__item--coral"
+              className={menuItemCoralClass}
               onSelect={() => emitToolbarClick("removeGroup")}
             >
               <Trash2 size={18} />
-              <span className="apm-menu__item-title">{removeGroupTitle}</span>
+              <span className={menuItemTitleClass}>{removeGroupTitle}</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

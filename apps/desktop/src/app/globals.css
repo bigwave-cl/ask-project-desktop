@@ -614,190 +614,6 @@
   color: var(--apm-mamas-new-bag);
 }
 
-.apm-command__more-menu {
-  min-width: 188px;
-}
-
-.apm-import-menu {
-  width: 198px;
-  min-width: 198px;
-  overflow: visible;
-}
-
-.apm-export-menu {
-  width: 138px;
-  min-width: 138px;
-}
-
-.apm-menu {
-  position: relative;
-  z-index: 50;
-  min-width: 188px;
-  overflow: hidden;
-  padding: 8px;
-  border: 1px solid color-mix(in srgb, var(--apm-radio-silence) 34%, transparent);
-  border-radius: 16px;
-  background:
-    linear-gradient(180deg, rgba(12, 28, 30, .94), rgba(5, 8, 13, .96)),
-    repeating-linear-gradient(90deg, rgba(97, 191, 173, .055) 0 1px, transparent 1px 18px),
-    repeating-linear-gradient(180deg, rgba(249, 247, 232, .04) 0 1px, transparent 1px 16px);
-  box-shadow:
-    0 18px 42px rgba(0, 0, 0, .48),
-    0 0 26px color-mix(in srgb, var(--apm-radio-silence) 18%, transparent),
-    0 0 34px color-mix(in srgb, var(--apm-riviera) 8%, transparent),
-    inset 0 1px 0 rgba(255, 255, 255, .1);
-  color: var(--apm-text-main);
-  will-change: transform, opacity;
-  animation-duration: 140ms;
-  animation-timing-function: ease;
-}
-
-.apm-menu[data-state="open"] {
-  animation-name: apm-menu-in;
-}
-
-.apm-menu[data-state="closed"] {
-  display: none;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.apm-menu[data-side="top"] {
-  transform-origin: bottom right;
-}
-
-.apm-menu[data-side="right"] {
-  transform-origin: left top;
-}
-
-.apm-menu[data-side="bottom"] {
-  transform-origin: top right;
-}
-
-.apm-menu[data-side="left"] {
-  transform-origin: right top;
-}
-
-.apm-menu::before,
-.apm-menu::after {
-  content: "";
-  position: absolute;
-  pointer-events: none;
-}
-
-.apm-menu::before {
-  inset: 0;
-  background:
-    radial-gradient(ellipse at 16% 0%, color-mix(in srgb, var(--apm-radio-silence) 24%, transparent), transparent 40%),
-    radial-gradient(ellipse at 92% 100%, color-mix(in srgb, var(--apm-riviera) 16%, transparent), transparent 44%),
-    linear-gradient(110deg, transparent 0 38%, rgba(249, 247, 232, .07) 46%, transparent 56% 100%);
-  mix-blend-mode: screen;
-  opacity: .78;
-}
-
-.apm-menu::after {
-  left: 12px;
-  right: 12px;
-  top: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--apm-radio-silence), var(--apm-riviera), transparent);
-  box-shadow: 0 0 14px color-mix(in srgb, var(--apm-radio-silence) 38%, transparent);
-  opacity: .72;
-}
-
-.apm-menu__item {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  min-height: 42px;
-  display: grid;
-  grid-template-columns: 22px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 8px;
-  margin: 2px 0;
-  padding: 0 10px;
-  border: 1px solid transparent;
-  border-radius: 7px;
-  color: color-mix(in srgb, var(--apm-swan-dive) 88%, transparent);
-  background: transparent;
-  text-align: left;
-  cursor: pointer;
-  outline: none;
-  user-select: none;
-  transition:
-    border-color 160ms ease,
-    background 160ms ease,
-    color 160ms ease,
-    transform 160ms ease,
-    box-shadow 160ms ease;
-}
-
-.apm-menu__item svg {
-  opacity: .94;
-  filter: drop-shadow(0 0 8px currentColor);
-}
-
-.apm-menu__item::before {
-  content: "";
-  position: absolute;
-  left: 8px;
-  right: 8px;
-  bottom: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, color-mix(in srgb, currentColor 28%, transparent), transparent);
-  opacity: .34;
-}
-
-.apm-menu__item:hover,
-.apm-menu__item[data-highlighted] {
-  color: var(--apm-swan-dive);
-  border-color: color-mix(in srgb, currentColor 28%, transparent);
-  background:
-    linear-gradient(90deg, color-mix(in srgb, currentColor 14%, transparent), transparent 76%),
-    rgba(249, 247, 232, .035);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, .08),
-    0 0 18px color-mix(in srgb, currentColor 12%, transparent);
-  transform: translateX(2px);
-}
-
-.apm-menu__item-title {
-  color: color-mix(in srgb, var(--apm-swan-dive) 88%, transparent);
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 0;
-}
-
-.apm-menu__item:hover .apm-menu__item-title,
-.apm-menu__item[data-highlighted] .apm-menu__item-title {
-  color: var(--apm-swan-dive);
-}
-
-.apm-menu__item--mint {
-  color: var(--apm-radio-silence);
-}
-
-.apm-menu__item--mauve {
-  color: var(--apm-mamas-new-bag);
-}
-
-.apm-menu__item--coral {
-  color: var(--apm-riviera);
-}
-
-.apm-menu__item-arrow {
-  justify-self: end;
-}
-
-.apm-menu__divider {
-  position: relative;
-  z-index: 1;
-  height: 1px;
-  margin: 7px 8px;
-  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--apm-radio-silence) 24%, transparent), color-mix(in srgb, var(--apm-riviera) 18%, transparent), transparent);
-  opacity: .82;
-}
-
 .apm-list {
   width: auto;
   flex: 1;
@@ -1092,7 +908,7 @@
   font-weight: 700;
 }
 
-.apm-menu.ask-project-manage-card__menu {
+.ask-project-manage-card__menu {
   position: relative;
   min-width: 172px;
   padding: 8px;
@@ -1111,7 +927,7 @@
   overflow: hidden;
 }
 
-.apm-menu.ask-project-manage-card__menu .ask-project-manage-card__menu-item {
+.ask-project-manage-card__menu .ask-project-manage-card__menu-item {
   min-height: 40px;
   margin: 2px 0;
   border: 1px solid transparent;
@@ -1119,20 +935,20 @@
   color: color-mix(in srgb, var(--apm-swan-dive) 88%, transparent);
 }
 
-.apm-menu.ask-project-manage-card__menu .ask-project-manage-card__menu-item svg {
+.ask-project-manage-card__menu .ask-project-manage-card__menu-item svg {
   opacity: .94;
   filter: drop-shadow(0 0 8px currentColor);
 }
 
-.apm-menu.ask-project-manage-card__menu .ask-project-manage-card__menu-title {
+.ask-project-manage-card__menu .ask-project-manage-card__menu-title {
   color: color-mix(in srgb, currentColor 88%, transparent);
   font-size: 15px;
   font-weight: 700;
   letter-spacing: 0;
 }
 
-.apm-menu.ask-project-manage-card__menu .ask-project-manage-card__menu-item:hover,
-.apm-menu.ask-project-manage-card__menu .ask-project-manage-card__menu-item[data-highlighted] {
+.ask-project-manage-card__menu .ask-project-manage-card__menu-item:hover,
+.ask-project-manage-card__menu .ask-project-manage-card__menu-item[data-highlighted] {
   color: var(--apm-swan-dive);
   border-color: color-mix(in srgb, currentColor 28%, transparent);
   background:
@@ -1144,29 +960,29 @@
   transform: translateX(2px);
 }
 
-.apm-menu.ask-project-manage-card__menu .ask-project-manage-card__menu-item:hover .ask-project-manage-card__menu-title,
-.apm-menu.ask-project-manage-card__menu .ask-project-manage-card__menu-item[data-highlighted] .ask-project-manage-card__menu-title {
+.ask-project-manage-card__menu .ask-project-manage-card__menu-item:hover .ask-project-manage-card__menu-title,
+.ask-project-manage-card__menu .ask-project-manage-card__menu-item[data-highlighted] .ask-project-manage-card__menu-title {
   color: var(--apm-swan-dive);
 }
 
-.apm-menu.ask-project-manage-card__menu .ask-project-manage-card__menu-item--mint {
+.ask-project-manage-card__menu .ask-project-manage-card__menu-item--mint {
   color: var(--apm-radio-silence);
 }
 
-.apm-menu.ask-project-manage-card__menu .ask-project-manage-card__menu-item--mauve {
+.ask-project-manage-card__menu .ask-project-manage-card__menu-item--mauve {
   color: var(--apm-mamas-new-bag);
 }
 
-.apm-menu.ask-project-manage-card__menu .ask-project-manage-card__menu-item--fog {
+.ask-project-manage-card__menu .ask-project-manage-card__menu-item--fog {
   color: var(--apm-faded-letter);
 }
 
-.apm-menu.ask-project-manage-card__menu .ask-project-manage-card__menu-item--danger {
+.ask-project-manage-card__menu .ask-project-manage-card__menu-item--danger {
   color: var(--apm-riviera);
 }
 
-.apm-menu.ask-project-manage-card__menu .ask-project-manage-card__menu-item--danger:hover .ask-project-manage-card__menu-title,
-.apm-menu.ask-project-manage-card__menu .ask-project-manage-card__menu-item--danger[data-highlighted] .ask-project-manage-card__menu-title {
+.ask-project-manage-card__menu .ask-project-manage-card__menu-item--danger:hover .ask-project-manage-card__menu-title,
+.ask-project-manage-card__menu .ask-project-manage-card__menu-item--danger[data-highlighted] .ask-project-manage-card__menu-title {
   color: var(--apm-riviera);
 }
 
