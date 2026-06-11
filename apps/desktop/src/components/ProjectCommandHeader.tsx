@@ -29,6 +29,8 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
 
 export type ProjectToolbarAction =
   | "chooseWorkspace"
@@ -75,7 +77,7 @@ const searchFieldClass =
 const searchIconClass =
   "shrink-0 text-[color-mix(in_srgb,var(--apm-radio-silence)_82%,transparent)] [filter:drop-shadow(0_0_8px_color-mix(in_srgb,var(--apm-radio-silence)_28%,transparent))]";
 const searchInputClass =
-  "w-full min-w-0 border-0 bg-transparent text-sm text-[var(--apm-text-main)] outline-0 placeholder:text-[var(--apm-text-muted)]";
+  "h-auto w-full min-w-0 border-0 bg-transparent px-0 py-0 text-sm text-[var(--apm-text-main)] shadow-none outline-0 placeholder:text-[var(--apm-text-muted)] focus-visible:border-0 focus-visible:ring-0 focus-visible:shadow-none [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden";
 const searchClearClass =
   "relative z-[1] inline-grid h-6 w-6 shrink-0 cursor-pointer place-items-center rounded-full border-0 bg-[color-mix(in_srgb,var(--apm-radio-silence)_10%,transparent)] text-[var(--apm-text-muted)] hover:bg-[color-mix(in_srgb,var(--apm-radio-silence)_18%,transparent)] hover:text-[var(--apm-text-main)]";
 const actionsClass =
@@ -129,40 +131,53 @@ export function ProjectCommandHeader({
       <div className={searchWrapClass}>
         <div className={searchFieldClass}>
           <Search className={searchIconClass} size={18} aria-hidden="true" />
-          <input
+          <Input
             className={searchInputClass}
             id="apm-command-search"
             name="apm-command-search"
+            type="search"
             value={searchKeyword}
             onChange={(event) => onSearchKeywordChange(event.target.value)}
             placeholder="搜索项目、路径、分组"
             aria-label="搜索项目、路径、分组"
           />
           {searchKeyword ? (
-            <button
+            <Button
+              type="button"
+              variant="projectPlain"
+              size="projectPlain"
               className={searchClearClass}
               onClick={() => onSearchKeywordChange("")}
               aria-label="清空搜索"
             >
               <X size={16} />
-            </button>
+            </Button>
           ) : null}
         </div>
       </div>
       <div className={actionsClass}>
         <div className={importControlClass}>
-          <button
+          <Button
+            type="button"
+            variant="projectPlain"
+            size="projectPlain"
             className={importPrimaryClass}
             onClick={() => emitToolbarClick("chooseWorkspace")}
           >
             <BookPlus size={18} />
             导入工作区
-          </button>
+          </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className={importToggleClass} aria-label="展开导入选项">
+              <Button
+                type="button"
+                variant="projectPlain"
+                size="projectPlain"
+                className={importToggleClass}
+                aria-label="展开导入选项"
+              >
                 <ChevronDown size={18} />
-              </button>
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className={importMenuClass}>
               <DropdownMenuItem
@@ -215,9 +230,15 @@ export function ProjectCommandHeader({
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className={iconButtonClass} aria-label="打开更多操作">
+            <Button
+              type="button"
+              variant="projectPlain"
+              size="projectPlain"
+              className={iconButtonClass}
+              aria-label="打开更多操作"
+            >
               <LayoutGrid size={18} />
-            </button>
+            </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className={moreMenuClass}>
             <DropdownMenuItem
