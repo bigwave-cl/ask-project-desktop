@@ -21,6 +21,7 @@
 - [ ] 收敛现有原生 `<button>` / `<input>`：逐步替换为 `ui/Button`、`ui/Input` 或基于它们封装。
   - 进度：全局业务 CSS 已收敛到 Tailwind/组件内样式，后续继续处理组件内原生控件替换。
   - 进度：`ProjectCommandHeader` 搜索输入、清空按钮、导入按钮和菜单触发器已切换到 `ui/Input`、`ui/Button`。
+  - 进度：`ProjectManageTab` 分组按钮与 `ProjectCard` 项目操作触发器已切换到 `ui/Button`。
 - [ ] 迁移过程中保持原 Vue 项目的组件边界，不把所有逻辑继续堆在 `page.tsx`。
 - [x] 建立桌面端统一的 runtime 适配层：浏览器调试走 fallback，Electron 环境走 IPC + Rust sidecar。
 - [ ] 抽出并复用原项目类型模型：`ProjectItemModel`、`ProjectRenderItemModel`、`ProjectGroupItemModel`、`ProjectConfigItemModel`、`ProjectPreferencesModel`、`ProjectHudMetricKey`、`FormDataModel`。

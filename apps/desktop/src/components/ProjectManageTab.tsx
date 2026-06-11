@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
 export type ProjectManageTabItem = {
@@ -26,7 +27,10 @@ export function ProjectManageTab({ activeKey, list, onActiveChange }: ProjectMan
         aria-label="项目分组"
       >
         {list.map((item) => (
-          <button
+          <Button
+            type="button"
+            variant="projectPlain"
+            size="projectPlain"
             className={cn(
               "min-w-max cursor-pointer border-0 bg-transparent px-[14px] text-[var(--apm-text-muted)] tracking-normal transition-colors",
               activeKey === item.key &&
@@ -38,7 +42,7 @@ export function ProjectManageTab({ activeKey, list, onActiveChange }: ProjectMan
             onClick={() => onActiveChange(item.key)}
           >
             <span>{item.label}</span>
-          </button>
+          </Button>
         ))}
       </div>
     </div>

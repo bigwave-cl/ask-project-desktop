@@ -9,6 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
+import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
 export type RenderProjectItem = {
@@ -168,14 +169,17 @@ export function ProjectCard({
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button
+              <Button
                 aria-label="项目操作"
                 className={moreButtonClass}
+                size="projectPlain"
                 title="项目操作"
+                type="button"
+                variant="projectPlain"
                 onClick={(event) => event.stopPropagation()}
               >
                 <MoreVertical size={14} />
-              </button>
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
               className={cardMenuClass}
