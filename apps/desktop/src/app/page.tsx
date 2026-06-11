@@ -76,8 +76,14 @@ const emptyActionButtonClass =
 const emptySecondaryActionButtonClass =
   "border-[color-mix(in_srgb,var(--apm-mamas-new-bag)_40%,transparent)] text-[var(--apm-mamas-new-bag)]";
 
+const manageWrapClass =
+  "relative h-screen w-full overflow-hidden bg-[radial-gradient(circle_at_12%_18%,color-mix(in_srgb,var(--apm-radio-silence)_12%,transparent),transparent_26%),radial-gradient(circle_at_86%_8%,color-mix(in_srgb,var(--apm-mamas-new-bag)_12%,transparent),transparent_24%),linear-gradient(135deg,var(--apm-bg-deep)_0%,color-mix(in_srgb,var(--apm-dinner-party)_24%,#090f10)_42%,#070b0e_100%)] text-[var(--apm-text-main)] before:pointer-events-none before:absolute before:inset-0 before:bg-[linear-gradient(color-mix(in_srgb,var(--apm-radio-silence)_7%,transparent)_1px,transparent_1px),linear-gradient(90deg,color-mix(in_srgb,var(--apm-radio-silence)_6%,transparent)_1px,transparent_1px)] before:bg-[length:44px_44px] before:[mask-image:radial-gradient(circle_at_center,black,transparent_78%)] before:content-['']";
+
+const shellClass =
+  "relative z-[1] flex h-full flex-col overflow-hidden px-6 pt-[22px] [--apm-sticky-safe-space:122px] max-[980px]:[--apm-sticky-safe-space:220px]";
+
 const shellStickyClass =
-  "absolute left-6 right-6 top-[22px] z-10 flex flex-col gap-4 bg-transparent pb-4 backdrop-blur-[4px] after:pointer-events-none after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:bg-[linear-gradient(90deg,transparent,color-mix(in_srgb,var(--apm-radio-silence)_28%,transparent),color-mix(in_srgb,var(--apm-riviera)_18%,transparent),transparent)] after:opacity-70 after:shadow-[0_10px_24px_rgba(0,0,0,.26)]";
+  "absolute left-6 right-6 top-[22px] z-10 flex flex-col gap-4 bg-transparent pb-4 backdrop-blur-[4px] after:pointer-events-none after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:bg-[linear-gradient(90deg,transparent,color-mix(in_srgb,var(--apm-radio-silence)_28%,transparent),color-mix(in_srgb,var(--apm-riviera)_18%,transparent),transparent)] after:opacity-70 after:shadow-[0_10px_24px_rgba(0,0,0,.26)] after:content-['']";
 
 const defaultPreferences: Preferences = {
   autoOpenPanel: true,
@@ -813,9 +819,9 @@ export default function Home() {
   const maxMetric = Math.max(1, ...metricItems.map((item) => item.value));
 
   return (
-    <main className="ask-project-manage-wrap">
+    <main className={manageWrapClass}>
       <ProjectManageBackground />
-      <div className="apm-shell">
+      <div className={shellClass}>
         <div className={shellStickyClass}>
           <ProjectCommandHeader
             searchKeyword={keyword}

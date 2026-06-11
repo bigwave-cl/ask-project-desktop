@@ -40,8 +40,9 @@
 - P3 Header 迁移后业务 class 基线：`rg -o "\.(apm|ask-project-manage)[A-Za-z0-9_-]*" apps/desktop/src/app/globals.css | sort -u | wc -l` 当前为 41 个。
 - P5 Sticky 迁移后基线：`apps/desktop/src/app/globals.css` 当前 972 行。
 - P5 Sticky 迁移后业务 class 基线：`rg -o "\.(apm|ask-project-manage)[A-Za-z0-9_-]*" apps/desktop/src/app/globals.css | sort -u | wc -l` 当前为 40 个。
+- P5 Shell/Wrap 迁移后基线：`apps/desktop/src/app/globals.css` 当前 931 行。
+- P5 Shell/Wrap 迁移后业务 class 基线：`rg -o "\.(apm|ask-project-manage)[A-Za-z0-9_-]*" apps/desktop/src/app/globals.css | sort -u | wc -l` 当前为 38 个。
 - 主要业务样式集中在：
-  - 主壳层：`ask-project-manage-wrap`、`apm-shell`。
   - 列表与卡片：`apm-list`、`ask-project-manage-card`。
   - 空状态：`ask-project-manage-empty`、`apm-empty-*`。
   - HUD：`apm-cockpit`、`apm-hud-card`。
@@ -105,9 +106,9 @@
 
 ### P5：HUD 与主壳层
 
-- [ ] 迁移 `apm-shell` 到页面/布局组件 Tailwind。
+- [x] 迁移 `apm-shell` 到页面/布局组件 Tailwind。
 - [x] 迁移 `apm-shell__sticky` 到页面/布局组件 Tailwind。
-- [ ] 迁移主背景包裹层 `ask-project-manage-wrap`，只保留必要 CSS 变量。
+- [x] 迁移主背景包裹层 `ask-project-manage-wrap`，只保留必要 CSS 变量。
 - [ ] 迁移 HUD 面板：移除 `.apm-cockpit*`。
 - [ ] 迁移 HUD 卡片：移除 `.apm-hud-card*`。
 - [ ] 动态指标比例继续用 CSS 变量或内联 style，但静态样式使用 Tailwind。

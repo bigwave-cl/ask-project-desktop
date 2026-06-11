@@ -209,41 +209,6 @@
   }
 }
 
-.ask-project-manage-wrap {
-  width: 100%;
-  height: 100vh;
-  position: relative;
-  overflow: hidden;
-  color: var(--apm-text-main);
-  background:
-    radial-gradient(circle at 12% 18%, color-mix(in srgb, var(--apm-radio-silence) 12%, transparent), transparent 26%),
-    radial-gradient(circle at 86% 8%, color-mix(in srgb, var(--apm-mamas-new-bag) 12%, transparent), transparent 24%),
-    linear-gradient(135deg, var(--apm-bg-deep) 0%, color-mix(in srgb, var(--apm-dinner-party) 24%, #090f10) 42%, #070b0e 100%);
-}
-
-.ask-project-manage-wrap::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(color-mix(in srgb, var(--apm-radio-silence) 7%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--apm-radio-silence) 6%, transparent) 1px, transparent 1px);
-  background-size: 44px 44px;
-  mask-image: radial-gradient(circle at center, black, transparent 78%);
-}
-
-.apm-shell {
-  --apm-sticky-safe-space: 122px;
-  position: relative;
-  z-index: 1;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 22px 24px 0;
-  overflow: hidden;
-}
-
 .apm-list {
   width: auto;
   flex: 1;
@@ -943,12 +908,6 @@
   50% {
     opacity: .52;
     filter: brightness(1.25);
-  }
-}
-
-@media (max-width: 980px) {
-  .apm-shell {
-    --apm-sticky-safe-space: 220px;
   }
 }
 
