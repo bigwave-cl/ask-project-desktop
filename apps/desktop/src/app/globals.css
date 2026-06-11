@@ -371,25 +371,6 @@
   font-weight: 650;
 }
 
-.ask-project-manage-card__more {
-  width: 22px;
-  height: 22px;
-  min-width: 22px;
-  display: grid;
-  place-items: center;
-  border: 0;
-  color: rgba(239, 255, 252, .72);
-  background: transparent;
-  cursor: pointer;
-  border-radius: 999px;
-}
-
-.ask-project-manage-card__more:hover,
-.ask-project-manage-card__more[data-state="open"] {
-  color: var(--apm-swan-dive);
-  background: color-mix(in srgb, var(--seal-primary) 12%, transparent);
-}
-
 .ask-project-manage-card__main {
   position: relative;
   z-index: 1;
@@ -452,84 +433,6 @@
   background: linear-gradient(90deg, var(--seal-primary), var(--seal-secondary));
   border-color: transparent;
   font-weight: 700;
-}
-
-.ask-project-manage-card__menu {
-  position: relative;
-  min-width: 172px;
-  padding: 8px;
-  border: 1px solid color-mix(in srgb, var(--apm-radio-silence) 34%, transparent);
-  border-radius: 16px;
-  background:
-    linear-gradient(180deg, rgba(12, 28, 30, .94), rgba(5, 8, 13, .96)),
-    repeating-linear-gradient(90deg, rgba(97, 191, 173, .055) 0 1px, transparent 1px 18px),
-    repeating-linear-gradient(180deg, rgba(249, 247, 232, .04) 0 1px, transparent 1px 16px);
-  box-shadow:
-    0 18px 42px rgba(0, 0, 0, .48),
-    0 0 26px color-mix(in srgb, var(--apm-radio-silence) 18%, transparent),
-    0 0 34px color-mix(in srgb, var(--apm-riviera) 8%, transparent),
-    inset 0 1px 0 rgba(255, 255, 255, .1);
-  color: var(--apm-text-main);
-  overflow: hidden;
-}
-
-.ask-project-manage-card__menu .ask-project-manage-card__menu-item {
-  min-height: 40px;
-  margin: 2px 0;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  color: color-mix(in srgb, var(--apm-swan-dive) 88%, transparent);
-}
-
-.ask-project-manage-card__menu .ask-project-manage-card__menu-item svg {
-  opacity: .94;
-  filter: drop-shadow(0 0 8px currentColor);
-}
-
-.ask-project-manage-card__menu .ask-project-manage-card__menu-title {
-  color: color-mix(in srgb, currentColor 88%, transparent);
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 0;
-}
-
-.ask-project-manage-card__menu .ask-project-manage-card__menu-item:hover,
-.ask-project-manage-card__menu .ask-project-manage-card__menu-item[data-highlighted] {
-  color: var(--apm-swan-dive);
-  border-color: color-mix(in srgb, currentColor 28%, transparent);
-  background:
-    linear-gradient(90deg, color-mix(in srgb, currentColor 14%, transparent), transparent 76%),
-    rgba(249, 247, 232, .035);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, .08),
-    0 0 18px color-mix(in srgb, currentColor 12%, transparent);
-  transform: translateX(2px);
-}
-
-.ask-project-manage-card__menu .ask-project-manage-card__menu-item:hover .ask-project-manage-card__menu-title,
-.ask-project-manage-card__menu .ask-project-manage-card__menu-item[data-highlighted] .ask-project-manage-card__menu-title {
-  color: var(--apm-swan-dive);
-}
-
-.ask-project-manage-card__menu .ask-project-manage-card__menu-item--mint {
-  color: var(--apm-radio-silence);
-}
-
-.ask-project-manage-card__menu .ask-project-manage-card__menu-item--mauve {
-  color: var(--apm-mamas-new-bag);
-}
-
-.ask-project-manage-card__menu .ask-project-manage-card__menu-item--fog {
-  color: var(--apm-faded-letter);
-}
-
-.ask-project-manage-card__menu .ask-project-manage-card__menu-item--danger {
-  color: var(--apm-riviera);
-}
-
-.ask-project-manage-card__menu .ask-project-manage-card__menu-item--danger:hover .ask-project-manage-card__menu-title,
-.ask-project-manage-card__menu .ask-project-manage-card__menu-item--danger[data-highlighted] .ask-project-manage-card__menu-title {
-  color: var(--apm-riviera);
 }
 
 .apm-cockpit {

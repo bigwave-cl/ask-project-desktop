@@ -1,6 +1,6 @@
 "use client";
 
-import { BookOpen, Copy, Edit3, ExternalLink, FolderCog, MoreVertical, Orbit, Trash2, VectorSquare } from "lucide-react";
+import { BookOpen, FolderCog, Orbit, VectorSquare } from "lucide-react";
 import { ChangeEvent, CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 
 import { ProjectCommandHeader, type ProjectToolbarAction } from "@/components/ProjectCommandHeader";
@@ -15,12 +15,7 @@ import { projectInfoDialog } from "@/hooks/useProjectInfoDialog";
 import { projectToast } from "@/hooks/useProjectToast";
 import { invokeDesktop, isDesktopRuntime } from "@/lib/desktopRuntime";
 import { cn } from "@/lib/utils";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/DropdownMenu";
+import { ProjectCard } from "@/components/ProjectCard";
 
 type ProjectType = "workspace" | "folder";
 type ProjectHudMetricKey = "project" | "folder" | "workspace" | "group";
@@ -37,12 +32,6 @@ type ProjectGroup = {
   key: string;
   label: string;
   children: ProjectItem[];
-};
-
-type RenderProjectItem = ProjectItem & {
-  groupKey: string;
-  groupLabel: string;
-  isCurrent: boolean;
 };
 
 type Preferences = {
@@ -135,15 +124,6 @@ const starterGroups: ProjectGroup[] = [
   },
 ];
 
-const palettes = [
-  { primary: "var(--apm-radio-silence)", secondary: "var(--apm-faded-letter)", element: "青木" },
-  { primary: "var(--apm-riviera)", secondary: "var(--apm-swan-dive)", element: "赤金" },
-  { primary: "var(--apm-late-homework)", secondary: "var(--apm-radio-silence)", element: "玄水" },
-  { primary: "var(--apm-spring-awakening)", secondary: "var(--apm-swan-dive)", element: "灵木" },
-  { primary: "var(--apm-our-little-secret)", secondary: "var(--apm-dinner-party)", element: "离火" },
-  { primary: "var(--apm-mamas-new-bag)", secondary: "var(--apm-riviera)", element: "幻雷" },
-];
-
 const createKey = (prefix: string) =>
   `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 
@@ -161,60 +141,11 @@ const buildProject = (path: string, type: ProjectType): ProjectItem => ({
   type,
 });
 
-const hashText = (value: string) => {
-  let hash = 0;
-  for (let i = 0; i < value.length; i += 1) {
-    hash = (hash << 5) - hash + value.charCodeAt(i);
-    hash |= 0;
-  }
-  return Math.abs(hash);
-};
-
-const sealText = (value: string) =>
-  (value || "AP")
-    .split(/[-_\s.]+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
-
-const runeName = (item: RenderProjectItem, element: string) => {
-  const lower = `${item.name}-${item.path}-${item.groupLabel}`.toLocaleLowerCase();
-  if (/ai|llm|cursor|claude|bot/.test(lower)) return "灵识";
-  if (/sdk|lib|tools|router|publish/.test(lower)) return "器修";
-  if (/h5|app|mobile|portal/.test(lower)) return "疾行";
-  if (/cms|admin|finance|manage/.test(lower)) return "中枢";
-  if (/video|image|studio|media/.test(lower)) return "幻象";
-  return element;
-};
-
-const shortPath = (path: string, source: string) =>
-  (path || source || "").split("/").filter(Boolean).slice(-3).join(" / ") || path;
-
 const isSamePath = (currentPath: string, itemPath: string) => {
   if (!currentPath || !itemPath) {
     return false;
   }
   return currentPath === itemPath || currentPath.endsWith(itemPath) || itemPath.endsWith(currentPath);
-};
-
-const cardGradient = (index: number) => {
-  const gradients = [
-    ["rgba(97, 191, 173, .26)", "rgba(23, 142, 150, .26)", "rgba(203, 160, 170, .26)", "rgba(79, 58, 75, .26)"],
-    ["rgba(255, 139, 139, .24)", "rgba(97, 191, 173, .22)", "rgba(23, 142, 150, .24)", "rgba(203, 160, 170, .22)"],
-    ["rgba(23, 142, 150, .28)", "rgba(79, 58, 75, .28)", "rgba(97, 191, 173, .2)", "rgba(231, 81, 83, .2)"],
-    ["rgba(203, 160, 170, .25)", "rgba(249, 247, 232, .16)", "rgba(97, 191, 173, .22)", "rgba(23, 142, 150, .22)"],
-  ];
-  const current = gradients[index % gradients.length];
-  return {
-    "--card-color-tl": current[0],
-    "--card-color-tr": current[1],
-    "--card-color-br": current[2],
-    "--card-color-bl": current[3],
-    "--card-angle": "135deg",
-  } as CSSProperties;
 };
 
 const normalizePreferences = (value?: Partial<Preferences>): Preferences => ({
@@ -304,110 +235,6 @@ const writePreferences = async (preferences: Preferences) => {
   window.localStorage.setItem(preferencesStorageKey, JSON.stringify(next));
   return next;
 };
-
-function ProjectCard({
-  item,
-  index,
-  onOpen,
-  onCopy,
-  onEdit,
-  onRemove,
-}: {
-  item: RenderProjectItem;
-  index: number;
-  onOpen: (item: RenderProjectItem) => void;
-  onCopy: (item: RenderProjectItem) => void;
-  onEdit: (item: RenderProjectItem) => void;
-  onRemove: (item: RenderProjectItem) => void;
-}) {
-  const palette = palettes[hashText(`${item.name}-${item.path}-${item.groupLabel}`) % palettes.length];
-  const style = {
-    "--seal-primary": palette.primary,
-    "--seal-secondary": palette.secondary,
-    ...cardGradient(index),
-  } as CSSProperties;
-
-  return (
-    <article
-      className={item.isCurrent ? "ask-project-manage-card ask-project-manage-card--current" : "ask-project-manage-card"}
-      style={style}
-      onClick={() => onOpen(item)}
-    >
-      <div className="ask-project-manage-card__box">
-        <div className="ask-project-manage-card__halo" />
-        <div className="ask-project-manage-card__top">
-          <div className="ask-project-manage-card__seal" aria-hidden="true">
-            <span>{sealText(item.name)}</span>
-            <i />
-          </div>
-          <div className="ask-project-manage-card__meta">
-            <span>{item.type === "workspace" ? "WORKSPACE" : "FOLDER"}</span>
-            <strong>{runeName(item, palette.element)}</strong>
-          </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button
-                aria-label="项目操作"
-                className="ask-project-manage-card__more"
-                title="项目操作"
-                onClick={(event) => event.stopPropagation()}
-              >
-                <MoreVertical size={14} />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              className="ask-project-manage-card__menu"
-              onClick={(event) => event.stopPropagation()}
-            >
-              <DropdownMenuItem
-                className="ask-project-manage-card__menu-item ask-project-manage-card__menu-item--mint"
-                onSelect={() => onOpen(item)}
-              >
-                <ExternalLink size={16} />
-                <span className="ask-project-manage-card__menu-title">打开项目</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="ask-project-manage-card__menu-item ask-project-manage-card__menu-item--mauve"
-                onSelect={() => onEdit(item)}
-              >
-                <Edit3 size={16} />
-                <span className="ask-project-manage-card__menu-title">编辑符名</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="ask-project-manage-card__menu-item ask-project-manage-card__menu-item--fog"
-                onSelect={() => onCopy(item)}
-              >
-                <Copy size={16} />
-                <span className="ask-project-manage-card__menu-title">复制路径</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="ask-project-manage-card__menu-item ask-project-manage-card__menu-item--danger"
-                onSelect={() => onRemove(item)}
-              >
-                <Trash2 size={16} />
-                <span className="ask-project-manage-card__menu-title">删除项目</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-
-        <div className="ask-project-manage-card__main">
-          <h2>{item.name}</h2>
-          <p>{shortPath(item.path, item.source)}</p>
-        </div>
-
-        <div className="ask-project-manage-card__bottom">
-          <span>{item.groupLabel}</span>
-          {item.isCurrent ? (
-            <span className="ask-project-manage-card__status">当前窗口</span>
-          ) : (
-            <span>{item.type === "workspace" ? "阵盘" : "玉简"}</span>
-          )}
-        </div>
-      </div>
-    </article>
-  );
-}
 
 export default function Home() {
   const [groups, setGroups] = useState<ProjectGroup[]>([]);
