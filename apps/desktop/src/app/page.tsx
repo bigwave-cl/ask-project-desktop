@@ -85,6 +85,17 @@ const shellClass =
 const shellStickyClass =
   "absolute left-6 right-6 top-[22px] z-10 flex flex-col gap-4 bg-transparent pb-4 backdrop-blur-[4px] after:pointer-events-none after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:bg-[linear-gradient(90deg,transparent,color-mix(in_srgb,var(--apm-radio-silence)_28%,transparent),color-mix(in_srgb,var(--apm-riviera)_18%,transparent),transparent)] after:opacity-70 after:shadow-[0_10px_24px_rgba(0,0,0,.26)] after:content-['']";
 
+const projectListScrollClass =
+  "relative -mx-5 ml-[-24px] min-h-0 min-w-[300px] flex-1 overflow-y-auto px-5 pb-6 pl-6 pt-[var(--apm-sticky-safe-space)] [scrollbar-color:color-mix(in_srgb,var(--apm-radio-silence)_26%,transparent)_transparent] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[linear-gradient(180deg,transparent,color-mix(in_srgb,var(--apm-radio-silence)_32%,transparent),color-mix(in_srgb,var(--apm-riviera)_18%,transparent),transparent)] [&::-webkit-scrollbar-thumb]:shadow-[0_0_10px_color-mix(in_srgb,var(--apm-radio-silence)_16%,transparent)] [&::-webkit-scrollbar-track]:bg-transparent max-[860px]:px-6 max-[860px]:pb-[168px]";
+
+const projectListEmptyClass =
+  "grid place-items-center overflow-hidden pb-[280px] max-[860px]:pb-[168px]";
+
+const projectGridClass =
+  "grid w-full grid-cols-[repeat(auto-fill,minmax(140px,1fr))] gap-[18px] py-1 pb-6";
+
+const hudSpacerClass = "pointer-events-none col-span-full h-[174px]";
+
 const defaultPreferences: Preferences = {
   autoOpenPanel: true,
   hud: {
@@ -843,7 +854,7 @@ export default function Home() {
           ) : null}
         </div>
 
-        <div className={renderedProjects.length === 0 ? "apm-list apm-list--empty" : "apm-list"}>
+        <div className={cn(projectListScrollClass, renderedProjects.length === 0 && projectListEmptyClass)}>
           {groups.length === 0 ? (
             <ProjectEmpty text={<div>当前还没有分组数据，可以先添加分组，也可以直接从顶部导入项目</div>}>
               <div className="mt-3 flex flex-wrap justify-center gap-3">
@@ -887,7 +898,7 @@ export default function Home() {
               </div>
             </ProjectEmpty>
           ) : (
-            <div className="ask-project-manage-list">
+            <div className={projectGridClass}>
               {renderedProjects.map((item, index) => (
                 <ProjectCard
                   item={item}
@@ -899,7 +910,7 @@ export default function Home() {
                   onRemove={(project) => removeProject(project.groupKey, project.key)}
                 />
               ))}
-              {preferences.hud.visible ? <div className="ask-project-manage-list__hud-spacer" aria-hidden="true" /> : null}
+              {preferences.hud.visible ? <div className={hudSpacerClass} aria-hidden="true" /> : null}
             </div>
           )}
         </div>

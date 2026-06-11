@@ -42,8 +42,10 @@
 - P5 Sticky 迁移后业务 class 基线：`rg -o "\.(apm|ask-project-manage)[A-Za-z0-9_-]*" apps/desktop/src/app/globals.css | sort -u | wc -l` 当前为 40 个。
 - P5 Shell/Wrap 迁移后基线：`apps/desktop/src/app/globals.css` 当前 931 行。
 - P5 Shell/Wrap 迁移后业务 class 基线：`rg -o "\.(apm|ask-project-manage)[A-Za-z0-9_-]*" apps/desktop/src/app/globals.css | sort -u | wc -l` 当前为 38 个。
+- P4 List 迁移后基线：`apps/desktop/src/app/globals.css` 当前 874 行。
+- P4 List 迁移后业务 class 基线：`rg -o "\.(apm|ask-project-manage)[A-Za-z0-9_-]*" apps/desktop/src/app/globals.css | sort -u | wc -l` 当前为 34 个。
 - 主要业务样式集中在：
-  - 列表与卡片：`apm-list`、`ask-project-manage-card`。
+  - 卡片：`ask-project-manage-card`。
   - 空状态：`ask-project-manage-empty`、`apm-empty-*`。
   - HUD：`apm-cockpit`、`apm-hud-card`。
   - 弹窗：`apm-info-dialog`、`apm-confirm-dialog`、`apm-preferences`。
@@ -102,7 +104,7 @@
 - [ ] 迁移卡片主体 Tailwind 样式：移除 `.ask-project-manage-card*`。
 - [ ] 迁移卡片菜单 Tailwind 样式：移除 `.ask-project-manage-card__menu*`。
 - [ ] 保留动态卡片渐变变量，但把静态布局、边框、hover、当前状态全部改为 Tailwind。
-- [ ] 迁移列表容器与 HUD spacer：移除 `.apm-list`、`.ask-project-manage-list`。
+- [x] 迁移列表容器与 HUD spacer：移除 `.apm-list`、`.ask-project-manage-list`。
 
 ### P5：HUD 与主壳层
 

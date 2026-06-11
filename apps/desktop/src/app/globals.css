@@ -209,55 +209,6 @@
   }
 }
 
-.apm-list {
-  width: auto;
-  flex: 1;
-  min-height: 0;
-  min-width: 300px;
-  position: relative;
-  overflow-y: auto;
-  margin: 0 -20px 0 -24px;
-  padding: var(--apm-sticky-safe-space) 20px 24px 24px;
-  scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--apm-radio-silence) 26%, transparent) transparent;
-}
-
-.apm-list::-webkit-scrollbar {
-  width: 6px;
-}
-
-.apm-list::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.apm-list::-webkit-scrollbar-thumb {
-  border-radius: 999px;
-  background:
-    linear-gradient(180deg, transparent, color-mix(in srgb, var(--apm-radio-silence) 32%, transparent), color-mix(in srgb, var(--apm-riviera) 18%, transparent), transparent);
-  box-shadow: 0 0 10px color-mix(in srgb, var(--apm-radio-silence) 16%, transparent);
-}
-
-.apm-list--empty {
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  padding-bottom: 280px;
-}
-
-.ask-project-manage-list {
-  padding: 4px 0 24px;
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 18px;
-}
-
-.ask-project-manage-list__hud-spacer {
-  grid-column: 1 / -1;
-  height: 174px;
-  pointer-events: none;
-}
-
 .ask-project-manage-card {
   position: relative;
   aspect-ratio: 1 / 1;
@@ -912,14 +863,6 @@
 }
 
 @media (max-width: 860px) {
-  .apm-list {
-    padding: var(--apm-sticky-safe-space) 24px 168px;
-  }
-
-  .apm-list--empty {
-    padding: var(--apm-sticky-safe-space) 24px 168px;
-  }
-
   .apm-cockpit {
     max-width: calc(100% - 24px);
     bottom: 4px;
