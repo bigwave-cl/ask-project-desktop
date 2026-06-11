@@ -38,6 +38,7 @@
 ## UI 组件规则
 
 - 新增基础组件前，优先查看 shadcn 文档：`https://ui.shadcn.com/docs/components`
+- 遇到 Switch、Select、Checkbox、Radio、Tooltip 等基础交互组件时，优先到 `https://www.shadcn-vue.com/docs/components` 查找对应组件的基础实现与结构，再结合当前 React/Radix 技术栈做二次封装。
 - shadcn/Radix 已提供的组件必须优先使用或封装，例如：
   - `DropdownMenu`
   - `Dialog`

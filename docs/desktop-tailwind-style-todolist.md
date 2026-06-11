@@ -32,6 +32,8 @@
 - P2 Info/Confirm 迁移后业务 class 基线：`rg -o "\.(apm|ask-project-manage)[A-Za-z0-9_-]*" apps/desktop/src/app/globals.css | sort -u | wc -l` 当前为 94 个。
 - P2 Toast 迁移后基线：`apps/desktop/src/app/globals.css` 当前 1730 行。
 - P2 Toast 迁移后业务 class 基线：`rg -o "\.(apm|ask-project-manage)[A-Za-z0-9_-]*" apps/desktop/src/app/globals.css | sort -u | wc -l` 当前为 86 个。
+- P2 PreferenceSetting 迁移后基线：`apps/desktop/src/app/globals.css` 当前 1548 行。
+- P2 PreferenceSetting 迁移后业务 class 基线：`rg -o "\.(apm|ask-project-manage)[A-Za-z0-9_-]*" apps/desktop/src/app/globals.css | sort -u | wc -l` 当前为 69 个。
 - 主要业务样式集中在：
   - 主壳层：`ask-project-manage-wrap`、`apm-shell`。
   - Header：`apm-command`、`apm-import-control`、`apm-menu`。
@@ -75,7 +77,7 @@
 
 - [x] 迁移 `useProjectInfoDialog`：InfoDialog 改为通过 UI 组件 variant 使用 Tailwind 样式。
 - [x] 迁移 `useProjectConfirm`：ConfirmDialog 复用 Dialog/Button/Input 等 UI 组件 variant。
-- [ ] 迁移 `ProjectPreferenceSetting`：移除 `.apm-preferences`、`.apm-preference-card`、`.apm-switch`、`.apm-hud-option`。
+- [x] 迁移 `ProjectPreferenceSetting`：移除 `.apm-preferences`、`.apm-preference-card`、`.apm-switch`、`.apm-hud-option`。
 - [x] 迁移 `useProjectToast` / `Sonner`：移除 `.apm-sonner`、`.apm-toast`、`.apm-toast__*`。
 - [x] 评估 Radix `Dialog` / `AlertDialog` 基础 overlay/content 是否保留为全局基础样式，或改为组件默认 Tailwind class。
 
