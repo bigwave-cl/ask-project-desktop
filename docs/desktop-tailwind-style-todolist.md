@@ -48,12 +48,10 @@
 - P4 CardMenu 迁移后业务 class 基线：`rg -o "\.(apm|ask-project-manage)[A-Za-z0-9_-]*" apps/desktop/src/app/globals.css | sort -u | wc -l` 当前为 26 个。
 - P4 Card 迁移后基线：`apps/desktop/src/app/globals.css` 当前 551 行。
 - P4 Card 迁移后业务 class 基线：`rg -o "\.(apm|ask-project-manage)[A-Za-z0-9_-]*" apps/desktop/src/app/globals.css | sort -u | wc -l` 当前为 16 个。
+- P5 HUD 迁移后基线：`apps/desktop/src/app/globals.css` 当前 271 行。
+- P5 HUD 迁移后业务 class 基线：`rg -o "\.(apm|ask-project-manage)[A-Za-z0-9_-]*" apps/desktop/src/app/globals.css | sort -u | wc -l` 当前为 2 个。
 - 主要业务样式集中在：
-  - 空状态：`ask-project-manage-empty`、`apm-empty-*`。
-  - HUD：`apm-cockpit`、`apm-hud-card`。
-  - 弹窗：`apm-info-dialog`、`apm-confirm-dialog`、`apm-preferences`。
-  - Toast：`apm-sonner`、`apm-toast`。
-  - Tab：`ask-project-manage-tab`、`apm-tabs`、`apm-tab`。
+  - Dialog portal 基础样式：`apm-dialog-overlay`、`apm-dialog-content`。
 - 新手引导 `ProjectOnboardingGuide` 已按 Tailwind-first 方式实现，可作为后续迁移参考。
 
 ## 迁移原则
@@ -114,9 +112,9 @@
 - [x] 迁移 `apm-shell` 到页面/布局组件 Tailwind。
 - [x] 迁移 `apm-shell__sticky` 到页面/布局组件 Tailwind。
 - [x] 迁移主背景包裹层 `ask-project-manage-wrap`，只保留必要 CSS 变量。
-- [ ] 迁移 HUD 面板：移除 `.apm-cockpit*`。
-- [ ] 迁移 HUD 卡片：移除 `.apm-hud-card*`。
-- [ ] 动态指标比例继续用 CSS 变量或内联 style，但静态样式使用 Tailwind。
+- [x] 迁移 HUD 面板：移除 `.apm-cockpit*`。
+- [x] 迁移 HUD 卡片：移除 `.apm-hud-card*`。
+- [x] 动态指标比例继续用 CSS 变量或内联 style，但静态样式使用 Tailwind。
 
 ### P6：全局 CSS 清理收口
 

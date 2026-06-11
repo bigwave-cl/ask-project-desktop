@@ -1,10 +1,10 @@
 "use client";
 
-import { BookOpen, FolderCog, Orbit, VectorSquare } from "lucide-react";
-import { ChangeEvent, CSSProperties, useEffect, useMemo, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 
 import { ProjectCommandHeader, type ProjectToolbarAction } from "@/components/ProjectCommandHeader";
 import { ProjectEmpty } from "@/components/ProjectEmpty";
+import { ProjectHudDashboard, type ProjectHudMetricKey } from "@/components/ProjectHudDashboard";
 import { ProjectManageBackground } from "@/components/ProjectManageBackground";
 import { ProjectManageTab } from "@/components/ProjectManageTab";
 import { ProjectOnboardingGuide } from "@/components/ProjectOnboardingGuide";
@@ -18,7 +18,6 @@ import { cn } from "@/lib/utils";
 import { ProjectCard } from "@/components/ProjectCard";
 
 type ProjectType = "workspace" | "folder";
-type ProjectHudMetricKey = "project" | "folder" | "workspace" | "group";
 
 type ProjectItem = {
   name: string;
@@ -648,14 +647,6 @@ export default function Home() {
     (key) => preferences.hud.metrics[key]
   );
 
-  const metricItems = [
-    { key: "project" as const, label: "项目总数", value: totals.project, icon: VectorSquare },
-    { key: "folder" as const, label: "文件夹", value: totals.folder, icon: FolderCog },
-    { key: "workspace" as const, label: "工作区", value: totals.workspace, icon: BookOpen },
-    { key: "group" as const, label: "分组", value: totals.group, icon: Orbit },
-  ].filter((item) => visibleMetricKeys.includes(item.key));
-  const maxMetric = Math.max(1, ...metricItems.map((item) => item.value));
-
   return (
     <main className={manageWrapClass}>
       <ProjectManageBackground />
@@ -743,43 +734,11 @@ export default function Home() {
         </div>
 
         {preferences.hud.visible ? (
-          <section className="apm-cockpit" aria-label="项目统计仪表盘">
-            <div className="apm-cockpit__panel">
-              <div className="apm-cockpit__scan" aria-hidden="true" />
-              <div className="apm-cockpit__body">
-                <div className="apm-cockpit__metrics" style={{ "--hud-metric-count": metricItems.length || 1 } as CSSProperties}>
-                  {metricItems.map((metric) => {
-                    const Icon = metric.icon;
-                    const level = Math.max(0.18, Math.min(1, metric.value / maxMetric)).toFixed(3);
-                    return (
-                      <article
-                        className={`apm-hud-card apm-hud-card--${metric.key}`}
-                        key={metric.key}
-                        style={{ "--metric-level": level } as CSSProperties}
-                        onClick={() => updateMetric(metric.key)}
-                      >
-                        <div className="apm-hud-card__icon">
-                          <Icon size={18} />
-                        </div>
-                        <div className="apm-hud-card__content">
-                          <span>{metric.label}</span>
-                          <strong>{metric.value}</strong>
-                        </div>
-                        <div className="apm-hud-card__bar" aria-hidden="true">
-                          <span />
-                        </div>
-                      </article>
-                    );
-                  })}
-                </div>
-              </div>
-              <footer className="apm-cockpit__footer" aria-hidden="true">
-                <span />
-                <span />
-                <span />
-              </footer>
-            </div>
-          </section>
+          <ProjectHudDashboard
+            totals={totals}
+            visibleMetricKeys={visibleMetricKeys}
+            onMetricClick={updateMetric}
+          />
         ) : null}
       </div>
 
