@@ -6,10 +6,10 @@ import { buttonVariants } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
 const alertDialogOverlayBaseClass =
-  "pointer-events-none fixed inset-0 z-50 bg-black/80 opacity-0 transition-opacity duration-[160ms] data-[state=open]:!pointer-events-auto data-[state=open]:opacity-100 data-[state=closed]:!pointer-events-none data-[state=closed]:opacity-0";
+  "pointer-events-none fixed inset-0 z-50 bg-black/80 opacity-0 transition-opacity duration-[160ms] data-[state=open]:pointer-events-auto data-[state=open]:opacity-100 data-[state=closed]:pointer-events-none data-[state=closed]:opacity-0";
 
 const alertDialogContentBaseClass =
-  "pointer-events-none fixed left-1/2 top-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 scale-[.96] origin-center gap-4 border bg-background p-6 opacity-0 shadow-lg outline-none transition-[opacity,scale] duration-[180ms] ease-[cubic-bezier(.4,0,.2,1)] will-change-[opacity,scale] data-[state=open]:!pointer-events-auto data-[state=open]:scale-100 data-[state=open]:opacity-100 data-[state=open]:ease-[cubic-bezier(.16,1,.3,1)] data-[state=closed]:!pointer-events-none data-[state=closed]:scale-[.96] data-[state=closed]:opacity-0 data-[state=closed]:duration-[160ms] sm:rounded-lg";
+  "pointer-events-none fixed left-1/2 top-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 scale-[.96] origin-center gap-4 border bg-background p-6 opacity-0 shadow-lg outline-none transition-[opacity,scale] duration-[180ms] ease-[cubic-bezier(.4,0,.2,1)] will-change-[opacity,scale] data-[state=open]:pointer-events-auto data-[state=open]:scale-100 data-[state=open]:opacity-100 data-[state=open]:ease-[cubic-bezier(.16,1,.3,1)] data-[state=closed]:pointer-events-none data-[state=closed]:scale-[.96] data-[state=closed]:opacity-0 data-[state=closed]:duration-[160ms] sm:rounded-lg";
 
 const alertDialogOverlayVariants = cva(alertDialogOverlayBaseClass, {
   variants: {
@@ -36,9 +36,9 @@ const alertDialogContentVariants = cva(
       tone: {
         default: "",
         mint:
-          "border border-[color-mix(in_srgb,var(--apm-radio-silence)_34%,transparent)] bg-[linear-gradient(180deg,rgba(12,27,30,.92),rgba(5,9,16,.96)),repeating-linear-gradient(90deg,rgba(97,191,173,.06)_0_1px,transparent_1px_22px),repeating-linear-gradient(180deg,rgba(249,247,232,.04)_0_1px,transparent_1px_18px)] shadow-[0_28px_78px_rgba(0,0,0,.54),0_0_34px_color-mix(in_srgb,var(--apm-radio-silence)_18%,transparent),0_0_54px_color-mix(in_srgb,var(--apm-riviera)_10%,transparent),inset_0_1px_0_rgba(255,255,255,.1),inset_0_0_42px_rgba(97,191,173,.08)] before:pointer-events-none before:absolute before:inset-0 before:bg-[radial-gradient(ellipse_at_16%_0%,color-mix(in_srgb,var(--apm-radio-silence)_32%,transparent),transparent_36%),radial-gradient(ellipse_at_84%_100%,color-mix(in_srgb,var(--apm-riviera)_20%,transparent),transparent_42%),linear-gradient(110deg,transparent_0_38%,rgba(249,247,232,.07)_46%,transparent_56%_100%)] before:opacity-[.74] before:mix-blend-screen after:pointer-events-none after:absolute after:left-[18px] after:right-[18px] after:top-0 after:h-px after:bg-[linear-gradient(90deg,transparent,var(--apm-radio-silence),var(--apm-riviera),transparent)] after:opacity-[.72] after:shadow-[0_0_16px_color-mix(in_srgb,var(--apm-radio-silence)_44%,transparent)]",
+          "border border-apm-radio-34 bg-apm-dialog-mint shadow-apm-dialog-mint before:pointer-events-none before:absolute before:inset-0 before:bg-apm-dialog-sheen before:opacity-[.74] before:mix-blend-screen after:pointer-events-none after:absolute after:left-[18px] after:right-[18px] after:top-0 after:h-px after:bg-apm-line-mint-riviera after:opacity-[.72] after:shadow-apm-dialog-line",
         danger:
-          "border border-[color-mix(in_srgb,var(--apm-riviera)_30%,transparent)] bg-[radial-gradient(circle_at_18%_0%,color-mix(in_srgb,var(--apm-riviera)_18%,transparent),transparent_38%),radial-gradient(circle_at_92%_100%,color-mix(in_srgb,var(--apm-radio-silence)_14%,transparent),transparent_42%),linear-gradient(180deg,rgba(16,16,22,.98),rgba(4,8,14,.98))] shadow-[0_26px_64px_rgba(0,0,0,.58),0_0_34px_color-mix(in_srgb,var(--apm-riviera)_16%,transparent),inset_0_1px_0_rgba(255,255,255,.1)]",
+          "border border-apm-riviera-30 bg-apm-dialog-danger shadow-apm-dialog-danger",
       },
       size: {
         auto: "",
@@ -92,14 +92,14 @@ const alertDialogDescriptionVariants = cva("", {
 });
 
 const alertDialogSigilVariants = cva(
-  "relative grid h-[46px] w-[46px] flex-none place-items-center rounded-[15px_7px_15px_7px] border shadow-[0_0_18px_color-mix(in_srgb,currentColor_18%,transparent),inset_0_0_20px_rgba(255,255,255,.08)] after:absolute after:inset-2 after:rounded-full after:border after:border-[color-mix(in_srgb,var(--apm-riviera)_22%,transparent)] after:opacity-[.66] [&_svg]:relative [&_svg]:z-[1]",
+  "relative grid h-[46px] w-[46px] flex-none place-items-center rounded-[15px_7px_15px_7px] border shadow-apm-dialog-sigil after:absolute after:inset-2 after:rounded-full after:border after:border-apm-riviera-22 after:opacity-[.66] [&_svg]:relative [&_svg]:z-[1]",
   {
     variants: {
       tone: {
         mint:
-          "border-[color-mix(in_srgb,var(--apm-radio-silence)_44%,transparent)] bg-[radial-gradient(circle_at_50%_50%,color-mix(in_srgb,var(--apm-radio-silence)_30%,transparent),transparent_64%),rgba(3,10,12,.72)] text-[var(--apm-radio-silence)]",
+          "border-apm-radio-44 bg-apm-dialog-sigil-mint text-[var(--apm-radio-silence)]",
         danger:
-          "border-[color-mix(in_srgb,var(--apm-riviera)_52%,transparent)] bg-[radial-gradient(circle_at_50%_50%,rgba(249,247,232,.18),transparent_22%),radial-gradient(circle_at_50%_50%,color-mix(in_srgb,var(--apm-riviera)_36%,transparent),transparent_64%),rgba(22,9,14,.88)] text-[var(--apm-riviera)] shadow-[0_0_18px_color-mix(in_srgb,var(--apm-riviera)_24%,transparent),inset_0_0_20px_rgba(255,139,139,.14)]",
+          "border-apm-riviera-52 bg-apm-dialog-sigil-danger text-[var(--apm-riviera)] shadow-apm-dialog-sigil-danger",
       },
     },
     defaultVariants: {
@@ -115,7 +115,7 @@ const alertDialogVeilClass =
   "pointer-events-none absolute inset-0 overflow-hidden [&_span]:absolute [&_span]:rounded-full [&_span]:opacity-[.68] [&_span]:[filter:blur(.2px)]";
 
 const alertDialogDividerClass =
-  "relative z-[1] grid grid-cols-[1fr_42px_1fr] items-center gap-2.5 px-6 [&_span]:h-px [&_span]:bg-[linear-gradient(90deg,transparent,color-mix(in_srgb,var(--apm-riviera)_44%,transparent),transparent)] [&_span]:shadow-[0_0_12px_color-mix(in_srgb,var(--apm-riviera)_22%,transparent)] [&_span:nth-child(2)]:bg-[color-mix(in_srgb,var(--apm-radio-silence)_50%,transparent)]";
+  "relative z-[1] grid grid-cols-[1fr_42px_1fr] items-center gap-2.5 px-6 [&_span]:h-px [&_span]:bg-apm-line-riviera-soft [&_span]:shadow-apm-riviera-line [&_span:nth-child(2)]:bg-[color-mix(in_srgb,var(--apm-radio-silence)_50%,transparent)]";
 
 type ProjectAlertDialogHeaderProps = {
   eyebrow?: React.ReactNode;
@@ -291,8 +291,8 @@ function AlertDialogCancel({
 function ProjectAlertDialogVeil({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div data-slot="alert-dialog-veil" className={cn(alertDialogVeilClass, className)} {...props}>
-      <span className="left-[-72px] top-12 h-[42px] w-[220px] rotate-[-12deg] border border-[color-mix(in_srgb,var(--apm-radio-silence)_30%,transparent)]" />
-      <span className="bottom-[34px] right-[-58px] h-[34px] w-[190px] rotate-[10deg] border border-[color-mix(in_srgb,var(--apm-riviera)_28%,transparent)]" />
+      <span className="left-[-72px] top-12 h-[42px] w-[220px] rotate-[-12deg] border border-apm-radio-30" />
+      <span className="bottom-[34px] right-[-58px] h-[34px] w-[190px] rotate-[10deg] border border-apm-riviera-28" />
     </div>
   );
 }

@@ -23,8 +23,8 @@ const projectToastToneClass: Record<ProjectToastKind, string> = {
   show: "",
   success: "",
   info: "",
-  error: "border-[color-mix(in_srgb,var(--apm-riviera)_38%,transparent)]",
-  warning: "border-[color-mix(in_srgb,var(--apm-mamas-new-bag)_38%,transparent)]",
+  error: "border-apm-riviera-38",
+  warning: "border-apm-mauve-38",
 };
 
 const showProjectToast = (
@@ -48,7 +48,7 @@ const showProjectToast = (
     () => (
       <div className="relative z-[1] grid min-h-[54px] w-full grid-cols-[30px_minmax(0,1fr)_auto] items-center gap-2.5 px-2 py-2.5 pl-3.5">
         <span
-          className="relative grid h-[30px] w-[30px] flex-none place-items-center rounded-[8px_4px] border border-[color-mix(in_srgb,var(--apm-radio-silence)_48%,transparent)] bg-[radial-gradient(circle_at_50%_50%,color-mix(in_srgb,var(--apm-radio-silence)_34%,transparent),transparent_64%),rgba(4,16,18,.82)] text-[var(--apm-radio-silence)] shadow-[inset_0_0_14px_rgba(97,191,173,.14)] after:absolute after:inset-[7px] after:rounded-full after:border after:border-[color-mix(in_srgb,var(--apm-riviera)_26%,transparent)] after:content-[''] [&_svg]:relative [&_svg]:z-[1]"
+          className="relative grid h-[30px] w-[30px] flex-none place-items-center rounded-[8px_4px] border border-apm-radio-48 bg-[radial-gradient(circle_at_50%_50%,color-mix(in_srgb,var(--apm-radio-silence)_34%,transparent),transparent_64%),rgba(4,16,18,.82)] text-[var(--apm-radio-silence)] shadow-[inset_0_0_14px_rgba(97,191,173,.14)] after:absolute after:inset-[7px] after:rounded-full after:border after:border-apm-riviera-26 after:content-[''] [&_svg]:relative [&_svg]:z-[1]"
           aria-hidden="true"
         >
           <Radar size={17} />

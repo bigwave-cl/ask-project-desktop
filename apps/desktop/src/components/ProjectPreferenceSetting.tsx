@@ -61,10 +61,10 @@ const hudMetricOptions: { key: ProjectHudMetricKey; label: string }[] = [
 ];
 
 const preferencesDialogClass =
-  "grid max-h-[calc(100vh-48px)] w-[min(620px,calc(100vw-48px))] overflow-hidden rounded-[18px_8px_18px_8px] border border-[color-mix(in_srgb,var(--apm-radio-silence)_34%,transparent)] bg-[radial-gradient(circle_at_18%_0%,color-mix(in_srgb,var(--apm-radio-silence)_20%,transparent),transparent_38%),radial-gradient(circle_at_92%_100%,color-mix(in_srgb,var(--apm-mamas-new-bag)_14%,transparent),transparent_42%),linear-gradient(180deg,rgba(11,24,28,.98),rgba(4,8,14,.98))] text-[var(--apm-text-main)] shadow-[0_26px_64px_rgba(0,0,0,.58),0_0_32px_color-mix(in_srgb,var(--apm-radio-silence)_16%,transparent),inset_0_1px_0_rgba(255,255,255,.1)]";
+  "grid max-h-[calc(100vh-48px)] w-[min(620px,calc(100vw-48px))] overflow-hidden rounded-[18px_8px_18px_8px] border border-apm-radio-34 bg-apm-preferences-panel text-[var(--apm-text-main)] shadow-apm-preferences-panel";
 
 const preferencesHeaderClass =
-  "relative z-[1] flex items-center justify-between gap-4 border-b border-[color-mix(in_srgb,var(--apm-radio-silence)_22%,transparent)] px-6 pb-4 pt-[22px]";
+  "relative z-[1] flex items-center justify-between gap-4 border-b border-apm-radio-22 px-6 pb-4 pt-[22px]";
 
 const preferencesEyebrowClass =
   "mb-1 block text-[11px] font-extrabold uppercase leading-[1.2] tracking-[.08em] text-[color-mix(in_srgb,var(--apm-radio-silence)_72%,transparent)]";
@@ -72,19 +72,19 @@ const preferencesEyebrowClass =
 const preferencesTitleClass = "m-0 text-2xl leading-[1.2] tracking-normal";
 
 const preferencesCloseButtonClass =
-  "inline-grid h-[38px] w-[38px] place-items-center rounded-[12px_6px_12px_6px] border-0 bg-transparent text-[var(--apm-text-muted)] shadow-none hover:bg-[color-mix(in_srgb,var(--apm-radio-silence)_10%,transparent)] hover:text-[var(--apm-text-main)] focus-visible:border-transparent focus-visible:bg-[color-mix(in_srgb,var(--apm-radio-silence)_10%,transparent)] focus-visible:ring-0 focus-visible:shadow-[0_0_0_1px_color-mix(in_srgb,var(--apm-radio-silence)_28%,transparent),0_0_18px_color-mix(in_srgb,var(--apm-radio-silence)_18%,transparent)]";
+  "inline-grid h-[38px] w-[38px] place-items-center rounded-[12px_6px_12px_6px] border-0 bg-transparent text-[var(--apm-text-muted)] shadow-none hover:bg-[color-mix(in_srgb,var(--apm-radio-silence)_10%,transparent)] hover:text-[var(--apm-text-main)] focus-visible:border-transparent focus-visible:bg-[color-mix(in_srgb,var(--apm-radio-silence)_10%,transparent)] focus-visible:ring-0 focus-visible:shadow-apm-preferences-close-focus";
 
 const preferencesBodyClass = "relative z-[1] grid gap-[14px] overflow-y-auto px-6 pb-5 pt-[18px]";
 
 const preferenceCardClass =
-  "flex min-h-[86px] items-center justify-between gap-[18px] rounded-[12px_6px_12px_6px] border border-[color-mix(in_srgb,var(--apm-radio-silence)_22%,transparent)] bg-[linear-gradient(90deg,color-mix(in_srgb,var(--apm-radio-silence)_8%,transparent),transparent_42%),rgba(255,255,255,.035)] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,.07)]";
+  "flex min-h-[86px] items-center justify-between gap-[18px] rounded-[12px_6px_12px_6px] border border-apm-radio-22 bg-apm-preference-card p-4 shadow-apm-preference-card";
 
 const preferenceCopyClass = "grid min-w-0 grid-cols-[34px_minmax(0,1fr)] items-center gap-3";
 
 const preferenceStackCopyClass = "grid-cols-[34px_minmax(0,1fr)_auto]";
 
 const preferenceIconClass =
-  "grid h-[34px] w-[34px] place-items-center rounded-[10px_5px_10px_5px] border border-[color-mix(in_srgb,var(--apm-radio-silence)_34%,transparent)] bg-[rgba(3,10,12,.58)] text-[var(--apm-radio-silence)] [filter:drop-shadow(0_0_10px_color-mix(in_srgb,var(--apm-radio-silence)_32%,transparent))]";
+  "grid h-[34px] w-[34px] place-items-center rounded-[10px_5px_10px_5px] border border-apm-radio-34 bg-[rgba(3,10,12,.58)] text-[var(--apm-radio-silence)] [filter:drop-shadow(0_0_10px_color-mix(in_srgb,var(--apm-radio-silence)_32%,transparent))]";
 
 const preferenceHeadingClass = "mb-1 mt-0 text-base leading-[1.3] tracking-normal";
 
@@ -95,18 +95,18 @@ const hudOptionsClass =
   "grid grid-cols-4 gap-2.5 pl-[46px] pr-[66px] transition-opacity duration-[160ms]";
 
 const hudOptionClass =
-  "inline-grid min-h-[42px] w-full min-w-0 grid-cols-[18px_minmax(0,1fr)] items-center gap-[7px] rounded-[9px_5px_9px_5px] border border-[color-mix(in_srgb,var(--apm-radio-silence)_18%,transparent)] bg-[rgba(5,13,18,.48)] px-3 text-[color-mix(in_srgb,var(--apm-faded-letter)_78%,transparent)] shadow-none transition-[border-color,color,background,box-shadow] duration-[160ms] hover:border-[color-mix(in_srgb,var(--apm-radio-silence)_38%,transparent)] hover:bg-[color-mix(in_srgb,var(--apm-radio-silence)_10%,rgba(5,13,18,.62))] hover:text-[var(--apm-text-main)] disabled:cursor-not-allowed disabled:opacity-100";
+  "inline-grid min-h-[42px] w-full min-w-0 grid-cols-[18px_minmax(0,1fr)] items-center gap-[7px] rounded-[9px_5px_9px_5px] border border-apm-radio-18 bg-[rgba(5,13,18,.48)] px-3 text-[color-mix(in_srgb,var(--apm-faded-letter)_78%,transparent)] shadow-none transition-[border-color,color,background,box-shadow] duration-[160ms] hover:border-apm-radio-38 hover:bg-[color-mix(in_srgb,var(--apm-radio-silence)_10%,rgba(5,13,18,.62))] hover:text-[var(--apm-text-main)] disabled:cursor-not-allowed disabled:opacity-100";
 
 const hudOptionActiveClass =
-  "border-[color-mix(in_srgb,var(--apm-radio-silence)_46%,transparent)] ![background:linear-gradient(90deg,color-mix(in_srgb,var(--apm-radio-silence)_13%,transparent),transparent_70%),rgba(5,13,18,.62)] text-[var(--apm-text-main)] shadow-[0_0_16px_color-mix(in_srgb,var(--apm-radio-silence)_12%,transparent)]";
+  "border-apm-radio-46 bg-apm-hud-option-active text-[var(--apm-text-main)] shadow-apm-preference-hud-option";
 
 const hudOptionTextClass = "min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-[13px] font-extrabold tracking-normal";
 
 const preferenceActionButtonClass =
-  "inline-flex min-h-[38px] items-center justify-center gap-1.5 rounded-[12px_6px_12px_6px] border border-[color-mix(in_srgb,currentColor_22%,transparent)] ![background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02)),rgba(5,13,18,.68)] px-3.5 text-[var(--apm-mamas-new-bag)] shadow-none focus-visible:border-transparent focus-visible:ring-0 focus-visible:shadow-[0_0_0_1px_color-mix(in_srgb,currentColor_26%,transparent),0_0_18px_color-mix(in_srgb,currentColor_18%,transparent)]";
+  "inline-flex min-h-[38px] items-center justify-center gap-1.5 rounded-[12px_6px_12px_6px] border border-apm-current-22 bg-apm-command-control px-3.5 text-[var(--apm-mamas-new-bag)] shadow-none focus-visible:border-transparent focus-visible:ring-0 focus-visible:shadow-apm-preference-action-focus";
 
 const preferencesFooterClass =
-  "relative z-[1] flex items-center justify-between gap-4 border-t border-[color-mix(in_srgb,var(--apm-radio-silence)_18%,transparent)] px-6 pb-[22px] pt-4";
+  "relative z-[1] flex items-center justify-between gap-4 border-t border-apm-radio-18 px-6 pb-[22px] pt-4";
 
 const clonePreferences = (preferences: ProjectPreferencesModel) =>
   JSON.parse(JSON.stringify(preferences)) as ProjectPreferencesModel;

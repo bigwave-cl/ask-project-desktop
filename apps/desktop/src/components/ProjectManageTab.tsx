@@ -22,7 +22,7 @@ export function ProjectManageTab({ activeKey, list, onActiveChange }: ProjectMan
   return (
     <div className="min-h-[38px] overflow-hidden">
       <div
-        className="flex min-h-[38px] items-stretch overflow-x-auto rounded-[14px] border border-[var(--apm-border-subtle)] bg-[rgba(7,13,15,.46)]"
+        className="flex min-h-[38px] items-stretch overflow-x-auto rounded-[14px] border border-apm-subtle bg-[rgba(7,13,15,.46)]"
         role="tablist"
         aria-label="项目分组"
       >
@@ -34,7 +34,7 @@ export function ProjectManageTab({ activeKey, list, onActiveChange }: ProjectMan
             className={cn(
               "min-w-max cursor-pointer border-0 bg-transparent px-[14px] text-[var(--apm-text-muted)] tracking-normal transition-colors",
               activeKey === item.key &&
-                "bg-[linear-gradient(90deg,color-mix(in_srgb,var(--apm-radio-silence)_18%,transparent),color-mix(in_srgb,var(--apm-mamas-new-bag)_14%,transparent))] text-[var(--apm-text-main)]"
+                "bg-apm-tab-active text-[var(--apm-text-main)]"
             )}
             key={item.key}
             role="tab"

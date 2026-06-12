@@ -12,7 +12,7 @@ const switchVariants = cva(
         default:
           "h-[1.15rem] w-8 bg-input data-[state=checked]:bg-primary dark:bg-input/80",
         project:
-          "h-[28px] w-[48px] border-[color-mix(in_srgb,var(--apm-switch-accent,var(--apm-radio-silence))_28%,transparent)] bg-[rgba(5,13,18,.72)] transition-[border-color,background,box-shadow] duration-[160ms] data-[state=checked]:border-[color-mix(in_srgb,var(--apm-switch-accent,var(--apm-radio-silence))_62%,transparent)] data-[state=checked]:bg-[linear-gradient(135deg,color-mix(in_srgb,var(--apm-switch-accent,var(--apm-radio-silence))_54%,rgba(5,13,18,.72)),color-mix(in_srgb,var(--apm-switch-accent-soft,var(--apm-swan-dive))_34%,rgba(5,13,18,.72)))] data-[state=checked]:shadow-[0_0_14px_color-mix(in_srgb,var(--apm-switch-accent,var(--apm-radio-silence))_22%,transparent)] focus-visible:border-[color-mix(in_srgb,var(--apm-switch-accent,var(--apm-radio-silence))_56%,transparent)] focus-visible:ring-0 focus-visible:shadow-[0_0_0_1px_color-mix(in_srgb,var(--apm-switch-accent,var(--apm-radio-silence))_24%,transparent),0_0_18px_color-mix(in_srgb,var(--apm-switch-accent,var(--apm-radio-silence))_16%,transparent)]",
+          "h-[28px] w-[48px] border-apm-switch-accent-28 bg-apm-switch-track transition-[border-color,background,box-shadow] duration-[160ms] data-[state=checked]:border-apm-switch-accent-62 data-[state=checked]:bg-apm-switch-checked data-[state=checked]:shadow-apm-switch-checked focus-visible:border-apm-switch-accent-56 focus-visible:ring-0 focus-visible:shadow-apm-switch-focus",
       },
       tone: {
         mint:
@@ -36,7 +36,7 @@ const switchThumbVariants = cva(
         default:
           "size-4 data-[state=checked]:translate-x-[calc(100%-2px)]",
         project:
-          "h-5 w-5 bg-[color-mix(in_srgb,var(--apm-faded-letter)_72%,transparent)] shadow-[0_3px_8px_rgba(0,0,0,.3)] transition-[transform,background] duration-[160ms] data-[state=checked]:translate-x-5 data-[state=checked]:bg-[var(--apm-switch-accent,var(--apm-radio-silence))]",
+          "h-5 w-5 bg-apm-switch-thumb shadow-apm-switch-thumb transition-[transform,background] duration-[160ms] data-[state=checked]:translate-x-5 data-[state=checked]:bg-apm-switch-thumb-checked",
       },
       tone: {
         mint: "",

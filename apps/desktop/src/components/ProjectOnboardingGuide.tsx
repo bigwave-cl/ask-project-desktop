@@ -92,13 +92,13 @@ export function ProjectOnboardingGuide({
           forceMount
           variant="custom"
           className={cn(
-            "fixed left-1/2 top-1/2 z-[72] grid max-h-[calc(100vh-48px)] w-[min(760px,calc(100vw-48px))] grid-rows-[auto_286px_auto_auto] overflow-hidden rounded-[22px_9px_22px_9px] border border-[color-mix(in_srgb,var(--apm-radio-silence)_38%,transparent)] bg-[linear-gradient(180deg,rgba(11,24,31,.98),rgba(3,8,15,.98))] text-[var(--apm-text-main)] shadow-[0_30px_74px_rgba(0,0,0,.62),0_0_42px_color-mix(in_srgb,var(--apm-radio-silence)_16%,transparent),inset_0_1px_0_rgba(255,255,255,.12)] outline-none [contain:layout_paint]",
+            "fixed left-1/2 top-1/2 z-[72] grid max-h-[calc(100vh-48px)] w-[min(760px,calc(100vw-48px))] grid-rows-[auto_286px_auto_auto] overflow-hidden rounded-[22px_9px_22px_9px] border border-apm-radio-38 bg-[linear-gradient(180deg,rgba(11,24,31,.98),rgba(3,8,15,.98))] text-[var(--apm-text-main)] shadow-[0_30px_74px_rgba(0,0,0,.62),0_0_42px_color-mix(in_srgb,var(--apm-radio-silence)_16%,transparent),inset_0_1px_0_rgba(255,255,255,.12)] outline-none [contain:layout_paint]",
             "before:pointer-events-none before:absolute before:inset-x-[-16%] before:top-[-34%] before:h-[260px] before:bg-[radial-gradient(ellipse_at_50%_78%,rgba(120,240,224,.2),transparent_42%),repeating-linear-gradient(90deg,rgba(255,255,255,.05)_0_1px,transparent_1px_30px)] before:opacity-70 before:[filter:blur(.4px)] before:[transform:perspective(540px)_rotateX(62deg)]"
           )}
         >
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true" />
 
-          <DialogHeader className="relative z-[1] flex items-center justify-between gap-4 border-b border-[color-mix(in_srgb,var(--apm-radio-silence)_20%,transparent)] px-7 pb-[18px] pt-[26px]">
+          <DialogHeader className="relative z-[1] flex items-center justify-between gap-4 border-b border-apm-radio-20 px-7 pb-[18px] pt-[26px]">
             <div>
               <span className="mb-[5px] block text-[11px] font-black uppercase tracking-[.1em] text-[color-mix(in_srgb,var(--apm-radio-silence)_72%,transparent)]">
                 First Flight
@@ -110,7 +110,7 @@ export function ProjectOnboardingGuide({
                 新手引导会介绍面板自动唤起、状态栏快捷入口和再次查看入口。
               </DialogDescription>
             </div>
-            <div className="min-w-[68px] rounded-[12px_6px_12px_6px] border border-[color-mix(in_srgb,var(--apm-radio-silence)_26%,transparent)] bg-[rgba(5,14,18,.62)] px-3 py-2 text-center font-extrabold text-[var(--apm-radio-silence)]">
+            <div className="min-w-[68px] rounded-[12px_6px_12px_6px] border border-apm-radio-26 bg-[rgba(5,14,18,.62)] px-3 py-2 text-center font-extrabold text-[var(--apm-radio-silence)]">
               {currentIndex + 1} / {slides.length}
             </div>
           </DialogHeader>
@@ -132,12 +132,12 @@ export function ProjectOnboardingGuide({
                   <div
                     className={cn(
                       slide.accentClass,
-                      "relative grid min-h-[188px] place-items-center rounded-full border border-[color-mix(in_srgb,var(--slide-accent)_34%,transparent)] bg-[radial-gradient(circle_at_50%_44%,color-mix(in_srgb,var(--slide-accent)_22%,transparent),transparent_38%),linear-gradient(180deg,rgba(255,255,255,.07),rgba(0,0,0,.08))] text-[var(--slide-accent)] shadow-[0_18px_42px_rgba(0,0,0,.32),0_0_28px_color-mix(in_srgb,var(--slide-accent)_18%,transparent),inset_0_1px_0_rgba(255,255,255,.1)] max-[720px]:min-h-[148px] max-[720px]:w-[180px] max-[720px]:max-w-[180px] max-[720px]:justify-self-center"
+                      "relative grid min-h-[188px] place-items-center rounded-full border border-slide-accent-34 bg-[radial-gradient(circle_at_50%_44%,color-mix(in_srgb,var(--slide-accent)_22%,transparent),transparent_38%),linear-gradient(180deg,rgba(255,255,255,.07),rgba(0,0,0,.08))] text-[var(--slide-accent)] shadow-[0_18px_42px_rgba(0,0,0,.32),0_0_28px_color-mix(in_srgb,var(--slide-accent)_18%,transparent),inset_0_1px_0_rgba(255,255,255,.1)] max-[720px]:min-h-[148px] max-[720px]:w-[180px] max-[720px]:max-w-[180px] max-[720px]:justify-self-center"
                     )}
                   >
                     <Icon className="relative z-[2] drop-shadow-[0_0_18px_currentColor]" size={58} />
-                    <span className="absolute inset-[26px] rounded-full border border-[color-mix(in_srgb,var(--slide-accent)_36%,transparent)] animate-spin" />
-                    <span className="absolute inset-[52px] rounded-full border border-[color-mix(in_srgb,var(--slide-accent)_36%,transparent)] animate-[spin_6s_linear_infinite_reverse]" />
+                    <span className="absolute inset-[26px] rounded-full border border-slide-accent-36 animate-spin" />
+                    <span className="absolute inset-[52px] rounded-full border border-slide-accent-36 animate-[spin_6s_linear_infinite_reverse]" />
                   </div>
                   <div className="max-[720px]:text-center">
                     <h3 className="mb-3 mt-0 text-[28px] leading-[1.18] tracking-normal">{slide.title}</h3>
@@ -147,7 +147,7 @@ export function ProjectOnboardingGuide({
                     {slide.image ? (
                       <Button
                         aria-label="查看状态栏快捷入口大图"
-                        className="relative mt-[14px] block w-[min(320px,100%)] cursor-zoom-in overflow-hidden rounded-[14px_7px_14px_7px] border border-[color-mix(in_srgb,var(--apm-mamas-new-bag)_36%,transparent)] bg-[rgba(3,8,15,.72)] p-0 shadow-[0_16px_34px_rgba(0,0,0,.32),0_0_22px_color-mix(in_srgb,var(--apm-mamas-new-bag)_12%,transparent),inset_0_1px_0_rgba(255,255,255,.08)] max-[720px]:mx-auto [&_img]:aspect-[16/6] [&_img]:w-full [&_img]:object-cover [&_img]:object-right-bottom [&_img]:opacity-90 [&_img]:transition [&_img]:duration-200 hover:[&_img]:scale-[1.035] hover:[&_img]:opacity-100"
+                        className="relative mt-[14px] block w-[min(320px,100%)] cursor-zoom-in overflow-hidden rounded-[14px_7px_14px_7px] border border-apm-mauve-36 bg-[rgba(3,8,15,.72)] p-0 shadow-[0_16px_34px_rgba(0,0,0,.32),0_0_22px_color-mix(in_srgb,var(--apm-mamas-new-bag)_12%,transparent),inset_0_1px_0_rgba(255,255,255,.08)] max-[720px]:mx-auto [&_img]:aspect-[16/6] [&_img]:w-full [&_img]:object-cover [&_img]:object-right-bottom [&_img]:opacity-90 [&_img]:transition [&_img]:duration-200 hover:[&_img]:scale-[1.035] hover:[&_img]:opacity-100"
                         size="projectPlain"
                         type="button"
                         variant="projectPlain"
@@ -163,7 +163,7 @@ export function ProjectOnboardingGuide({
                           src={slide.image}
                           width={2560}
                         />
-                        <span className="absolute bottom-2 right-2 inline-flex items-center gap-[5px] rounded-full border border-[color-mix(in_srgb,var(--apm-mamas-new-bag)_28%,transparent)] bg-[rgba(5,8,14,.78)] px-2 py-1.5 text-[11px] font-extrabold leading-none text-[var(--apm-text-main)] shadow-[0_0_16px_color-mix(in_srgb,var(--apm-mamas-new-bag)_14%,transparent)]">
+                        <span className="absolute bottom-2 right-2 inline-flex items-center gap-[5px] rounded-full border border-apm-mauve-28 bg-[rgba(5,8,14,.78)] px-2 py-1.5 text-[11px] font-extrabold leading-none text-[var(--apm-text-main)] shadow-[0_0_16px_color-mix(in_srgb,var(--apm-mamas-new-bag)_14%,transparent)]">
                           <Search size={15} />
                           点击查看大图
                         </span>
@@ -193,9 +193,9 @@ export function ProjectOnboardingGuide({
             ))}
           </div>
 
-          <footer className="relative z-[1] flex items-center justify-between gap-4 border-t border-[color-mix(in_srgb,var(--apm-radio-silence)_18%,transparent)] px-7 pb-[26px] pt-[18px]">
+          <footer className="relative z-[1] flex items-center justify-between gap-4 border-t border-apm-radio-18 px-7 pb-[26px] pt-[18px]">
             <Button
-              className="inline-flex min-h-[38px] min-w-[96px] items-center justify-center gap-1.5 rounded-[12px_6px_12px_6px] border border-[color-mix(in_srgb,currentColor_22%,transparent)] bg-transparent px-[14px] text-sm font-extrabold text-[color-mix(in_srgb,var(--apm-swan-dive)_76%,transparent)] disabled:cursor-not-allowed disabled:opacity-45"
+              className="inline-flex min-h-[38px] min-w-[96px] items-center justify-center gap-1.5 rounded-[12px_6px_12px_6px] border border-apm-current-22 bg-transparent px-[14px] text-sm font-extrabold text-[color-mix(in_srgb,var(--apm-swan-dive)_76%,transparent)] disabled:cursor-not-allowed disabled:opacity-45"
               disabled={currentIndex === 0}
               size="projectPlain"
               type="button"
@@ -208,7 +208,7 @@ export function ProjectOnboardingGuide({
             <div className="flex gap-2.5">
               {isLastSlide ? (
                 <Button
-                  className="inline-flex min-h-[38px] min-w-[104px] items-center justify-center gap-1.5 rounded-[12px_6px_12px_6px] border border-[color-mix(in_srgb,currentColor_22%,transparent)] bg-[linear-gradient(135deg,var(--apm-radio-silence),var(--apm-swan-dive))] px-[14px] text-sm font-extrabold text-[#061211] shadow-[0_0_18px_color-mix(in_srgb,var(--apm-radio-silence)_24%,transparent),inset_0_1px_0_rgba(255,255,255,.34)]"
+                  className="inline-flex min-h-[38px] min-w-[104px] items-center justify-center gap-1.5 rounded-[12px_6px_12px_6px] border border-apm-current-22 bg-[linear-gradient(135deg,var(--apm-radio-silence),var(--apm-swan-dive))] px-[14px] text-sm font-extrabold text-[#061211] shadow-[0_0_18px_color-mix(in_srgb,var(--apm-radio-silence)_24%,transparent),inset_0_1px_0_rgba(255,255,255,.34)]"
                   size="projectPlain"
                   type="button"
                   variant="projectPlain"
@@ -219,7 +219,7 @@ export function ProjectOnboardingGuide({
                 </Button>
               ) : (
                 <Button
-                  className="inline-flex min-h-[38px] min-w-[104px] items-center justify-center gap-1.5 rounded-[12px_6px_12px_6px] border border-[color-mix(in_srgb,currentColor_22%,transparent)] bg-[linear-gradient(135deg,var(--apm-radio-silence),var(--apm-swan-dive))] px-[14px] text-sm font-extrabold text-[#061211] shadow-[0_0_18px_color-mix(in_srgb,var(--apm-radio-silence)_24%,transparent),inset_0_1px_0_rgba(255,255,255,.34)]"
+                  className="inline-flex min-h-[38px] min-w-[104px] items-center justify-center gap-1.5 rounded-[12px_6px_12px_6px] border border-apm-current-22 bg-[linear-gradient(135deg,var(--apm-radio-silence),var(--apm-swan-dive))] px-[14px] text-sm font-extrabold text-[#061211] shadow-[0_0_18px_color-mix(in_srgb,var(--apm-radio-silence)_24%,transparent),inset_0_1px_0_rgba(255,255,255,.34)]"
                   size="projectPlain"
                   type="button"
                   variant="projectPlain"
@@ -237,8 +237,8 @@ export function ProjectOnboardingGuide({
 
       {previewImage ? (
       <Dialog open={previewOpen} onOpenChange={(nextOpen) => setPreviewOpen(nextOpen)}>
-        <DialogContent forceMount variant="custom" className="fixed left-1/2 top-1/2 z-[74] w-[min(980px,calc(100vw-48px))] overflow-hidden rounded-[18px_8px_18px_8px] border border-[color-mix(in_srgb,var(--apm-radio-silence)_34%,transparent)] bg-[linear-gradient(180deg,rgba(11,24,31,.98),rgba(3,8,15,.98))] shadow-[0_28px_70px_rgba(0,0,0,.64),0_0_34px_color-mix(in_srgb,var(--apm-radio-silence)_14%,transparent)] outline-none">
-          <header className="flex items-center justify-between border-b border-[color-mix(in_srgb,var(--apm-radio-silence)_20%,transparent)] px-[18px] py-3 pr-[14px] text-[var(--apm-text-main)]">
+        <DialogContent forceMount variant="custom" className="fixed left-1/2 top-1/2 z-[74] w-[min(980px,calc(100vw-48px))] overflow-hidden rounded-[18px_8px_18px_8px] border border-apm-radio-34 bg-[linear-gradient(180deg,rgba(11,24,31,.98),rgba(3,8,15,.98))] shadow-[0_28px_70px_rgba(0,0,0,.64),0_0_34px_color-mix(in_srgb,var(--apm-radio-silence)_14%,transparent)] outline-none">
+          <header className="flex items-center justify-between border-b border-apm-radio-20 px-[18px] py-3 pr-[14px] text-[var(--apm-text-main)]">
             <DialogTitle asChild>
               <span className="text-[11px] font-black uppercase tracking-[.1em] text-[color-mix(in_srgb,var(--apm-radio-silence)_78%,transparent)]">
                 Quick Toggle

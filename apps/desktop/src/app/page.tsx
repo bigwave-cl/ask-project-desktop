@@ -61,22 +61,22 @@ const currentWindowPathStorageKey = "ask-project-manage.currentWindowPath";
 const updateWindowInfoEvent = "ask-project-manage.updateWindowInfo";
 
 const emptyActionButtonClass =
-  "inline-flex h-[var(--apm-command-control-height,40px)] min-h-[var(--apm-command-control-height,40px)] min-w-32 cursor-pointer items-center justify-center gap-1.5 rounded-2xl border border-[color-mix(in_srgb,currentColor_22%,transparent)] ![background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02)),rgba(5,13,18,.68)] px-4 font-extrabold text-[var(--apm-radio-silence)] tracking-normal shadow-[0_0_18px_color-mix(in_srgb,currentColor_14%,transparent),inset_0_1px_0_rgba(255,255,255,.08)] backdrop-blur transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_22px_rgba(0,0,0,.24),0_0_24px_color-mix(in_srgb,currentColor_22%,transparent),inset_0_1px_0_rgba(255,255,255,.12)]";
+  "inline-flex h-[var(--apm-command-control-height,40px)] min-h-[var(--apm-command-control-height,40px)] min-w-32 cursor-pointer items-center justify-center gap-1.5 rounded-2xl border border-apm-current-22 bg-apm-command-control px-4 font-extrabold text-[var(--apm-radio-silence)] tracking-normal shadow-apm-command-control backdrop-blur transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:shadow-apm-command-control-hover";
 
 const emptySecondaryActionButtonClass =
-  "border-[color-mix(in_srgb,var(--apm-mamas-new-bag)_40%,transparent)] text-[var(--apm-mamas-new-bag)]";
+  "border-apm-mauve-40 text-[var(--apm-mamas-new-bag)]";
 
 const manageWrapClass =
-  "relative h-screen w-full overflow-hidden bg-[radial-gradient(circle_at_12%_18%,color-mix(in_srgb,var(--apm-radio-silence)_12%,transparent),transparent_26%),radial-gradient(circle_at_86%_8%,color-mix(in_srgb,var(--apm-mamas-new-bag)_12%,transparent),transparent_24%),linear-gradient(135deg,var(--apm-bg-deep)_0%,color-mix(in_srgb,var(--apm-dinner-party)_24%,#090f10)_42%,#070b0e_100%)] text-[var(--apm-text-main)] before:pointer-events-none before:absolute before:inset-0 before:bg-[linear-gradient(color-mix(in_srgb,var(--apm-radio-silence)_7%,transparent)_1px,transparent_1px),linear-gradient(90deg,color-mix(in_srgb,var(--apm-radio-silence)_6%,transparent)_1px,transparent_1px)] before:bg-[length:44px_44px] before:[mask-image:radial-gradient(circle_at_center,black,transparent_78%)] before:content-['']";
+  "relative h-screen w-full overflow-hidden bg-apm-app-shell text-[var(--apm-text-main)] before:pointer-events-none before:absolute before:inset-0 before:bg-apm-app-grid before:bg-[length:44px_44px] before:[mask-image:radial-gradient(circle_at_center,black,transparent_78%)] before:content-['']";
 
 const shellClass =
   "relative z-[1] flex h-full flex-col overflow-hidden px-6 pt-[22px] [--apm-sticky-safe-space:122px] max-[980px]:[--apm-sticky-safe-space:220px]";
 
 const shellStickyClass =
-  "absolute left-6 right-6 top-[22px] z-10 flex flex-col gap-4 bg-transparent pb-4 backdrop-blur-[4px] after:pointer-events-none after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:bg-[linear-gradient(90deg,transparent,color-mix(in_srgb,var(--apm-radio-silence)_28%,transparent),color-mix(in_srgb,var(--apm-riviera)_18%,transparent),transparent)] after:opacity-70 after:shadow-[0_10px_24px_rgba(0,0,0,.26)] after:content-['']";
+  "absolute left-6 right-6 top-[22px] z-10 flex flex-col gap-4 bg-transparent pb-4 backdrop-blur-[4px] after:pointer-events-none after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:bg-apm-line-header-divider after:opacity-70 after:shadow-apm-header-divider after:content-['']";
 
 const projectListScrollClass =
-  "relative -mx-5 ml-[-24px] min-h-0 min-w-[300px] flex-1 overflow-y-auto px-5 pb-6 pl-6 pt-[var(--apm-sticky-safe-space)] [scrollbar-color:color-mix(in_srgb,var(--apm-radio-silence)_26%,transparent)_transparent] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[linear-gradient(180deg,transparent,color-mix(in_srgb,var(--apm-radio-silence)_32%,transparent),color-mix(in_srgb,var(--apm-riviera)_18%,transparent),transparent)] [&::-webkit-scrollbar-thumb]:shadow-[0_0_10px_color-mix(in_srgb,var(--apm-radio-silence)_16%,transparent)] [&::-webkit-scrollbar-track]:bg-transparent max-[860px]:px-6 max-[860px]:pb-[168px]";
+  "relative -mx-5 ml-[-24px] min-h-0 min-w-[300px] flex-1 overflow-y-auto px-5 pb-6 pl-6 pt-[var(--apm-sticky-safe-space)] [scrollbar-color:color-mix(in_srgb,var(--apm-radio-silence)_26%,transparent)_transparent] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-apm-scroll-thumb [&::-webkit-scrollbar-thumb]:shadow-apm-scroll-thumb [&::-webkit-scrollbar-track]:bg-transparent max-[860px]:px-6 max-[860px]:pb-[168px]";
 
 const projectListEmptyClass =
   "grid place-items-center overflow-hidden pb-[280px] max-[860px]:pb-[168px]";

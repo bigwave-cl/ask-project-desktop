@@ -21,16 +21,16 @@ const stageLayerClass =
   "pointer-events-none absolute left-1/2 top-1/2 h-[166px] w-[760px]";
 const scanClass = cn(
   stageLayerClass,
-  "z-[-1] animate-[apm-hud-scan_5.8s_linear_infinite] rounded-t-[130px] rounded-b-[32px] bg-[linear-gradient(180deg,transparent_0,rgba(255,255,255,.06)_48%,transparent_100%),repeating-linear-gradient(0deg,transparent_0_9px,rgba(249,247,232,.035)_9px_10px)] opacity-[.34]"
+  "z-[-1] animate-[apm-hud-scan_5.8s_linear_infinite] rounded-t-[130px] rounded-b-[32px] bg-apm-hud-scan opacity-[.34]"
 );
 const bodyClass =
   "relative z-[2] mx-auto grid min-h-[118px] w-[min(540px,100%)] translate-y-3 grid-cols-[minmax(0,1fr)] items-stretch [transform-style:preserve-3d]";
 const metricsClass =
   "grid grid-cols-[repeat(var(--hud-metric-count,4),minmax(0,1fr))] items-end gap-3 max-[860px]:gap-2";
 const cardClass =
-  "relative grid min-h-[94px] min-w-0 cursor-pointer grid-cols-[34px_minmax(0,1fr)] grid-rows-[1fr_6px] items-center gap-2.5 overflow-hidden rounded-xl border border-[color-mix(in_srgb,var(--card-accent)_34%,transparent)] bg-[linear-gradient(90deg,color-mix(in_srgb,var(--card-accent)_10%,transparent),transparent_22%,transparent_72%,color-mix(in_srgb,var(--apm-riviera)_8%,transparent)),radial-gradient(circle_at_82%_18%,color-mix(in_srgb,var(--card-accent)_20%,transparent),transparent_34%),repeating-linear-gradient(0deg,rgba(246,255,255,.038)_0_1px,transparent_1px_7px),linear-gradient(180deg,rgba(13,32,45,.72),rgba(3,9,20,.66))] p-3 shadow-[0_14px_28px_rgba(0,0,0,.24),0_0_20px_color-mix(in_srgb,var(--card-accent)_10%,transparent),inset_0_1px_0_rgba(255,255,255,.08)] backdrop-blur-md transition-[transform,border-color,box-shadow] duration-[220ms] before:pointer-events-none before:absolute before:inset-0 before:bg-[linear-gradient(135deg,color-mix(in_srgb,var(--card-accent)_16%,transparent),transparent_46%),repeating-linear-gradient(90deg,transparent_0_11px,rgba(255,255,255,.045)_11px_12px)] before:opacity-[.56] hover:-translate-y-1.5 hover:border-[color-mix(in_srgb,var(--card-accent)_58%,transparent)] hover:shadow-[0_12px_28px_rgba(0,0,0,.24),0_0_24px_color-mix(in_srgb,var(--card-accent)_18%,transparent),inset_0_1px_0_rgba(255,255,255,.12)]";
+  "relative grid min-h-[94px] min-w-0 cursor-pointer grid-cols-[34px_minmax(0,1fr)] grid-rows-[1fr_6px] items-center gap-2.5 overflow-hidden rounded-xl border border-apm-card-accent-34 bg-apm-hud-card p-3 shadow-apm-hud-card backdrop-blur-md transition-[transform,border-color,box-shadow] duration-[220ms] before:pointer-events-none before:absolute before:inset-0 before:bg-apm-hud-card-overlay before:opacity-[.56] hover:-translate-y-1.5 hover:border-apm-card-accent-58 hover:shadow-apm-hud-card-hover";
 const iconClass =
-  "relative z-[1] grid h-[34px] w-[34px] place-items-center rounded-[10px] border border-[color-mix(in_srgb,var(--card-accent)_42%,transparent)] bg-[rgba(3,10,12,.62)] text-[var(--card-accent)] shadow-[0_0_18px_color-mix(in_srgb,var(--card-accent)_18%,transparent)]";
+  "relative z-[1] grid h-[34px] w-[34px] place-items-center rounded-[10px] border border-apm-card-accent-42 bg-apm-hud-icon text-[var(--card-accent)] shadow-apm-hud-icon";
 const contentClass = "relative z-[1] grid min-w-0 gap-0.5";
 const labelClass =
   "overflow-hidden text-ellipsis whitespace-nowrap text-xs leading-[1.2] text-[color-mix(in_srgb,var(--apm-faded-letter)_68%,transparent)]";
@@ -39,13 +39,13 @@ const valueClass =
 const barClass =
   "relative z-[1] col-span-full h-1.5 overflow-hidden rounded-full bg-[rgba(0,0,0,.28)]";
 const barValueClass =
-  "block h-full w-[calc(var(--metric-level)*100%)] rounded-[inherit] bg-[linear-gradient(90deg,var(--card-accent),var(--apm-swan-dive))] shadow-[0_0_14px_color-mix(in_srgb,var(--card-accent)_36%,transparent)] transition-[width] duration-[360ms]";
+  "block h-full w-[calc(var(--metric-level)*100%)] rounded-[inherit] bg-apm-hud-meter shadow-apm-hud-meter transition-[width] duration-[360ms]";
 const footerClass =
   "relative z-[2] mx-auto mt-2 grid w-[min(560px,76%)] grid-cols-[1fr_90px_1fr] gap-3";
 const footerLineClass =
-  "h-0.5 rounded-full bg-[linear-gradient(90deg,transparent,color-mix(in_srgb,var(--apm-radio-silence)_56%,transparent),transparent)]";
+  "h-0.5 rounded-full bg-apm-line-hud-mint";
 const footerCenterLineClass =
-  "bg-[linear-gradient(90deg,transparent,color-mix(in_srgb,var(--apm-riviera)_60%,transparent),transparent)]";
+  "bg-apm-line-hud-riviera";
 
 const metricOptions = [
   { key: "project", label: "项目总数", icon: VectorSquare, accent: "var(--apm-radio-silence)" },
