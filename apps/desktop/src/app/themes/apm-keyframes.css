@@ -1,0 +1,50 @@
+/* APM 动画关键帧：用于命令区呼吸线、符文轻摆、菜单入场和 HUD 扫描线等复刻动效。 */
+
+@keyframes apm-command-line-breathe {
+  0%,
+  100% {
+    opacity: .38;
+    transform: translateX(-50%) scaleX(.86);
+  }
+
+  50% {
+    opacity: .82;
+    transform: translateX(-50%) scaleX(1.04);
+  }
+}
+
+@keyframes apm-command-sigil {
+  0%,
+  100% {
+    transform: rotate(-3deg) translateY(0);
+  }
+
+  50% {
+    transform: rotate(2deg) translateY(-2px);
+  }
+}
+
+@keyframes apm-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes apm-hud-scan {
+  0%,
+  100% {
+    opacity: .22;
+    filter: brightness(.9);
+  }
+
+  50% {
+    opacity: .52;
+    filter: brightness(1.25);
+  }
+}

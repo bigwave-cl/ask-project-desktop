@@ -1,0 +1,283 @@
+/* APM 边框工具类：用于命令区、菜单、弹窗、按钮、HUD 和开关的复刻边框色，业务侧优先使用 border-apm-*。 */
+/* 注意：这里放在 @layer 外，避免 Tailwind v4 过滤 border-* 前缀的自定义类；命名数字表示 color-mix 的透明混合比例。 */
+/* 色系：currentColor 继承当前文本或图标色；场景：菜单项、图标按钮等弱语义边框。 */
+.border-apm-current-22 {
+  border-color: color-mix(in srgb, currentColor 22%, transparent);
+}
+
+/* 色系：currentColor 继承当前文本或图标色；场景：hover/highlighted 菜单项边框。 */
+.border-apm-current-28 {
+  border-color: color-mix(in srgb, currentColor 28%, transparent);
+}
+
+/* 色系：全局 apm-border-subtle，默认 radio-silence 薄荷弱边框；场景：通用容器分隔。 */
+.border-apm-subtle {
+  border-color: var(--apm-border-subtle);
+}
+
+/* 色系：radio-silence 薄荷主色 18% 弱透明；场景：输入框、面板、菜单的轻量默认边框。 */
+.border-apm-radio-18 {
+  border-color: color-mix(in srgb, var(--apm-radio-silence) 18%, transparent);
+}
+
+/* 色系：radio-silence 薄荷主色 20% 弱透明；场景：背景层和次级容器默认边框。 */
+.border-apm-radio-20 {
+  border-color: color-mix(in srgb, var(--apm-radio-silence) 20%, transparent);
+}
+
+/* 色系：radio-silence 薄荷主色 22% 弱透明；场景：命令区、控件组的常规边框。 */
+.border-apm-radio-22 {
+  border-color: color-mix(in srgb, var(--apm-radio-silence) 22%, transparent);
+}
+
+/* 色系：radio-silence 薄荷主色 26% 透明；场景：需要稍清晰轮廓的面板边框。 */
+.border-apm-radio-26 {
+  border-color: color-mix(in srgb, var(--apm-radio-silence) 26%, transparent);
+}
+
+/* 色系：radio-silence 薄荷主色 30% 透明；场景：Header 搜索框、菜单、弹窗等主容器边框。 */
+.border-apm-radio-30 {
+  border-color: color-mix(in srgb, var(--apm-radio-silence) 30%, transparent);
+}
+
+/* 色系：radio-silence 薄荷主色 34% 透明；场景：可交互卡片或控件默认边框。 */
+.border-apm-radio-34 {
+  border-color: color-mix(in srgb, var(--apm-radio-silence) 34%, transparent);
+}
+
+/* 色系：radio-silence 薄荷主色 38% 透明；场景：hover 态或强调边框。 */
+.border-apm-radio-38 {
+  border-color: color-mix(in srgb, var(--apm-radio-silence) 38%, transparent);
+}
+
+/* 色系：radio-silence 薄荷主色 44% 透明；场景：focus-visible 聚焦边框。 */
+.border-apm-radio-44 {
+  border-color: color-mix(in srgb, var(--apm-radio-silence) 44%, transparent);
+}
+
+/* 色系：radio-silence 薄荷主色 46% 透明；场景：高亮容器或当前态边框。 */
+.border-apm-radio-46 {
+  border-color: color-mix(in srgb, var(--apm-radio-silence) 46%, transparent);
+}
+
+/* 色系：radio-silence 薄荷主色 48% 透明；场景：重要操作区或选中态边框。 */
+.border-apm-radio-48 {
+  border-color: color-mix(in srgb, var(--apm-radio-silence) 48%, transparent);
+}
+
+/* 色系：radio-silence 薄荷主色 68% 高透明度；场景：强聚焦态边框。 */
+.border-apm-radio-68 {
+  border-color: color-mix(in srgb, var(--apm-radio-silence) 68%, transparent);
+}
+
+/* 色系：radio-silence 薄荷主色 70% 高透明度；场景：主操作强 focus-visible 边框。 */
+.border-apm-radio-70 {
+  border-color: color-mix(in srgb, var(--apm-radio-silence) 70%, transparent);
+}
+
+/* 色系：riviera 珊瑚危险色 22% 弱透明；场景：危险区装饰线、伪元素弱边框。 */
+.border-apm-riviera-22 {
+  border-color: color-mix(in srgb, var(--apm-riviera) 22%, transparent);
+}
+
+/* 色系：riviera 珊瑚危险色 26% 透明；场景：危险菜单或删除提示弱边框。 */
+.border-apm-riviera-26 {
+  border-color: color-mix(in srgb, var(--apm-riviera) 26%, transparent);
+}
+
+/* 色系：riviera 珊瑚危险色 28% 透明；场景：危险按钮或 AlertDialog 默认边框。 */
+.border-apm-riviera-28 {
+  border-color: color-mix(in srgb, var(--apm-riviera) 28%, transparent);
+}
+
+/* 色系：riviera 珊瑚危险色 30% 透明；场景：危险弹窗和危险操作容器边框。 */
+.border-apm-riviera-30 {
+  border-color: color-mix(in srgb, var(--apm-riviera) 30%, transparent);
+}
+
+/* 色系：riviera 珊瑚危险色 38% 透明；场景：危险操作 hover 或强调边框。 */
+.border-apm-riviera-38 {
+  border-color: color-mix(in srgb, var(--apm-riviera) 38%, transparent);
+}
+
+/* 色系：riviera 珊瑚危险色 52% 透明；场景：高风险操作的明显边框。 */
+.border-apm-riviera-52 {
+  border-color: color-mix(in srgb, var(--apm-riviera) 52%, transparent);
+}
+
+/* 色系：riviera 珊瑚危险色 70% 高透明度；场景：危险按钮 focus-visible 强边框。 */
+.border-apm-riviera-70 {
+  border-color: color-mix(in srgb, var(--apm-riviera) 70%, transparent);
+}
+
+/* 色系：mamas-new-bag 暗粉辅助色 28% 透明；场景：导入区、Header 辅助控件边框。 */
+.border-apm-mauve-28 {
+  border-color: color-mix(in srgb, var(--apm-mamas-new-bag) 28%, transparent);
+}
+
+/* 色系：mamas-new-bag 暗粉辅助色 36% 透明；场景：偏暖辅助控件或装饰容器边框。 */
+.border-apm-mauve-36 {
+  border-color: color-mix(in srgb, var(--apm-mamas-new-bag) 36%, transparent);
+}
+
+/* 色系：mamas-new-bag 暗粉辅助色 38% 透明；场景：导入按钮组、二级强调边框。 */
+.border-apm-mauve-38 {
+  border-color: color-mix(in srgb, var(--apm-mamas-new-bag) 38%, transparent);
+}
+
+/* 色系：mamas-new-bag 暗粉辅助色 40% 透明；场景：偏暖高亮容器边框。 */
+.border-apm-mauve-40 {
+  border-color: color-mix(in srgb, var(--apm-mamas-new-bag) 40%, transparent);
+}
+
+/* 色系：mamas-new-bag 暗粉辅助色 18% 弱透明；场景：按钮组右侧分隔边，避开 Tailwind border-r 自定义过滤。 */
+[class~="apm-border-r-mauve-18"] {
+  border-right-color: color-mix(in srgb, var(--apm-mamas-new-bag) 18%, transparent);
+}
+
+/* 色系：swan-dive 米白高光 34% 透明；场景：明亮 hover 边框或轻提示边框。 */
+.border-apm-swan-34 {
+  border-color: color-mix(in srgb, var(--apm-swan-dive) 34%, transparent);
+}
+
+/* 色系：动态 switch accent 28%，默认 radio-silence 薄荷；场景：Switch 默认轨道边框。 */
+.border-apm-switch-accent-28 {
+  border-color: color-mix(in srgb, var(--apm-switch-accent, var(--apm-radio-silence)) 28%, transparent);
+}
+
+/* 色系：动态 switch accent 56%，默认 radio-silence 薄荷；场景：Switch focus-visible 边框。 */
+.border-apm-switch-accent-56 {
+  border-color: color-mix(in srgb, var(--apm-switch-accent, var(--apm-radio-silence)) 56%, transparent);
+}
+
+/* 色系：动态 switch accent 62%，默认 radio-silence 薄荷；场景：Switch 选中轨道边框。 */
+.border-apm-switch-accent-62 {
+  border-color: color-mix(in srgb, var(--apm-switch-accent, var(--apm-radio-silence)) 62%, transparent);
+}
+
+/* 色系：动态 card-accent 34%；场景：HUD 卡片默认边框。 */
+.border-apm-card-accent-34 {
+  border-color: color-mix(in srgb, var(--card-accent) 34%, transparent);
+}
+
+/* 色系：动态 card-accent 42%；场景：HUD 卡片图标或内部模块边框。 */
+.border-apm-card-accent-42 {
+  border-color: color-mix(in srgb, var(--card-accent) 42%, transparent);
+}
+
+/* 色系：动态 card-accent 58%；场景：HUD 卡片 hover 或强调边框。 */
+.border-apm-card-accent-58 {
+  border-color: color-mix(in srgb, var(--card-accent) 58%, transparent);
+}
+
+/* 色系：项目 seal-primary 主题色；场景：项目卡片 seal、项目类型标记。 */
+.border-seal-primary {
+  border-color: var(--seal-primary);
+}
+
+/* 色系：项目 seal-primary 32% 透明；场景：项目卡片弱边框。 */
+.border-seal-primary-32 {
+  border-color: color-mix(in srgb, var(--seal-primary) 32%, transparent);
+}
+
+/* 色系：项目 seal-primary 34% 透明；场景：项目卡片伪元素边框。 */
+.border-seal-primary-34 {
+  border-color: color-mix(in srgb, var(--seal-primary) 34%, transparent);
+}
+
+/* 色系：项目 seal-primary 52% 透明；场景：当前项目或项目卡片强调边框。 */
+.border-seal-primary-52 {
+  border-color: color-mix(in srgb, var(--seal-primary) 52%, transparent);
+}
+
+/* 色系：项目 seal-primary 66% 透明；场景：项目卡片 hover 强边框。 */
+.border-seal-primary-66 {
+  border-color: color-mix(in srgb, var(--seal-primary) 66%, transparent);
+}
+
+/* 色系：项目 seal-secondary 70% 透明；场景：项目卡片多色 seal 辅助边框。 */
+.border-seal-secondary-70 {
+  border-color: color-mix(in srgb, var(--seal-secondary) 70%, transparent);
+}
+
+/* 色系：引导页 slide-accent 34% 透明；场景：新手引导图片预览或分页内容边框。 */
+.border-slide-accent-34 {
+  border-color: color-mix(in srgb, var(--slide-accent) 34%, transparent);
+}
+
+/* 色系：引导页 slide-accent 36% 透明；场景：新手引导当前页或强调内容边框。 */
+.border-slide-accent-36 {
+  border-color: color-mix(in srgb, var(--slide-accent) 36%, transparent);
+}
+
+/* 边框色变体桥接：hover/focus/data/伪元素下也可以继续使用 border-apm-*。 */
+/* 色系：currentColor 继承语义色；场景：菜单项 hover/highlighted 的边框桥接。 */
+[class~="hover:border-apm-current-28"]:hover,
+[class~="data-[highlighted]:border-apm-current-28"][data-highlighted] {
+  border-color: color-mix(in srgb, currentColor 28%, transparent);
+}
+
+/* 色系：swan-dive 米白高光；场景：幽灵按钮 hover 的明亮边框桥接。 */
+[class~="hover:border-apm-swan-34"]:hover {
+  border-color: color-mix(in srgb, var(--apm-swan-dive) 34%, transparent);
+}
+
+/* 色系：radio-silence 薄荷主色；场景：普通控件 hover 边框桥接。 */
+[class~="hover:border-apm-radio-38"]:hover {
+  border-color: color-mix(in srgb, var(--apm-radio-silence) 38%, transparent);
+}
+
+/* 色系：动态 card-accent；场景：HUD 卡片 hover 边框桥接。 */
+[class~="hover:border-apm-card-accent-58"]:hover {
+  border-color: color-mix(in srgb, var(--card-accent) 58%, transparent);
+}
+
+/* 色系：项目 seal-primary；场景：项目卡片 hover 边框桥接。 */
+[class~="hover:border-seal-primary-66"]:hover {
+  border-color: color-mix(in srgb, var(--seal-primary) 66%, transparent);
+}
+
+/* 色系：radio-silence 薄荷主色；场景：普通控件轻聚焦边框桥接。 */
+[class~="focus-visible:border-apm-radio-44"]:focus-visible {
+  border-color: color-mix(in srgb, var(--apm-radio-silence) 44%, transparent);
+}
+
+/* 色系：radio-silence 薄荷主色；场景：输入区强聚焦边框桥接。 */
+[class~="focus-visible:border-apm-radio-68"]:focus-visible {
+  border-color: color-mix(in srgb, var(--apm-radio-silence) 68%, transparent);
+}
+
+/* 色系：radio-silence 薄荷主色；场景：主按钮强聚焦边框桥接。 */
+[class~="focus-visible:border-apm-radio-70"]:focus-visible {
+  border-color: color-mix(in srgb, var(--apm-radio-silence) 70%, transparent);
+}
+
+/* 色系：riviera 珊瑚危险色；场景：危险按钮强聚焦边框桥接。 */
+[class~="focus-visible:border-apm-riviera-70"]:focus-visible {
+  border-color: color-mix(in srgb, var(--apm-riviera) 70%, transparent);
+}
+
+/* 色系：动态 switch accent；场景：Switch 聚焦边框桥接。 */
+[class~="focus-visible:border-apm-switch-accent-56"]:focus-visible {
+  border-color: color-mix(in srgb, var(--apm-switch-accent, var(--apm-radio-silence)) 56%, transparent);
+}
+
+/* 色系：动态 switch accent；场景：Switch 选中态边框桥接。 */
+[class~="data-[state=checked]:border-apm-switch-accent-62"][data-state="checked"] {
+  border-color: color-mix(in srgb, var(--apm-switch-accent, var(--apm-radio-silence)) 62%, transparent);
+}
+
+/* 色系：riviera 珊瑚危险色；场景：危险装饰线 after 弱边框桥接。 */
+[class~="after:border-apm-riviera-22"]::after {
+  border-color: color-mix(in srgb, var(--apm-riviera) 22%, transparent);
+}
+
+/* 色系：riviera 珊瑚危险色；场景：危险装饰线 after 常规边框桥接。 */
+[class~="after:border-apm-riviera-26"]::after {
+  border-color: color-mix(in srgb, var(--apm-riviera) 26%, transparent);
+}
+
+/* 色系：项目 seal-primary；场景：项目卡片 after 装饰边框桥接。 */
+[class~="after:border-seal-primary-34"]::after {
+  border-color: color-mix(in srgb, var(--seal-primary) 34%, transparent);
+}

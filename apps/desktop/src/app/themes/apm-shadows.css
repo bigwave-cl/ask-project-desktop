@@ -1,0 +1,285 @@
+/* APM 阴影工具类：用于命令区、菜单、弹窗、按钮、HUD 和滚动条的复刻发光阴影，业务侧优先使用 shadow-apm-*。 */
+@layer utilities {
+  /* 命令区/header 阴影；自定义阴影写入 --tw-shadow，便于和 Tailwind v4 阴影栈组合。 */
+  /* 色系：radio-silence 薄荷弱光；场景：Header 搜索框、命令输入容器阴影。 */
+  .shadow-apm-command-field {
+    --tw-shadow:
+      0 0 28px color-mix(in srgb, var(--apm-radio-silence) 12%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, .08),
+      inset 0 0 24px color-mix(in srgb, var(--apm-radio-silence) 7%, transparent);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：radio-silence 薄荷外发光 + 深色投影；场景：命令区呼吸线。 */
+  .shadow-apm-command-breathe-line {
+    --tw-shadow:
+      0 0 18px color-mix(in srgb, var(--apm-radio-silence) 28%, transparent),
+      0 14px 28px rgba(0, 0, 0, .34);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：mamas-new-bag 暗粉弱光；场景：导入按钮组和导入下拉触发器。 */
+  .shadow-apm-import-control {
+    --tw-shadow: 0 0 20px color-mix(in srgb, var(--apm-mamas-new-bag) 13%, transparent);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：中性深色投影；场景：Header 下沿阴影分层。 */
+  .shadow-apm-header-divider {
+    --tw-shadow: 0 10px 24px rgba(0, 0, 0, .26);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：currentColor 继承控件语义色；场景：Header 图标按钮和命令按钮默认态。 */
+  .shadow-apm-command-control {
+    --tw-shadow:
+      0 0 18px color-mix(in srgb, currentColor 14%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, .08);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：currentColor 继承控件语义色；场景：Header 图标按钮和命令按钮 hover 态。 */
+  .shadow-apm-command-control-hover {
+    --tw-shadow:
+      0 10px 22px rgba(0, 0, 0, .24),
+      0 0 24px color-mix(in srgb, currentColor 22%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, .12);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 表单聚焦态和项目按钮发光阴影。 */
+  /* 色系：radio-silence 薄荷内发光；场景：Input、Textarea 默认内阴影。 */
+  .shadow-apm-control-field {
+    --tw-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, .08),
+      inset 0 0 22px rgba(97, 191, 173, .08);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：radio-silence 薄荷聚焦光；场景：Input、Textarea focus-visible 态。 */
+  .shadow-apm-control-field-focus {
+    --tw-shadow:
+      0 0 0 1px color-mix(in srgb, var(--apm-radio-silence) 22%, transparent),
+      0 0 24px color-mix(in srgb, var(--apm-radio-silence) 18%, transparent),
+      inset 0 0 22px rgba(97, 191, 173, .1);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：radio-silence 薄荷弱聚焦光；场景：幽灵按钮键盘聚焦态。 */
+  .shadow-apm-button-ghost-focus {
+    --tw-shadow:
+      0 0 0 1px color-mix(in srgb, var(--apm-radio-silence) 18%, transparent),
+      0 0 18px color-mix(in srgb, var(--apm-radio-silence) 14%, transparent);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：radio-silence 薄荷主光；场景：主要按钮默认态。 */
+  .shadow-apm-button-primary {
+    --tw-shadow:
+      0 0 18px color-mix(in srgb, var(--apm-radio-silence) 24%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, .34);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：radio-silence 薄荷强聚焦光；场景：主要按钮键盘聚焦态。 */
+  .shadow-apm-button-primary-focus {
+    --tw-shadow:
+      0 0 0 1px color-mix(in srgb, var(--apm-radio-silence) 28%, transparent),
+      0 0 24px color-mix(in srgb, var(--apm-radio-silence) 28%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, .4);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：riviera 珊瑚危险光；场景：危险按钮默认态。 */
+  .shadow-apm-button-danger {
+    --tw-shadow:
+      0 0 18px color-mix(in srgb, var(--apm-riviera) 24%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, .34);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：riviera 珊瑚主光 + radio-silence 薄荷辅助；场景：危险按钮 hover 态。 */
+  .shadow-apm-button-danger-hover {
+    --tw-shadow:
+      0 0 26px color-mix(in srgb, var(--apm-riviera) 34%, transparent),
+      0 0 18px color-mix(in srgb, var(--apm-radio-silence) 16%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, .42);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：riviera 珊瑚强聚焦光；场景：危险按钮键盘聚焦态。 */
+  .shadow-apm-button-danger-focus {
+    --tw-shadow:
+      0 0 0 1px color-mix(in srgb, var(--apm-riviera) 28%, transparent),
+      0 0 24px color-mix(in srgb, var(--apm-riviera) 28%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, .4);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 下拉菜单阴影和菜单项高亮发光。 */
+  /* 色系：radio-silence 薄荷 + riviera 珊瑚弱光；场景：DropdownMenu 面板阴影。 */
+  .shadow-apm-menu-content {
+    --tw-shadow:
+      0 18px 42px rgba(0, 0, 0, .48),
+      0 0 26px color-mix(in srgb, var(--apm-radio-silence) 18%, transparent),
+      0 0 34px color-mix(in srgb, var(--apm-riviera) 8%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, .1);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：currentColor 继承菜单项语义色；场景：菜单项 hover、highlighted 发光。 */
+  .shadow-apm-menu-item-active {
+    --tw-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, .08),
+      0 0 18px color-mix(in srgb, currentColor 12%, transparent);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：radio-silence 薄荷；场景：菜单分隔线发光。 */
+  .shadow-apm-menu-line {
+    --tw-shadow: 0 0 14px color-mix(in srgb, var(--apm-radio-silence) 38%, transparent);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* Dialog、偏好设置、Switch、HUD 和滚动条阴影。 */
+  /* 色系：radio-silence 薄荷 + riviera 珊瑚弱光；场景：普通 Dialog 面板阴影。 */
+  .shadow-apm-dialog-mint {
+    --tw-shadow:
+      0 28px 78px rgba(0, 0, 0, .54),
+      0 0 34px color-mix(in srgb, var(--apm-radio-silence) 18%, transparent),
+      0 0 54px color-mix(in srgb, var(--apm-riviera) 10%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, .1),
+      inset 0 0 42px rgba(97, 191, 173, .08);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：riviera 珊瑚危险光；场景：危险 ConfirmDialog 面板阴影。 */
+  .shadow-apm-dialog-danger {
+    --tw-shadow:
+      0 26px 64px rgba(0, 0, 0, .58),
+      0 0 34px color-mix(in srgb, var(--apm-riviera) 16%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, .1);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：currentColor 继承图标语义色；场景：普通 Dialog 图标底座发光。 */
+  .shadow-apm-dialog-sigil {
+    --tw-shadow:
+      0 0 18px color-mix(in srgb, currentColor 18%, transparent),
+      inset 0 0 20px rgba(255, 255, 255, .08);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：riviera 珊瑚危险光；场景：危险 Dialog 图标底座发光。 */
+  .shadow-apm-dialog-sigil-danger {
+    --tw-shadow:
+      0 0 18px color-mix(in srgb, var(--apm-riviera) 24%, transparent),
+      inset 0 0 20px rgba(255, 139, 139, .14);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：radio-silence 薄荷；场景：Dialog 内部分隔线发光。 */
+  .shadow-apm-dialog-line {
+    --tw-shadow: 0 0 16px color-mix(in srgb, var(--apm-radio-silence) 44%, transparent);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：radio-silence 薄荷弱光；场景：偏好设置面板阴影。 */
+  .shadow-apm-preferences-panel {
+    --tw-shadow:
+      0 26px 64px rgba(0, 0, 0, .58),
+      0 0 32px color-mix(in srgb, var(--apm-radio-silence) 16%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, .1);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：radio-silence 薄荷聚焦光；场景：偏好设置关闭按钮 focus-visible 态。 */
+  .shadow-apm-preferences-close-focus {
+    --tw-shadow:
+      0 0 0 1px color-mix(in srgb, var(--apm-radio-silence) 28%, transparent),
+      0 0 18px color-mix(in srgb, var(--apm-radio-silence) 18%, transparent);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：中性白光内阴影；场景：偏好设置卡片默认层次。 */
+  .shadow-apm-preference-card {
+    --tw-shadow: inset 0 1px 0 rgba(255, 255, 255, .07);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：currentColor 继承操作语义色；场景：偏好设置操作按钮聚焦态。 */
+  .shadow-apm-preference-action-focus {
+    --tw-shadow:
+      0 0 0 1px color-mix(in srgb, currentColor 26%, transparent),
+      0 0 18px color-mix(in srgb, currentColor 18%, transparent);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：radio-silence 薄荷弱光；场景：HUD 指标选项卡片。 */
+  .shadow-apm-preference-hud-option {
+    --tw-shadow: 0 0 16px color-mix(in srgb, var(--apm-radio-silence) 12%, transparent);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：动态 switch accent，默认 radio-silence 薄荷；场景：Switch 选中轨道发光。 */
+  .shadow-apm-switch-checked {
+    --tw-shadow: 0 0 14px color-mix(in srgb, var(--apm-switch-accent, var(--apm-radio-silence)) 22%, transparent);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：动态 switch accent，默认 radio-silence 薄荷；场景：Switch 键盘聚焦态。 */
+  .shadow-apm-switch-focus {
+    --tw-shadow:
+      0 0 0 1px color-mix(in srgb, var(--apm-switch-accent, var(--apm-radio-silence)) 24%, transparent),
+      0 0 18px color-mix(in srgb, var(--apm-switch-accent, var(--apm-radio-silence)) 16%, transparent);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：中性深色投影；场景：Switch 滑块浮起阴影。 */
+  .shadow-apm-switch-thumb {
+    --tw-shadow: 0 3px 8px rgba(0, 0, 0, .3);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：动态 card-accent；场景：HUD 指标卡片默认阴影。 */
+  .shadow-apm-hud-card {
+    --tw-shadow:
+      0 14px 28px rgba(0, 0, 0, .24),
+      0 0 20px color-mix(in srgb, var(--card-accent) 10%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, .08);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：动态 card-accent；场景：HUD 指标卡片 hover 态。 */
+  .shadow-apm-hud-card-hover {
+    --tw-shadow:
+      0 12px 28px rgba(0, 0, 0, .24),
+      0 0 24px color-mix(in srgb, var(--card-accent) 18%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, .12);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：动态 card-accent；场景：HUD 图标底座发光。 */
+  .shadow-apm-hud-icon {
+    --tw-shadow: 0 0 18px color-mix(in srgb, var(--card-accent) 18%, transparent);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：动态 card-accent；场景：HUD 进度条发光。 */
+  .shadow-apm-hud-meter {
+    --tw-shadow: 0 0 14px color-mix(in srgb, var(--card-accent) 36%, transparent);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：radio-silence 薄荷弱光；场景：自定义滚动条 thumb 发光。 */
+  .shadow-apm-scroll-thumb {
+    --tw-shadow: 0 0 10px color-mix(in srgb, var(--apm-radio-silence) 16%, transparent);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：riviera 珊瑚弱光；场景：危险或强调分隔线发光。 */
+  .shadow-apm-riviera-line {
+    --tw-shadow: 0 0 12px color-mix(in srgb, var(--apm-riviera) 22%, transparent);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+}

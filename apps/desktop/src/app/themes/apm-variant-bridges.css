@@ -1,0 +1,269 @@
+/* APM 变体桥接工具类：用于 Tailwind 未直接生成的 before/after、hover、focus、data-state 和滚动条组合场景。 */
+@layer utilities {
+  /* 变体桥接选择器：这里显式补齐 Tailwind 未生成的 pseudo/data 自定义工具类组合。 */
+  /* 色系：radio-silence 薄荷弱网格；场景：应用外壳 before 背景网格桥接。 */
+  [class~="before:bg-apm-app-grid"]::before {
+    background: linear-gradient(
+      color-mix(in srgb, var(--apm-radio-silence) 7%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--apm-radio-silence) 6%, transparent) 1px,
+      transparent 1px
+    );
+  }
+
+  /* 色系：radio-silence 薄荷；场景：命令输入区 before 细线桥接。 */
+  [class~="before:bg-apm-line-command-field"]::before {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--apm-radio-silence) 50%, transparent),
+      transparent
+    );
+  }
+
+  /* 色系：radio-silence 薄荷 + riviera 珊瑚；场景：菜单面板 before 光泽桥接。 */
+  [class~="before:bg-apm-menu-sheen"]::before {
+    background: radial-gradient(
+      ellipse at 16% 0%,
+      color-mix(in srgb, var(--apm-radio-silence) 24%, transparent),
+      transparent 40%
+    ),
+    radial-gradient(
+      ellipse at 92% 100%,
+      color-mix(in srgb, var(--apm-riviera) 16%, transparent),
+      transparent 44%
+    ),
+    linear-gradient(110deg, transparent 0 38%, rgba(249, 247, 232, .07) 46%, transparent 56% 100%);
+  }
+
+  /* 色系：currentColor 继承菜单项语义色；场景：菜单项 before/hover/highlighted 背景桥接。 */
+  [class~="before:bg-apm-menu-item-active"]::before,
+  [class~="hover:bg-apm-menu-item-active"]:hover,
+  [class~="data-[highlighted]:bg-apm-menu-item-active"][data-highlighted] {
+    background: linear-gradient(90deg, color-mix(in srgb, currentColor 14%, transparent), transparent 76%),
+      rgba(249, 247, 232, .035);
+  }
+
+  /* 色系：radio-silence 薄荷 + riviera 珊瑚；场景：Dialog before 光泽桥接。 */
+  [class~="before:bg-apm-dialog-sheen"]::before {
+    background: radial-gradient(
+      ellipse at 16% 0%,
+      color-mix(in srgb, var(--apm-radio-silence) 32%, transparent),
+      transparent 36%
+    ),
+    radial-gradient(
+      ellipse at 84% 100%,
+      color-mix(in srgb, var(--apm-riviera) 20%, transparent),
+      transparent 42%
+    ),
+    linear-gradient(110deg, transparent 0 38%, rgba(249, 247, 232, .07) 46%, transparent 56% 100%);
+  }
+
+  /* 色系：动态 card-accent；场景：HUD 卡片 before 纹理桥接。 */
+  [class~="before:bg-apm-hud-card-overlay"]::before {
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--card-accent) 16%, transparent),
+      transparent 46%
+    ),
+    repeating-linear-gradient(90deg, transparent 0 11px, rgba(255, 255, 255, .045) 11px 12px);
+  }
+
+  /* 色系：currentColor 继承语义色；场景：before 轻量语义分隔线桥接。 */
+  [class~="before:bg-apm-line-current-soft"]::before {
+    background: linear-gradient(90deg, transparent, color-mix(in srgb, currentColor 28%, transparent), transparent);
+  }
+
+  /* 色系：riviera 珊瑚 + radio-silence 薄荷；场景：命令区 after 呼吸线桥接。 */
+  [class~="after:bg-apm-line-command-breathe"]::after {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--apm-riviera) 52%, transparent),
+      color-mix(in srgb, var(--apm-radio-silence) 54%, transparent),
+      transparent
+    );
+  }
+
+  /* 色系：radio-silence 薄荷 + riviera 珊瑚；场景：Header after 分隔线桥接。 */
+  [class~="after:bg-apm-line-header-divider"]::after {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--apm-radio-silence) 28%, transparent),
+      color-mix(in srgb, var(--apm-riviera) 18%, transparent),
+      transparent
+    );
+  }
+
+  /* 色系：radio-silence 薄荷 + riviera 珊瑚；场景：after 强装饰线桥接。 */
+  [class~="after:bg-apm-line-mint-riviera"]::after {
+    background: linear-gradient(90deg, transparent, var(--apm-radio-silence), var(--apm-riviera), transparent);
+  }
+
+  /* 色系：radio-silence 薄荷 + riviera 珊瑚；场景：滚动条 thumb 背景桥接。 */
+  [class~="[&::-webkit-scrollbar-thumb]:bg-apm-scroll-thumb"]::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      180deg,
+      transparent,
+      color-mix(in srgb, var(--apm-radio-silence) 32%, transparent),
+      color-mix(in srgb, var(--apm-riviera) 18%, transparent),
+      transparent
+    );
+  }
+
+  /* 色系：swan-dive 米白弱透明；场景：幽灵按钮 hover 背景桥接。 */
+  [class~="hover:bg-apm-button-ghost-hover"]:hover {
+    background: color-mix(in srgb, var(--apm-swan-dive) 7%, transparent);
+  }
+
+  /* 色系：动态 switch accent；场景：Switch 选中轨道背景桥接。 */
+  [class~="data-[state=checked]:bg-apm-switch-checked"][data-state="checked"] {
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--apm-switch-accent, var(--apm-radio-silence)) 54%, rgba(5, 13, 18, .72)),
+      color-mix(in srgb, var(--apm-switch-accent-soft, var(--apm-swan-dive)) 34%, rgba(5, 13, 18, .72))
+    );
+  }
+
+  /* 色系：动态 switch accent；场景：Switch 选中滑块背景桥接。 */
+  [class~="data-[state=checked]:bg-apm-switch-thumb-checked"][data-state="checked"] {
+    background: var(--apm-switch-accent, var(--apm-radio-silence));
+  }
+
+  /* 色系：radio-silence 薄荷；场景：命令区 after 呼吸线阴影桥接。 */
+  [class~="after:shadow-apm-command-breathe-line"]::after {
+    --tw-shadow:
+      0 0 18px color-mix(in srgb, var(--apm-radio-silence) 28%, transparent),
+      0 14px 28px rgba(0, 0, 0, .34);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：中性深色投影；场景：Header after 分隔阴影桥接。 */
+  [class~="after:shadow-apm-header-divider"]::after {
+    --tw-shadow: 0 10px 24px rgba(0, 0, 0, .26);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：radio-silence 薄荷；场景：菜单 after 分隔线阴影桥接。 */
+  [class~="after:shadow-apm-menu-line"]::after {
+    --tw-shadow: 0 0 14px color-mix(in srgb, var(--apm-radio-silence) 38%, transparent);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：radio-silence 薄荷；场景：Dialog after 分隔线阴影桥接。 */
+  [class~="after:shadow-apm-dialog-line"]::after {
+    --tw-shadow: 0 0 16px color-mix(in srgb, var(--apm-radio-silence) 44%, transparent);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：radio-silence 薄荷弱光；场景：滚动条 thumb 阴影桥接。 */
+  [class~="[&::-webkit-scrollbar-thumb]:shadow-apm-scroll-thumb"]::-webkit-scrollbar-thumb {
+    --tw-shadow: 0 0 10px color-mix(in srgb, var(--apm-radio-silence) 16%, transparent);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：currentColor 继承控件语义色；场景：命令控件 hover 阴影桥接。 */
+  [class~="hover:shadow-apm-command-control-hover"]:hover {
+    --tw-shadow:
+      0 10px 22px rgba(0, 0, 0, .24),
+      0 0 24px color-mix(in srgb, currentColor 22%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, .12);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：riviera 珊瑚 + radio-silence 薄荷；场景：危险按钮 hover 阴影桥接。 */
+  [class~="hover:shadow-apm-button-danger-hover"]:hover {
+    --tw-shadow:
+      0 0 26px color-mix(in srgb, var(--apm-riviera) 34%, transparent),
+      0 0 18px color-mix(in srgb, var(--apm-radio-silence) 16%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, .42);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：currentColor 继承菜单项语义色；场景：菜单项 hover/highlighted 阴影桥接。 */
+  [class~="hover:shadow-apm-menu-item-active"]:hover,
+  [class~="data-[highlighted]:shadow-apm-menu-item-active"][data-highlighted] {
+    --tw-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, .08),
+      0 0 18px color-mix(in srgb, currentColor 12%, transparent);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：动态 card-accent；场景：HUD 卡片 hover 阴影桥接。 */
+  [class~="hover:shadow-apm-hud-card-hover"]:hover {
+    --tw-shadow:
+      0 12px 28px rgba(0, 0, 0, .24),
+      0 0 24px color-mix(in srgb, var(--card-accent) 18%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, .12);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：radio-silence 薄荷弱聚焦光；场景：幽灵按钮聚焦阴影桥接。 */
+  [class~="focus-visible:shadow-apm-button-ghost-focus"]:focus-visible {
+    --tw-shadow:
+      0 0 0 1px color-mix(in srgb, var(--apm-radio-silence) 18%, transparent),
+      0 0 18px color-mix(in srgb, var(--apm-radio-silence) 14%, transparent);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：radio-silence 薄荷强聚焦光；场景：主要按钮聚焦阴影桥接。 */
+  [class~="focus-visible:shadow-apm-button-primary-focus"]:focus-visible {
+    --tw-shadow:
+      0 0 0 1px color-mix(in srgb, var(--apm-radio-silence) 28%, transparent),
+      0 0 24px color-mix(in srgb, var(--apm-radio-silence) 28%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, .4);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：riviera 珊瑚危险聚焦光；场景：危险按钮聚焦阴影桥接。 */
+  [class~="focus-visible:shadow-apm-button-danger-focus"]:focus-visible {
+    --tw-shadow:
+      0 0 0 1px color-mix(in srgb, var(--apm-riviera) 28%, transparent),
+      0 0 24px color-mix(in srgb, var(--apm-riviera) 28%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, .4);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：radio-silence 薄荷聚焦光；场景：表单控件聚焦阴影桥接。 */
+  [class~="focus-visible:shadow-apm-control-field-focus"]:focus-visible {
+    --tw-shadow:
+      0 0 0 1px color-mix(in srgb, var(--apm-radio-silence) 22%, transparent),
+      0 0 24px color-mix(in srgb, var(--apm-radio-silence) 18%, transparent),
+      inset 0 0 22px rgba(97, 191, 173, .1);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：radio-silence 薄荷聚焦光；场景：偏好设置关闭按钮聚焦阴影桥接。 */
+  [class~="focus-visible:shadow-apm-preferences-close-focus"]:focus-visible {
+    --tw-shadow:
+      0 0 0 1px color-mix(in srgb, var(--apm-radio-silence) 28%, transparent),
+      0 0 18px color-mix(in srgb, var(--apm-radio-silence) 18%, transparent);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：currentColor 继承操作语义色；场景：偏好设置操作按钮聚焦阴影桥接。 */
+  [class~="focus-visible:shadow-apm-preference-action-focus"]:focus-visible {
+    --tw-shadow:
+      0 0 0 1px color-mix(in srgb, currentColor 26%, transparent),
+      0 0 18px color-mix(in srgb, currentColor 18%, transparent);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：动态 switch accent；场景：Switch 聚焦阴影桥接。 */
+  [class~="focus-visible:shadow-apm-switch-focus"]:focus-visible {
+    --tw-shadow:
+      0 0 0 1px color-mix(in srgb, var(--apm-switch-accent, var(--apm-radio-silence)) 24%, transparent),
+      0 0 18px color-mix(in srgb, var(--apm-switch-accent, var(--apm-radio-silence)) 16%, transparent);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+
+  /* 色系：动态 switch accent；场景：Switch 选中阴影桥接。 */
+  [class~="data-[state=checked]:shadow-apm-switch-checked"][data-state="checked"] {
+    --tw-shadow: 0 0 14px color-mix(in srgb, var(--apm-switch-accent, var(--apm-radio-silence)) 22%, transparent);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+}

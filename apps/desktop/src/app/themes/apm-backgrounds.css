@@ -1,0 +1,377 @@
+/* APM 背景工具类：用于命令区、菜单、弹窗、HUD、表单控件和装饰线条的复刻背景，业务侧优先使用 bg-apm-* / bg-apm-line-*。 */
+@layer utilities {
+  /* 命令区、搜索框和应用外壳背景。 */
+  /* 色系：radio-silence 薄荷主色 + 深色底；场景：Header 搜索框、命令输入区这类主操作容器。 */
+  .bg-apm-command-field {
+    background: radial-gradient(
+      circle at 86% 24%,
+      color-mix(in srgb, var(--apm-radio-silence) 10%, transparent),
+      transparent 38%
+    ),
+    linear-gradient(180deg, rgba(9, 22, 24, .84), rgba(3, 8, 12, .72));
+  }
+
+  /* 色系：中性白光 + 深色底；场景：Header 导入按钮、网格按钮、下拉触发器等命令控件。 */
+  .bg-apm-command-control {
+    background: linear-gradient(180deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .02)),
+      rgba(5, 13, 18, .68);
+  }
+
+  /* 项目按钮填充色，通常搭配对应的 shadow-apm-button-* 使用。 */
+  /* 色系：radio-silence 薄荷主色 + swan-dive 米白高光；场景：确认、保存、主要操作按钮。 */
+  .bg-apm-button-primary {
+    background: linear-gradient(135deg, var(--apm-radio-silence), var(--apm-swan-dive));
+  }
+
+  /* 色系：riviera 珊瑚危险色 + radio-silence 薄荷过渡；场景：删除、清空等危险操作按钮。 */
+  .bg-apm-button-danger {
+    background: linear-gradient(
+      135deg,
+      var(--apm-riviera),
+      color-mix(in srgb, var(--apm-radio-silence) 58%, var(--apm-riviera))
+    );
+  }
+
+  /* 色系：swan-dive 米白弱透明；场景：幽灵按钮 hover 的轻量底色。 */
+  .bg-apm-button-ghost-hover {
+    background: color-mix(in srgb, var(--apm-swan-dive) 7%, transparent);
+  }
+
+  /* 全屏外壳层：主视口背景和伪元素上的细网格。 */
+  /* 色系：深底 + radio-silence 薄荷 + mamas-new-bag 暗粉；场景：主应用外壳和全屏背景底层。 */
+  .bg-apm-app-shell {
+    background: radial-gradient(
+      circle at 12% 18%,
+      color-mix(in srgb, var(--apm-radio-silence) 12%, transparent),
+      transparent 26%
+    ),
+    radial-gradient(
+      circle at 86% 8%,
+      color-mix(in srgb, var(--apm-mamas-new-bag) 12%, transparent),
+      transparent 24%
+    ),
+    linear-gradient(
+      135deg,
+      var(--apm-bg-deep) 0%,
+      color-mix(in srgb, var(--apm-dinner-party) 24%, #090f10) 42%,
+      #070b0e 100%
+    );
+  }
+
+  /* 色系：radio-silence 薄荷极弱透明；场景：应用背景伪元素上的科技网格。 */
+  .bg-apm-app-grid {
+    background: linear-gradient(
+      color-mix(in srgb, var(--apm-radio-silence) 7%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--apm-radio-silence) 6%, transparent) 1px,
+      transparent 1px
+    );
+  }
+
+  /* 通用表单控件背景，适用于需要复刻座舱质感的 Input/Textarea。 */
+  /* 色系：radio-silence 薄荷纹理 + 深色底；场景：Input、Textarea 等表单控件背景。 */
+  .bg-apm-control-field {
+    background: linear-gradient(180deg, rgba(12, 27, 30, .78), rgba(6, 10, 16, .86)),
+      repeating-linear-gradient(90deg, rgba(97, 191, 173, .055) 0 1px, transparent 1px 18px);
+  }
+
+  /* Switch 轨道和滑块填充色，选中态读取 --apm-switch-accent 以支持不同色调。 */
+  /* 色系：深色中性底；场景：Switch 未选中轨道。 */
+  .bg-apm-switch-track {
+    background: rgba(5, 13, 18, .72);
+  }
+
+  /* 色系：动态 switch accent，默认 radio-silence 薄荷；场景：Switch 选中轨道，可按不同设置项换色。 */
+  .bg-apm-switch-checked {
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--apm-switch-accent, var(--apm-radio-silence)) 54%, rgba(5, 13, 18, .72)),
+      color-mix(in srgb, var(--apm-switch-accent-soft, var(--apm-swan-dive)) 34%, rgba(5, 13, 18, .72))
+    );
+  }
+
+  /* 色系：faded-letter 雾灰；场景：Switch 未选中滑块。 */
+  .bg-apm-switch-thumb {
+    background: color-mix(in srgb, var(--apm-faded-letter) 72%, transparent);
+  }
+
+  /* 色系：动态 switch accent，默认 radio-silence 薄荷；场景：Switch 选中滑块。 */
+  .bg-apm-switch-thumb-checked {
+    background: var(--apm-switch-accent, var(--apm-radio-silence));
+  }
+
+  /* 下拉菜单面板和高亮菜单项背景。 */
+  /* 色系：radio-silence 薄荷纹理 + swan-dive 米白扫描线；场景：DropdownMenu 主面板。 */
+  .bg-apm-menu-content {
+    background: linear-gradient(180deg, rgba(12, 28, 30, .94), rgba(5, 8, 13, .96)),
+      repeating-linear-gradient(90deg, rgba(97, 191, 173, .055) 0 1px, transparent 1px 18px),
+      repeating-linear-gradient(180deg, rgba(249, 247, 232, .04) 0 1px, transparent 1px 16px);
+  }
+
+  /* 色系：radio-silence 薄荷 + riviera 珊瑚光泽；场景：DropdownMenu 面板 before 光泽层。 */
+  .bg-apm-menu-sheen {
+    background: radial-gradient(
+      ellipse at 16% 0%,
+      color-mix(in srgb, var(--apm-radio-silence) 24%, transparent),
+      transparent 40%
+    ),
+    radial-gradient(
+      ellipse at 92% 100%,
+      color-mix(in srgb, var(--apm-riviera) 16%, transparent),
+      transparent 44%
+    ),
+    linear-gradient(110deg, transparent 0 38%, rgba(249, 247, 232, .07) 46%, transparent 56% 100%);
+  }
+
+  /* 色系：currentColor 继承菜单项语义色；场景：菜单项 hover、highlighted 和 active 底色。 */
+  .bg-apm-menu-item-active {
+    background: linear-gradient(90deg, color-mix(in srgb, currentColor 14%, transparent), transparent 76%),
+      rgba(249, 247, 232, .035);
+  }
+
+  /* Dialog/AlertDialog 面板、装饰光泽层和图标底座背景。 */
+  /* 色系：radio-silence 薄荷纹理 + swan-dive 米白扫描线；场景：普通 Dialog、InfoDialog 面板。 */
+  .bg-apm-dialog-mint {
+    background: linear-gradient(180deg, rgba(12, 27, 30, .92), rgba(5, 9, 16, .96)),
+      repeating-linear-gradient(90deg, rgba(97, 191, 173, .06) 0 1px, transparent 1px 22px),
+      repeating-linear-gradient(180deg, rgba(249, 247, 232, .04) 0 1px, transparent 1px 18px);
+  }
+
+  /* 色系：riviera 珊瑚危险色 + radio-silence 薄荷辅助光；场景：ConfirmDialog 危险确认面板。 */
+  .bg-apm-dialog-danger {
+    background: radial-gradient(
+      circle at 18% 0%,
+      color-mix(in srgb, var(--apm-riviera) 18%, transparent),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 92% 100%,
+      color-mix(in srgb, var(--apm-radio-silence) 14%, transparent),
+      transparent 42%
+    ),
+    linear-gradient(180deg, rgba(16, 16, 22, .98), rgba(4, 8, 14, .98));
+  }
+
+  /* 色系：radio-silence 薄荷 + riviera 珊瑚光泽；场景：Dialog 面板 before 装饰光泽。 */
+  .bg-apm-dialog-sheen {
+    background: radial-gradient(
+      ellipse at 16% 0%,
+      color-mix(in srgb, var(--apm-radio-silence) 32%, transparent),
+      transparent 36%
+    ),
+    radial-gradient(
+      ellipse at 84% 100%,
+      color-mix(in srgb, var(--apm-riviera) 20%, transparent),
+      transparent 42%
+    ),
+    linear-gradient(110deg, transparent 0 38%, rgba(249, 247, 232, .07) 46%, transparent 56% 100%);
+  }
+
+  /* 色系：radio-silence 薄荷；场景：普通 Dialog 图标底座。 */
+  .bg-apm-dialog-sigil-mint {
+    background: radial-gradient(
+      circle at 50% 50%,
+      color-mix(in srgb, var(--apm-radio-silence) 30%, transparent),
+      transparent 64%
+    ),
+    rgba(3, 10, 12, .72);
+  }
+
+  /* 色系：riviera 珊瑚危险色 + swan-dive 米白中心光；场景：危险 Dialog 图标底座。 */
+  .bg-apm-dialog-sigil-danger {
+    background: radial-gradient(circle at 50% 50%, rgba(249, 247, 232, .18), transparent 22%),
+      radial-gradient(
+      circle at 50% 50%,
+      color-mix(in srgb, var(--apm-riviera) 36%, transparent),
+      transparent 64%
+    ),
+    rgba(22, 9, 14, .88);
+  }
+
+  /* 偏好设置和 HUD 面板/卡片，HUD 工具类通过 --card-accent 适配单项颜色。 */
+  /* 色系：radio-silence 薄荷 + mamas-new-bag 暗粉；场景：偏好设置主面板。 */
+  .bg-apm-preferences-panel {
+    background: radial-gradient(
+      circle at 18% 0%,
+      color-mix(in srgb, var(--apm-radio-silence) 20%, transparent),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 92% 100%,
+      color-mix(in srgb, var(--apm-mamas-new-bag) 14%, transparent),
+      transparent 42%
+    ),
+    linear-gradient(180deg, rgba(11, 24, 28, .98), rgba(4, 8, 14, .98));
+  }
+
+  /* 色系：radio-silence 薄荷弱渐变；场景：偏好设置内的单项卡片。 */
+  .bg-apm-preference-card {
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--apm-radio-silence) 8%, transparent),
+      transparent 42%
+    ),
+    rgba(255, 255, 255, .035);
+  }
+
+  /* 色系：radio-silence 薄荷弱渐变；场景：HUD 指标开关选中项背景。 */
+  .bg-apm-hud-option-active {
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--apm-radio-silence) 13%, transparent),
+      transparent 70%
+    ),
+    rgba(5, 13, 18, .62);
+  }
+
+  /* 色系：swan-dive 米白扫描线；场景：HUD 卡片扫描纹理覆盖层。 */
+  .bg-apm-hud-scan {
+    background: linear-gradient(180deg, transparent 0, rgba(255, 255, 255, .06) 48%, transparent 100%),
+      repeating-linear-gradient(0deg, transparent 0 9px, rgba(249, 247, 232, .035) 9px 10px);
+  }
+
+  /* 色系：动态 card-accent + riviera 珊瑚辅助；场景：HUD 指标卡片主体。 */
+  .bg-apm-hud-card {
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--card-accent) 10%, transparent),
+      transparent 22%,
+      transparent 72%,
+      color-mix(in srgb, var(--apm-riviera) 8%, transparent)
+    ),
+    radial-gradient(
+      circle at 82% 18%,
+      color-mix(in srgb, var(--card-accent) 20%, transparent),
+      transparent 34%
+    ),
+    repeating-linear-gradient(0deg, rgba(246, 255, 255, .038) 0 1px, transparent 1px 7px),
+    linear-gradient(180deg, rgba(13, 32, 45, .72), rgba(3, 9, 20, .66));
+  }
+
+  /* 色系：动态 card-accent 弱光；场景：HUD 卡片 before 叠加纹理。 */
+  .bg-apm-hud-card-overlay {
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--card-accent) 16%, transparent),
+      transparent 46%
+    ),
+    repeating-linear-gradient(90deg, transparent 0 11px, rgba(255, 255, 255, .045) 11px 12px);
+  }
+
+  /* 色系：深色中性底；场景：HUD 卡片图标底座。 */
+  .bg-apm-hud-icon {
+    background: rgba(3, 10, 12, .62);
+  }
+
+  /* 色系：动态 card-accent + swan-dive 米白高光；场景：HUD 进度条或能量条填充。 */
+  .bg-apm-hud-meter {
+    background: linear-gradient(90deg, var(--card-accent), var(--apm-swan-dive));
+  }
+
+  /* 色系：radio-silence 薄荷 + mamas-new-bag 暗粉；场景：分组 Tab 激活态。 */
+  .bg-apm-tab-active {
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--apm-radio-silence) 18%, transparent),
+      color-mix(in srgb, var(--apm-mamas-new-bag) 14%, transparent)
+    );
+  }
+
+  /* 色系：radio-silence 薄荷 + riviera 珊瑚；场景：自定义滚动条 thumb 背景。 */
+  .bg-apm-scroll-thumb {
+    background: linear-gradient(
+      180deg,
+      transparent,
+      color-mix(in srgb, var(--apm-radio-silence) 32%, transparent),
+      color-mix(in srgb, var(--apm-riviera) 18%, transparent),
+      transparent
+    );
+  }
+
+  /* 1px 发光线条，用于 header、菜单、弹窗和 HUD 分隔线。 */
+  /* 色系：riviera 珊瑚 + radio-silence 薄荷；场景：命令区底部呼吸发光线。 */
+  .bg-apm-line-command-breathe {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--apm-riviera) 52%, transparent),
+      color-mix(in srgb, var(--apm-radio-silence) 54%, transparent),
+      transparent
+    );
+  }
+
+  /* 色系：radio-silence 薄荷；场景：命令输入区内部细分隔线。 */
+  .bg-apm-line-command-field {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--apm-radio-silence) 50%, transparent),
+      transparent
+    );
+  }
+
+  /* 色系：radio-silence 薄荷 + riviera 珊瑚；场景：Header 下沿分隔线。 */
+  .bg-apm-line-header-divider {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--apm-radio-silence) 28%, transparent),
+      color-mix(in srgb, var(--apm-riviera) 18%, transparent),
+      transparent
+    );
+  }
+
+  /* 色系：radio-silence 薄荷 + riviera 珊瑚；场景：通用强对比装饰线。 */
+  .bg-apm-line-mint-riviera {
+    background: linear-gradient(90deg, transparent, var(--apm-radio-silence), var(--apm-riviera), transparent);
+  }
+
+  /* 色系：radio-silence 薄荷 + riviera 珊瑚弱光；场景：菜单项组之间的分隔线。 */
+  .bg-apm-line-menu-divider {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--apm-radio-silence) 24%, transparent),
+      color-mix(in srgb, var(--apm-riviera) 18%, transparent),
+      transparent
+    );
+  }
+
+  /* 色系：currentColor 继承当前文本或图标色；场景：随语义色变化的轻量分隔线。 */
+  .bg-apm-line-current-soft {
+    background: linear-gradient(90deg, transparent, color-mix(in srgb, currentColor 28%, transparent), transparent);
+  }
+
+  /* 色系：riviera 珊瑚弱光；场景：危险区域或删除操作附近的装饰线。 */
+  .bg-apm-line-riviera-soft {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--apm-riviera) 44%, transparent),
+      transparent
+    );
+  }
+
+  /* 色系：radio-silence 薄荷；场景：HUD 卡片薄荷色指标线。 */
+  .bg-apm-line-hud-mint {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--apm-radio-silence) 56%, transparent),
+      transparent
+    );
+  }
+
+  /* 色系：riviera 珊瑚；场景：HUD 卡片警示或强调指标线。 */
+  .bg-apm-line-hud-riviera {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--apm-riviera) 60%, transparent),
+      transparent
+    );
+  }
+}
